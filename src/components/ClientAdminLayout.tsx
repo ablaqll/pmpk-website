@@ -101,10 +101,19 @@ export default function ClientAdminLayout({
     );
   }
 
-  // Check access - allow admin and client_admin roles
-  const hasAccess = ['admin', 'client_admin', 'editor'].includes(user.role);
+  // Check access - allow all admin roles (including super_admin for backward compatibility)
+  const userRole = user?.role?.toLowerCase() || '';
+  const allowedRoles = ['admin', 'client_admin', 'editor', 'super_admin'];
+  const hasAccess = allowedRoles.includes(userRole);
   
   if (!hasAccess) {
+    // Log for debugging - this helps identify the issue
+    console.error('❌ Access denied:', {
+      userRole,
+      allowedRoles,
+      user,
+      hasAccess
+    });
     return (
       <div className="flex items-center justify-center min-h-screen bg-gray-50">
         <div className="flex flex-col items-center gap-6 p-8 max-w-md w-full bg-white rounded-2xl shadow-xl">
@@ -115,9 +124,14 @@ export default function ClientAdminLayout({
           <p className="text-sm text-muted-foreground text-center">
             У вас нет прав для доступа к панели управления
           </p>
-          <Button variant="outline" onClick={() => window.location.href = '/'}>
-            Вернуться на главную
-          </Button>
+          <div className="flex flex-col gap-2 w-full">
+            <Button variant="outline" onClick={() => window.location.href = '/admin/login'}>
+              Войти в систему
+            </Button>
+            <Button variant="outline" onClick={() => window.location.href = '/'}>
+              Вернуться на главную
+            </Button>
+          </div>
         </div>
       </div>
     );

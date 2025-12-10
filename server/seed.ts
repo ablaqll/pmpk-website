@@ -89,12 +89,13 @@ async function seed() {
     await db.insert(users).values({
       id: uuidv4(),
       email: 'admin',
-      name: 'Super Admin',
-      role: 'super_admin',
+      name: 'Admin',
+      role: 'admin',
       password: hashedPassword, // ✅ Now properly hashed with bcrypt
     });
     console.log('✅ Admin user created (email: admin, password: Aa123456)');
     console.log('   ⚠️  Password is securely hashed using bcrypt');
+    console.log('   ✅ Role: admin (unified admin panel)');
 
     // 4. Create Sample Staff (Optional)
     console.log('👥 Creating sample staff...');
