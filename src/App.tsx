@@ -17,6 +17,7 @@ import SuperAdminUsers from "./pages/super-admin/Users";
 
 // Client Admin pages
 import ClientAdminDashboard from "./pages/client-admin/Dashboard";
+import ClientAdminAboutPmpk from "./pages/client-admin/AboutPmpk";
 import ClientAdminNews from "./pages/client-admin/News";
 import ClientAdminNewsForm from "./pages/client-admin/NewsForm";
 import ClientAdminFeedback from "./pages/client-admin/Feedback";
@@ -26,6 +27,11 @@ import ClientAdminDocuments from "./pages/client-admin/Documents";
 import ClientAdminDocumentForm from "./pages/client-admin/DocumentForm";
 import ClientAdminVacancies from "./pages/client-admin/Vacancies";
 import ClientAdminVacancyForm from "./pages/client-admin/VacancyForm";
+import ClientAdminManagement from "./pages/client-admin/Management";
+import ClientAdminEvents from "./pages/client-admin/Events";
+import ClientAdminMemorandum from "./pages/client-admin/Memorandum";
+import ClientAdminPublications from "./pages/client-admin/Publications";
+import ClientAdminAttestation from "./pages/client-admin/Attestation";
 import ClientAdminSettings from "./pages/client-admin/Settings";
 
 // Public site pages
@@ -61,19 +67,25 @@ function Router() {
       
       {/* Client Admin routes */}
       <Route path="/admin/:clientSlug" component={ClientAdminDashboard} />
+      <Route path="/admin/:clientSlug/about-pmpk" component={ClientAdminAboutPmpk} />
       <Route path="/admin/:clientSlug/news" component={ClientAdminNews} />
       <Route path="/admin/:clientSlug/news/new" component={ClientAdminNewsForm} />
       <Route path="/admin/:clientSlug/news/:id" component={ClientAdminNewsForm} />
-      <Route path="/admin/:clientSlug/feedback" component={ClientAdminFeedback} />
-      <Route path="/admin/:clientSlug/staff" component={ClientAdminStaff} />
-      <Route path="/admin/:clientSlug/staff/new" component={ClientAdminStaffForm} />
-      <Route path="/admin/:clientSlug/staff/:id" component={ClientAdminStaffForm} />
       <Route path="/admin/:clientSlug/documents" component={ClientAdminDocuments} />
       <Route path="/admin/:clientSlug/documents/new" component={ClientAdminDocumentForm} />
       <Route path="/admin/:clientSlug/documents/:id" component={ClientAdminDocumentForm} />
+      <Route path="/admin/:clientSlug/management" component={ClientAdminManagement} />
+      <Route path="/admin/:clientSlug/feedback" component={ClientAdminFeedback} />
       <Route path="/admin/:clientSlug/vacancies" component={ClientAdminVacancies} />
       <Route path="/admin/:clientSlug/vacancies/new" component={ClientAdminVacancyForm} />
       <Route path="/admin/:clientSlug/vacancies/:id" component={ClientAdminVacancyForm} />
+      <Route path="/admin/:clientSlug/events" component={ClientAdminEvents} />
+      <Route path="/admin/:clientSlug/memorandum" component={ClientAdminMemorandum} />
+      <Route path="/admin/:clientSlug/publications" component={ClientAdminPublications} />
+      <Route path="/admin/:clientSlug/attestation" component={ClientAdminAttestation} />
+      <Route path="/admin/:clientSlug/staff" component={ClientAdminStaff} />
+      <Route path="/admin/:clientSlug/staff/new" component={ClientAdminStaffForm} />
+      <Route path="/admin/:clientSlug/staff/:id" component={ClientAdminStaffForm} />
       <Route path="/admin/:clientSlug/settings" component={ClientAdminSettings} />
       
       {/* Public site routes - Defaulting Root to PMPK9 */}
