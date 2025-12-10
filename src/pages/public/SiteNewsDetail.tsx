@@ -5,24 +5,29 @@ import { ArrowLeft, Calendar, Share2 } from "lucide-react";
 import { Link, useParams } from "wouter";
 import { Skeleton } from "@/components/ui/skeleton";
 import { toast } from "sonner";
-
-const CATEGORY_LABELS: Record<string, string> = {
-  news: "Новости",
-  press_release: "Пресс-релиз",
-  announcement: "Объявление",
-};
+import { useLanguage } from "@/contexts/LanguageContext";
 
 export default function SiteNewsDetail() {
   const params = useParams<{ clientSlug: string; id: string }>();
-  const clientSlug = params.clientSlug;
+  const clientSlug = params.clientSlug || "pmpk9";
   const newsId = parseInt(params.id!);
+  const { t, language } = useLanguage();
   
   const { data: newsItem, isLoading } = trpc.news.getById.useQuery(
     { id: newsId },
     { enabled: !!newsId }
   );
 
-  const basePath = `/site/${clientSlug}`;
+  const basePath = clientSlug ? `/site/${clientSlug}` : '';
+
+  const getCategoryLabel = (category: string) => {
+    switch (category) {
+      case 'news': return t('news.title');
+      case 'press_release': return t('news.press');
+      case 'announcement': return t('news.announcements');
+      default: return category;
+    }
+  };
 
   const handleShare = () => {
     if (navigator.share) {
@@ -32,7 +37,7 @@ export default function SiteNewsDetail() {
       });
     } else {
       navigator.clipboard.writeText(window.location.href);
-      toast.success("Ссылка скопирована");
+      toast.success(t('newsDetail.linkCopied'));
     }
   };
 
@@ -51,12 +56,12 @@ export default function SiteNewsDetail() {
   if (!newsItem) {
     return (
       <div className="container py-16 text-center">
-        <h1 className="text-2xl font-bold mb-2">Публикация не найдена</h1>
+        <h1 className="text-2xl font-bold mb-2">{t('newsDetail.notFound')}</h1>
         <p className="text-muted-foreground mb-6">
-          Возможно, она была удалена или перемещена
+          {t('newsDetail.notFoundDesc')}
         </p>
         <Link href={`${basePath}/news`}>
-          <Button>Вернуться к новостям</Button>
+          <Button>{t('newsDetail.backToNews')}</Button>
         </Link>
       </div>
     );
@@ -68,7 +73,7 @@ export default function SiteNewsDetail() {
       <Link href={`${basePath}/news`}>
         <Button variant="ghost" className="mb-6 -ml-2">
           <ArrowLeft className="h-4 w-4 mr-2" />
-          Назад к новостям
+          {t('newsDetail.backToNews')}
         </Button>
       </Link>
 
@@ -76,7 +81,7 @@ export default function SiteNewsDetail() {
       <header className="mb-8">
         <div className="flex items-center gap-3 mb-4">
           <Badge variant="outline">
-            {CATEGORY_LABELS[newsItem.category] || newsItem.category}
+            {getCategoryLabel(newsItem.category)}
           </Badge>
         </div>
         <h1 className="text-3xl lg:text-4xl font-bold text-gov-primary mb-4">
@@ -85,15 +90,18 @@ export default function SiteNewsDetail() {
         <div className="flex items-center gap-4 text-muted-foreground">
           <div className="flex items-center gap-2">
             <Calendar className="h-4 w-4" />
-            {new Date(newsItem.createdAt).toLocaleDateString('ru-RU', {
-              day: 'numeric',
-              month: 'long',
-              year: 'numeric'
-            })}
+            {new Date(newsItem.createdAt).toLocaleDateString(
+              language === 'kz' ? 'kk-KZ' : language === 'ru' ? 'ru-RU' : 'en-US',
+              {
+                day: 'numeric',
+                month: 'long',
+                year: 'numeric'
+              }
+            )}
           </div>
           <Button variant="ghost" size="sm" onClick={handleShare}>
             <Share2 className="h-4 w-4 mr-2" />
-            Поделиться
+            {t('newsDetail.share')}
           </Button>
         </div>
       </header>
@@ -126,12 +134,12 @@ export default function SiteNewsDetail() {
           <Link href={`${basePath}/news`}>
             <Button variant="outline">
               <ArrowLeft className="h-4 w-4 mr-2" />
-              Все новости
+              {t('newsDetail.allNews')}
             </Button>
           </Link>
           <Button variant="outline" onClick={handleShare}>
             <Share2 className="h-4 w-4 mr-2" />
-            Поделиться
+            {t('newsDetail.share')}
           </Button>
         </div>
       </div>

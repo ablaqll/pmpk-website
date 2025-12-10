@@ -5,10 +5,12 @@ import { trpc } from "@/lib/trpc";
 import { Briefcase, ExternalLink, DollarSign, CheckCircle } from "lucide-react";
 import { useParams } from "wouter";
 import { Skeleton } from "@/components/ui/skeleton";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 export default function SiteVacancies() {
   const params = useParams<{ clientSlug: string }>();
-  const clientSlug = params.clientSlug;
+  const clientSlug = params.clientSlug || "pmpk9";
+  const { t, language } = useLanguage();
   
   const { data: client } = trpc.clients.getBySlug.useQuery(
     { slug: clientSlug! },
@@ -27,10 +29,10 @@ export default function SiteVacancies() {
         <div className="container">
           <h1 className="text-3xl lg:text-4xl font-bold mb-4 flex items-center gap-3">
             <Briefcase className="h-8 w-8" />
-            Вакансии
+            {t('vacancies.title')}
           </h1>
           <p className="text-lg text-white/90 max-w-3xl">
-            Присоединяйтесь к нашей команде профессионалов
+            {t('vacancies.desc')}
           </p>
         </div>
       </section>
@@ -46,14 +48,14 @@ export default function SiteVacancies() {
           <Card className="border-0 shadow-md">
             <CardContent className="py-16 text-center">
               <Briefcase className="h-16 w-16 mx-auto text-muted-foreground/30 mb-4" />
-              <h3 className="text-xl font-medium mb-2">Нет открытых вакансий</h3>
+              <h3 className="text-xl font-medium mb-2">{t('vacancies.noVacancies')}</h3>
               <p className="text-muted-foreground mb-6">
-                В настоящее время нет открытых вакансий. Следите за обновлениями!
+                {t('vacancies.noVacanciesDesc')}
               </p>
               <a href="https://enbek.kz" target="_blank" rel="noopener noreferrer">
                 <Button variant="outline">
                   <ExternalLink className="h-4 w-4 mr-2" />
-                  Смотреть вакансии на enbek.kz
+                  {t('vacancies.watchEnbek')}
                 </Button>
               </a>
             </CardContent>
@@ -76,14 +78,14 @@ export default function SiteVacancies() {
                       )}
                     </div>
                     <Badge variant="default" className="bg-green-600">
-                      Активна
+                      {t('vacancies.active')}
                     </Badge>
                   </div>
                 </CardHeader>
                 <CardContent>
                   {vacancy.requirements && (
                     <div className="mb-6">
-                      <h4 className="font-semibold mb-3">Требования:</h4>
+                      <h4 className="font-semibold mb-3">{t('vacancies.requirements')}</h4>
                       <div className="space-y-2">
                         {vacancy.requirements.split('\n').map((req, index) => (
                           req.trim() && (
@@ -99,14 +101,16 @@ export default function SiteVacancies() {
                   
                   <div className="flex items-center gap-4 pt-4 border-t">
                     {client?.email && (
-                      <a href={`mailto:${client.email}?subject=Отклик на вакансию: ${vacancy.title}`}>
+                      <a href={`mailto:${client.email}?subject=${encodeURIComponent(language === 'kz' ? `Вакансияға өтініш: ${vacancy.title}` : language === 'ru' ? `Отклик на вакансию: ${vacancy.title}` : `Application for vacancy: ${vacancy.title}`)}`}>
                         <Button>
-                          Откликнуться
+                          {t('vacancies.apply')}
                         </Button>
                       </a>
                     )}
                     <p className="text-sm text-muted-foreground">
-                      Опубликовано: {new Date(vacancy.createdAt).toLocaleDateString('ru-RU')}
+                      {t('vacancies.published')} {new Date(vacancy.createdAt).toLocaleDateString(
+                        language === 'kz' ? 'kk-KZ' : language === 'ru' ? 'ru-RU' : 'en-US'
+                      )}
                     </p>
                   </div>
                 </CardContent>
@@ -124,9 +128,9 @@ export default function SiteVacancies() {
                   <span className="text-2xl">💼</span>
                 </div>
                 <div>
-                  <h3 className="font-semibold">Портал вакансий Казахстана</h3>
+                  <h3 className="font-semibold">{t('vacancies.portal')}</h3>
                   <p className="text-sm text-muted-foreground">
-                    Найдите больше вакансий на официальном портале
+                    {t('vacancies.portalDesc')}
                   </p>
                 </div>
               </div>

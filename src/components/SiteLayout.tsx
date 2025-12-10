@@ -80,7 +80,10 @@ export default function SiteLayout({ children, basePath: propBasePath }: SiteLay
   const client = clientData || (clientSlug === 'pmpk9' ? mockClient : null);
   const isLoading = isClientLoading && !client; // Stop loading if we have mock data
 
-  const basePath = propBasePath || `/site/${clientSlug}`;
+  // If propBasePath is explicitly passed (e.g., ""), use it. Otherwise determine based on params.
+  const basePath = propBasePath !== undefined 
+    ? propBasePath 
+    : (params.clientSlug ? `/site/${clientSlug}` : '');
   
   // Navigation items with translations
   const navItems = [

@@ -13,50 +13,34 @@ import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 
 // External portal links
 const PORTAL_LINKS = [
-  { nameKz: "Электрондық үкімет", nameRu: "Электронное правительство", nameEn: "E-Government", url: "https://egov.kz", icon: "🏛️" },
-  { nameKz: "Астана қаласының қызметтері", nameRu: "Услуги города Астана", nameEn: "Astana Services", url: "https://birge.astana.kz", icon: "📋" },
-  { nameKz: "ҚР заңнамасы", nameRu: "Законодательство РК", nameEn: "RK Legislation", url: "https://adilet.zan.kz", icon: "⚖️" },
-  { nameKz: "Мемлекеттік сатып алулар", nameRu: "Госзакупки", nameEn: "Public Procurement", url: "https://goszakup.gov.kz", icon: "📑" },
-  { nameKz: "Бос жұмыс орындары", nameRu: "Вакансии", nameEn: "Vacancies", url: "https://enbek.kz", icon: "💼" },
+  { nameKey: "docs.egov", url: "https://egov.kz", icon: "🏛️" },
+  { nameKey: "contacts.usefulLinks", url: "https://birge.astana.kz", icon: "📋" },
+  { nameKey: "docs.title", url: "https://adilet.zan.kz", icon: "⚖️" },
+  { nameKey: "state.procurement", url: "https://goszakup.gov.kz", icon: "📑" },
+  { nameKey: "vacancies.portal", url: "https://enbek.kz", icon: "💼" },
 ];
 
 // Services offered by PMPK
 const SERVICES = [
   { 
     icon: GraduationCap, 
-    titleKz: "Психологиялық-педагогикалық диагностика",
-    titleRu: "Психолого-педагогическая диагностика",
-    titleEn: "Psychological-Pedagogical Diagnostics",
-    descKz: "Балалардың дамуын кешенді бағалау",
-    descRu: "Комплексная оценка развития детей",
-    descEn: "Comprehensive child development assessment"
+    titleKey: "about.diag",
+    descKey: "about.diagDesc"
   },
   { 
     icon: Heart, 
-    titleKz: "Консультациялық көмек",
-    titleRu: "Консультативная помощь",
-    titleEn: "Consultative Assistance",
-    descKz: "Ата-аналар мен педагогтарға кеңес беру",
-    descRu: "Консультации для родителей и педагогов",
-    descEn: "Consultations for parents and teachers"
+    titleKey: "about.consult",
+    descKey: "about.consultDesc"
   },
   { 
     icon: BookOpen, 
-    titleKz: "Білім беру бағдарламалары",
-    titleRu: "Образовательные программы",
-    titleEn: "Educational Programs",
-    descKz: "Арнайы білім беру қажеттіліктері бар балаларға арналған бағдарламалар",
-    descRu: "Программы для детей с особыми образовательными потребностями",
-    descEn: "Programs for children with special educational needs"
+    titleKey: "about.method",
+    descKey: "about.methodDesc"
   },
   { 
     icon: Shield, 
-    titleKz: "Қорғау және қолдау",
-    titleRu: "Защита и поддержка",
-    titleEn: "Protection and Support",
-    descKz: "Балалардың құқықтарын қорғау",
-    descRu: "Защита прав детей",
-    descEn: "Protection of children's rights"
+    titleKey: "about.correct",
+    descKey: "about.correctDesc"
   },
 ];
 
@@ -116,7 +100,10 @@ export default function SiteHome({ basePath: basePathProp }: { basePath?: string
 
   const news = newsData || (clientSlug === 'pmpk9' ? mockNews : []);
 
-  const basePath = basePathProp || `/site/${clientSlug}`;
+  // Determine base path: if explicitly provided use it, otherwise check if we have clientSlug in params
+  const basePath = basePathProp !== undefined 
+    ? basePathProp 
+    : (params.clientSlug ? `/site/${clientSlug}` : '');
 
   if (clientLoading) {
     return (
@@ -134,10 +121,10 @@ export default function SiteHome({ basePath: basePathProp }: { basePath?: string
       <div className="min-h-screen flex items-center justify-center bg-gray-50">
         <div className="text-center">
           <h1 className="text-2xl font-bold mb-2">
-            {language === 'kz' ? 'Сайт табылмады' : language === 'ru' ? 'Сайт не найден' : 'Site not found'}
+            {t('common.error')}
           </h1>
           <p className="text-muted-foreground">
-            {language === 'kz' ? 'Мекенжайды тексеріңіз' : language === 'ru' ? 'Проверьте правильность адреса' : 'Check the address'}
+            {t('common.noData')}
           </p>
         </div>
       </div>
@@ -145,19 +132,6 @@ export default function SiteHome({ basePath: basePathProp }: { basePath?: string
   }
 
   const recentNews = news?.slice(0, 4) || [];
-
-  // Client name based on language
-  const clientName = language === 'kz' 
-    ? 'Астана қаласы әкімдігінің "№9 Психологиялық-медициналық-педагогикалық консультациясы" КММ'
-    : language === 'ru'
-    ? 'КГУ "Психолого-медико-педагогическая консультация №9" акимата города Астаны'
-    : 'Psychological-Medical-Pedagogical Consultation №9';
-
-  const heroDescription = language === 'kz'
-    ? 'Психологиялық-медициналық-педагогикалық консультация ерекше білім беру қажеттіліктері бар балаларға және олардың отбасыларына кешенді көмек көрсетеді.'
-    : language === 'ru'
-    ? 'Психолого-медико-педагогическая консультация оказывает комплексную помощь детям с особыми образовательными потребностями и их семьям.'
-    : 'The Psychological-Medical-Pedagogical Consultation provides comprehensive assistance to children with special educational needs and their families.';
 
   return (
     <div>
@@ -167,10 +141,10 @@ export default function SiteHome({ basePath: basePathProp }: { basePath?: string
           <div className="grid lg:grid-cols-2 gap-6 lg:gap-8 items-center">
             <div>
               <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-3 sm:mb-4 text-white">
-                {language === 'kz' ? 'Қош келдіңіз!' : language === 'ru' ? 'Добро пожаловать!' : 'Welcome!'}
+                {t('home.welcome')}
               </h2>
               <p className="text-base sm:text-lg text-white mb-4 sm:mb-6">
-                {heroDescription}
+                {t('home.description')}
               </p>
               <div className="flex flex-col sm:flex-row gap-3">
                 <Link href={`${basePath}/about`}>
@@ -211,7 +185,7 @@ export default function SiteHome({ basePath: basePathProp }: { basePath?: string
               >
                 <span className="text-lg sm:text-xl">{link.icon}</span>
                 <span className="text-xs sm:text-sm font-medium group-hover:text-gov-primary transition-colors whitespace-nowrap lg:whitespace-normal lg:line-clamp-1">
-                  {language === 'kz' ? link.nameKz : language === 'ru' ? link.nameRu : link.nameEn}
+                  {t(link.nameKey)}
                 </span>
                 <ExternalLink className="h-3 w-3 ml-auto text-muted-foreground shrink-0 hidden sm:block" />
               </a>
@@ -234,10 +208,10 @@ export default function SiteHome({ basePath: basePathProp }: { basePath?: string
                     <service.icon className="h-6 w-6 text-gov-primary" />
                   </div>
                   <h3 className="font-semibold mb-2">
-                    {language === 'kz' ? service.titleKz : language === 'ru' ? service.titleRu : service.titleEn}
+                    {t(service.titleKey)}
                   </h3>
                   <p className="text-sm text-muted-foreground">
-                    {language === 'kz' ? service.descKz : language === 'ru' ? service.descRu : service.descEn}
+                    {t(service.descKey)}
                   </p>
                 </CardContent>
               </Card>
@@ -259,7 +233,7 @@ export default function SiteHome({ basePath: basePathProp }: { basePath?: string
                 </h2>
                 <Link href={`${basePath}/news`}>
                   <Button variant="ghost" size="sm">
-                    {language === 'kz' ? 'Барлық жаңалықтар' : language === 'ru' ? 'Все новости' : 'All news'}
+                    {t('home.allNews')}
                     <ChevronRight className="h-4 w-4 ml-1" />
                   </Button>
                 </Link>
@@ -313,7 +287,7 @@ export default function SiteHome({ basePath: basePathProp }: { basePath?: string
                 <Card className="border-0 shadow-md overflow-hidden">
                   <div className="bg-gov-primary p-4">
                     <h3 className="text-white font-semibold">
-                      {language === 'kz' ? 'Басшы блогы' : language === 'ru' ? 'Блог руководителя' : 'Director\'s Blog'}
+                      {t('home.directorBlog')}
                     </h3>
                   </div>
                   <CardContent className="pt-4">
@@ -332,7 +306,7 @@ export default function SiteHome({ basePath: basePathProp }: { basePath?: string
                       <div className="flex-1 min-w-0">
                         <p className="font-semibold">{client.directorName}</p>
                         <p className="text-sm text-muted-foreground">
-                          {language === 'kz' ? 'Директор' : language === 'ru' ? 'Директор' : 'Director'}
+                          {t('about.director')}
                         </p>
                       </div>
                     </div>
@@ -343,7 +317,7 @@ export default function SiteHome({ basePath: basePathProp }: { basePath?: string
                     )}
                     <Link href={`${basePath}/about`}>
                       <Button variant="outline" size="sm" className="w-full mt-4">
-                        {language === 'kz' ? 'Толығырақ' : language === 'ru' ? 'Подробнее' : 'Read more'}
+                        {t('home.readMore')}
                         <ChevronRight className="h-4 w-4 ml-1" />
                       </Button>
                     </Link>
@@ -362,7 +336,7 @@ export default function SiteHome({ basePath: basePathProp }: { basePath?: string
                     <div>
                       <p className="font-medium">{t('contacts.address')}</p>
                       <p className="text-sm text-muted-foreground">
-                        {language === 'kz' ? 'Астана қ., Е-321 көшесі, 18 үй' : language === 'ru' ? 'г. Астана, ул. Е-321, дом 18' : 'Astana, E-321 st., 18'}
+                        {t('common.city')}, Е-321, 18
                       </p>
                     </div>
                   </div>
@@ -387,7 +361,7 @@ export default function SiteHome({ basePath: basePathProp }: { basePath?: string
                     <div>
                       <p className="font-medium text-green-600">WhatsApp</p>
                       <p className="text-sm text-muted-foreground">
-                        {language === 'kz' ? 'Жазыңыз' : language === 'ru' ? 'Напишите нам' : 'Message us'}
+                        {t('contacts.writeUs')}
                       </p>
                     </div>
                   </a>
@@ -416,7 +390,7 @@ export default function SiteHome({ basePath: basePathProp }: { basePath?: string
               <Card className="border-0 shadow-md overflow-hidden">
                 <div className="bg-gov-primary p-4">
                   <h3 className="text-white font-semibold">
-                    {language === 'kz' ? 'Картада көрсету' : language === 'ru' ? 'На карте' : 'On the map'}
+                    {t('home.openMap')}
                   </h3>
                 </div>
                 <CardContent className="p-0">
@@ -438,7 +412,7 @@ export default function SiteHome({ basePath: basePathProp }: { basePath?: string
                       className="flex items-center gap-2 text-sm text-gov-primary hover:underline"
                     >
                       <ExternalLink className="h-4 w-4" />
-                      {language === 'kz' ? 'Толық картаны ашу' : language === 'ru' ? 'Открыть полную карту' : 'Open full map'}
+                      {t('home.openFullMap')}
                     </a>
                   </div>
                 </CardContent>

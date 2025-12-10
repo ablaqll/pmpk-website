@@ -3,10 +3,12 @@ import { trpc } from "@/lib/trpc";
 import { Users2, Mail, Phone, Building2 } from "lucide-react";
 import { useParams } from "wouter";
 import { Skeleton } from "@/components/ui/skeleton";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 export default function SiteStructure() {
   const params = useParams<{ clientSlug: string }>();
   const clientSlug = params.clientSlug;
+  const { t } = useLanguage();
   
   const { data: client } = trpc.clients.getBySlug.useQuery(
     { slug: clientSlug! },
@@ -20,7 +22,7 @@ export default function SiteStructure() {
 
   // Group staff by department
   const groupedStaff = staff?.reduce((acc, person) => {
-    const dept = person.department || "Руководство";
+    const dept = person.department || t('about.director'); // Fallback to "Director/Leadership" translation
     if (!acc[dept]) acc[dept] = [];
     acc[dept].push(person);
     return acc;
@@ -33,10 +35,10 @@ export default function SiteStructure() {
         <div className="container">
           <h1 className="text-3xl lg:text-4xl font-bold mb-4 flex items-center gap-3">
             <Building2 className="h-8 w-8" />
-            Структура организации
+            {t('structure.title')}
           </h1>
           <p className="text-lg text-white/90 max-w-3xl">
-            Наша команда специалистов готова оказать квалифицированную помощь
+            {t('structure.desc')}
           </p>
         </div>
       </section>
@@ -52,9 +54,9 @@ export default function SiteStructure() {
           <Card className="border-0 shadow-md">
             <CardContent className="py-16 text-center">
               <Users2 className="h-16 w-16 mx-auto text-muted-foreground/30 mb-4" />
-              <h3 className="text-xl font-medium mb-2">Информация о сотрудниках</h3>
+              <h3 className="text-xl font-medium mb-2">{t('structure.staffInfo')}</h3>
               <p className="text-muted-foreground">
-                Данные о структуре организации будут добавлены в ближайшее время
+                {t('structure.noData')}
               </p>
             </CardContent>
           </Card>

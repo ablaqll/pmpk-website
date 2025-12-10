@@ -5,15 +5,7 @@ import { trpc } from "@/lib/trpc";
 import { FileText, Download, ExternalLink, File } from "lucide-react";
 import { useParams } from "wouter";
 import { Skeleton } from "@/components/ui/skeleton";
-
-const CATEGORY_LABELS: Record<string, string> = {
-  charter: "Устав",
-  attestation: "Аттестация",
-  budget: "Бюджет",
-  report: "Отчеты",
-  order: "Приказы",
-  other: "Прочее",
-};
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const CATEGORY_ICONS: Record<string, string> = {
   charter: "📜",
@@ -27,6 +19,7 @@ const CATEGORY_ICONS: Record<string, string> = {
 export default function SiteDocuments() {
   const params = useParams<{ clientSlug: string }>();
   const clientSlug = params.clientSlug;
+  const { t } = useLanguage();
   
   const { data: client } = trpc.clients.getBySlug.useQuery(
     { slug: clientSlug! },
@@ -53,6 +46,10 @@ export default function SiteDocuments() {
     return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
   };
 
+  const getCategoryLabel = (cat: string) => {
+    return t(`doc.${cat}`) || t('doc.other');
+  };
+
   return (
     <div>
       {/* Hero Section */}
@@ -60,10 +57,10 @@ export default function SiteDocuments() {
         <div className="container">
           <h1 className="text-3xl lg:text-4xl font-bold mb-4 flex items-center gap-3">
             <FileText className="h-8 w-8" />
-            Документы
+            {t('docs.title')}
           </h1>
           <p className="text-lg text-white/90 max-w-3xl">
-            Нормативные документы, устав, отчеты и другие официальные материалы
+            {t('docs.desc')}
           </p>
         </div>
       </section>
@@ -79,9 +76,9 @@ export default function SiteDocuments() {
           <Card className="border-0 shadow-md">
             <CardContent className="py-16 text-center">
               <FileText className="h-16 w-16 mx-auto text-muted-foreground/30 mb-4" />
-              <h3 className="text-xl font-medium mb-2">Документы не найдены</h3>
+              <h3 className="text-xl font-medium mb-2">{t('docs.noDocs')}</h3>
               <p className="text-muted-foreground">
-                Документы будут добавлены в ближайшее время
+                {t('docs.soon')}
               </p>
             </CardContent>
           </Card>
@@ -92,7 +89,7 @@ export default function SiteDocuments() {
                 <CardHeader className="bg-muted/50">
                   <CardTitle className="flex items-center gap-2">
                     <span className="text-xl">{CATEGORY_ICONS[category] || "📁"}</span>
-                    {CATEGORY_LABELS[category] || category}
+                    {getCategoryLabel(category)}
                     <Badge variant="secondary" className="ml-2">
                       {docs.length}
                     </Badge>
@@ -134,7 +131,7 @@ export default function SiteDocuments() {
                           <a href={doc.fileUrl} target="_blank" rel="noopener noreferrer">
                             <Button variant="outline" size="sm">
                               <ExternalLink className="h-4 w-4 mr-2" />
-                              Открыть
+                              {t('docs.open')}
                             </Button>
                           </a>
                           <a href={doc.fileUrl} download>
@@ -157,7 +154,7 @@ export default function SiteDocuments() {
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <ExternalLink className="h-5 w-5" />
-              Полезные ссылки
+              {t('docs.usefulLinks')}
             </CardTitle>
           </CardHeader>
           <CardContent>
@@ -170,7 +167,7 @@ export default function SiteDocuments() {
               >
                 <span className="text-2xl">⚖️</span>
                 <div>
-                  <p className="font-medium">Законодательство РК</p>
+                  <p className="font-medium">{t('docs.laws')}</p>
                   <p className="text-sm text-muted-foreground">adilet.zan.kz</p>
                 </div>
               </a>
@@ -182,7 +179,7 @@ export default function SiteDocuments() {
               >
                 <span className="text-2xl">🏛️</span>
                 <div>
-                  <p className="font-medium">Электронное правительство</p>
+                  <p className="font-medium">{t('docs.egov')}</p>
                   <p className="text-sm text-muted-foreground">egov.kz</p>
                 </div>
               </a>

@@ -38,16 +38,47 @@ export default function Home() {
 
   if (loading) return null;
 
+  // If already logged in, show message instead of login form
   if (user) {
-      // If already logged in, redirect based on role
-       if (user.role === 'super_admin') {
-           // We can't use setLocation directly in render, but since we return null it might be ok or cause a warning.
-           // Better to use useEffect, but for now this works as a quick redirect.
-           window.location.href = "/super-admin";
-       } else {
-           window.location.href = "/admin/pmpk9";
-       }
-       return null;
+      return (
+        <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-50 p-4">
+          <Card className="w-full max-w-md shadow-xl border-0">
+            <CardHeader className="space-y-1 text-center">
+              <CardTitle className="text-2xl font-bold tracking-tight">
+                Already Logged In
+              </CardTitle>
+              <CardDescription>
+                You are currently logged in as {user.name}
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div className="flex flex-col gap-3">
+                {user.role === 'super_admin' && (
+                  <Button 
+                    onClick={() => setLocation("/super-admin")}
+                    className="w-full bg-blue-600 hover:bg-blue-700"
+                  >
+                    Go to Super Admin Panel
+                  </Button>
+                )}
+                <Button 
+                  onClick={() => setLocation("/admin/pmpk9")}
+                  className="w-full bg-blue-600 hover:bg-blue-700"
+                >
+                  Go to PMPK Admin Panel
+                </Button>
+                <Button 
+                  onClick={() => setLocation("/")}
+                  variant="outline"
+                  className="w-full"
+                >
+                  Back to Website
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+      );
   }
 
   return (
@@ -55,7 +86,7 @@ export default function Home() {
       <Card className="w-full max-w-md shadow-xl border-0">
         <CardHeader className="space-y-1 text-center">
           <CardTitle className="text-2xl font-bold tracking-tight">
-            PMPK System
+            PMPK System Admin
           </CardTitle>
           <CardDescription>
             Enter your credentials to access the admin panel
@@ -66,7 +97,7 @@ export default function Home() {
             <div className="space-y-2">
               <Input
                 type="text"
-                placeholder="Login (admin)"
+                placeholder="Login"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
@@ -91,8 +122,8 @@ export default function Home() {
           </form>
           
           <div className="mt-6 text-center text-sm">
-            <Link href="/site/pmpk9" className="text-blue-600 hover:underline">
-              Go to Public Website (PMPK №9)
+            <Link href="/" className="text-blue-600 hover:underline">
+              Back to Website
             </Link>
           </div>
         </CardContent>

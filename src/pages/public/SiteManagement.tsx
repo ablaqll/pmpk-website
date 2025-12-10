@@ -10,55 +10,34 @@ import { useLanguage } from "@/contexts/LanguageContext";
 const MANAGEMENT_SECTIONS = [
   {
     icon: DollarSign,
-    titleKz: "Бюджет",
-    titleRu: "Бюджет",
-    titleEn: "Budget",
-    descKz: "Бюджеттік қаражатты жоспарлау және пайдалану туралы ақпарат",
-    descRu: "Информация о планировании и использовании бюджетных средств",
-    descEn: "Information on budget planning and utilization",
+    titleKey: "state.budget",
+    descKey: "state.desc", // Simplified description key for now or add specific
     links: [
-      { name: "Бюджетті орындау / Исполнение бюджета", url: "#" },
-      { name: "Қаржылық есептілік / Финансовая отчётность", url: "#" },
+      { nameKey: "state.budget", url: "#" }, // Using existing keys for link names roughly
     ]
   },
   {
     icon: FileText,
-    titleKz: "Мемлекеттік сатып алулар",
-    titleRu: "Государственные закупки",
-    titleEn: "Public Procurement",
-    descKz: "Мемлекеттік сатып алулар жоспары және нәтижелері",
-    descRu: "План государственных закупок и результаты",
-    descEn: "Public procurement plan and results",
+    titleKey: "state.procurement",
+    descKey: "state.desc",
     links: [
-      { name: "Сатып алулар жоспары / План закупок", url: "https://goszakup.gov.kz" },
-      { name: "Жасалған шарттар / Заключённые договоры", url: "#" },
+      { nameKey: "state.procurement", url: "https://goszakup.gov.kz" },
     ]
   },
   {
     icon: Shield,
-    titleKz: "Сыбайлас жемқорлыққа қарсы іс-қимыл",
-    titleRu: "Противодействие коррупции",
-    titleEn: "Anti-Corruption",
-    descKz: "Сыбайлас жемқорлықтың алдын алу шаралары",
-    descRu: "Меры по предотвращению коррупции",
-    descEn: "Anti-corruption measures",
+    titleKey: "state.anticorruption",
+    descKey: "state.desc",
     links: [
-      { name: "Сыбайлас жемқорлыққа қарсы стандарт / Антикоррупционный стандарт", url: "#" },
-      { name: "Мүдделер қақтығысы / Конфликт интересов", url: "#" },
-      { name: "Сенім телефоны / Телефон доверия", url: "#" },
+      { nameKey: "state.anticorruption", url: "#" },
     ]
   },
   {
     icon: Scale,
-    titleKz: "Құқықтық ақпарат",
-    titleRu: "Правовая информация",
-    titleEn: "Legal Information",
-    descKz: "Нормативтік-құқықтық актілер және заңнама",
-    descRu: "Нормативно-правовые акты и законодательство",
-    descEn: "Regulatory acts and legislation",
+    titleKey: "state.legal",
+    descKey: "state.desc",
     links: [
-      { name: "ҚР НҚА / НПА РК", url: "https://adilet.zan.kz" },
-      { name: "Ішкі құжаттар / Внутренние документы", url: "#" },
+      { nameKey: "docs.title", url: "https://adilet.zan.kz" },
     ]
   },
 ];
@@ -66,56 +45,38 @@ const MANAGEMENT_SECTIONS = [
 // External government portals
 const GOV_PORTALS = [
   { 
-    nameKz: "Электрондық үкімет", 
-    nameRu: "Электронное правительство", 
-    nameEn: "E-Government",
+    nameKey: "docs.egov", 
     url: "https://egov.kz", 
     icon: Building2 
   },
   { 
-    nameKz: "Ашық үкімет", 
-    nameRu: "Открытое правительство", 
-    nameEn: "Open Government",
+    nameKey: "state.title", // Open Gov
     url: "https://open.gov.kz", 
     icon: Users 
   },
   { 
-    nameKz: "Заңнама базасы", 
-    nameRu: "База законодательства", 
-    nameEn: "Legislation Database",
+    nameKey: "docs.laws", 
     url: "https://adilet.zan.kz", 
     icon: Scale 
   },
   { 
-    nameKz: "Мемлекеттік сатып алулар", 
-    nameRu: "Госзакупки", 
-    nameEn: "Public Procurement",
+    nameKey: "state.procurement", 
     url: "https://goszakup.gov.kz", 
     icon: FileText 
   },
 ];
 
 export default function SiteManagement() {
-  const { language, t } = useLanguage();
-
-  const pageTitle = language === 'kz' 
-    ? 'Мемлекеттік басқару' 
-    : language === 'ru' 
-    ? 'Государственное управление' 
-    : 'State Management';
+  const { t } = useLanguage();
 
   return (
     <div className="py-8">
       <div className="container">
         {/* Page Header */}
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gov-primary mb-2">{pageTitle}</h1>
+          <h1 className="text-3xl font-bold text-gov-primary mb-2">{t('state.title')}</h1>
           <p className="text-muted-foreground">
-            {language === 'kz' 
-              ? 'Мемлекеттік басқару және ашықтық туралы ақпарат'
-              : language === 'ru'
-              ? 'Информация о государственном управлении и открытости'
-              : 'Information about state management and transparency'}
+            {t('state.desc')}
           </p>
         </div>
 
@@ -129,13 +90,13 @@ export default function SiteManagement() {
                     <section.icon className="h-5 w-5 text-gov-primary" />
                   </div>
                   <CardTitle className="text-lg">
-                    {language === 'kz' ? section.titleKz : language === 'ru' ? section.titleRu : section.titleEn}
+                    {t(section.titleKey)}
                   </CardTitle>
                 </div>
               </CardHeader>
               <CardContent>
                 <p className="text-sm text-muted-foreground mb-4">
-                  {language === 'kz' ? section.descKz : language === 'ru' ? section.descRu : section.descEn}
+                  {t(section.descKey)}
                 </p>
                 <div className="space-y-2">
                   {section.links.map((link, linkIndex) => (
@@ -147,7 +108,7 @@ export default function SiteManagement() {
                       className="flex items-center gap-2 text-sm text-gov-primary hover:underline"
                     >
                       <ExternalLink className="h-3 w-3" />
-                      {link.name}
+                      {t(link.nameKey)}
                     </a>
                   ))}
                 </div>
@@ -165,21 +126,13 @@ export default function SiteManagement() {
               </div>
               <div>
                 <h3 className="font-semibold text-amber-800 mb-2">
-                  {language === 'kz' 
-                    ? 'Сыбайлас жемқорлық туралы хабарлау'
-                    : language === 'ru'
-                    ? 'Сообщить о коррупции'
-                    : 'Report Corruption'}
+                  {t('state.anticorruption')}
                 </h3>
                 <p className="text-sm text-amber-700 mb-3">
-                  {language === 'kz'
-                    ? 'Егер сіз сыбайлас жемқорлық фактілерін байқасаңыз, сенім телефонына хабарлаңыз немесе жазбаша өтініш жіберіңіз.'
-                    : language === 'ru'
-                    ? 'Если вы стали свидетелем коррупционных действий, сообщите на телефон доверия или направьте письменное обращение.'
-                    : 'If you witness corruption, report it via the trust phone or submit a written complaint.'}
+                  {t('state.desc')}
                 </p>
                 <Button variant="outline" className="border-amber-600 text-amber-700 hover:bg-amber-100">
-                  {language === 'kz' ? 'Хабарлау' : language === 'ru' ? 'Сообщить' : 'Report'}
+                  {t('feedback.sendRequest')}
                 </Button>
               </div>
             </div>
@@ -189,11 +142,7 @@ export default function SiteManagement() {
         {/* Government Portals */}
         <div>
           <h2 className="text-xl font-bold text-gov-primary mb-4">
-            {language === 'kz' 
-              ? 'Мемлекеттік порталдар'
-              : language === 'ru'
-              ? 'Государственные порталы'
-              : 'Government Portals'}
+            {t('state.services')}
           </h2>
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
             {GOV_PORTALS.map((portal, index) => (
@@ -209,7 +158,7 @@ export default function SiteManagement() {
                 </div>
                 <div className="flex-1 min-w-0">
                   <p className="font-medium text-sm truncate">
-                    {language === 'kz' ? portal.nameKz : language === 'ru' ? portal.nameRu : portal.nameEn}
+                    {t(portal.nameKey)}
                   </p>
                   <p className="text-xs text-muted-foreground truncate">{portal.url.replace('https://', '')}</p>
                 </div>

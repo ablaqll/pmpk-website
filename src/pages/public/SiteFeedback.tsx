@@ -9,10 +9,12 @@ import { useState } from "react";
 import { useParams } from "wouter";
 import { Skeleton } from "@/components/ui/skeleton";
 import { toast } from "sonner";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 export default function SiteFeedback() {
   const params = useParams<{ clientSlug: string }>();
   const clientSlug = params.clientSlug;
+  const { t } = useLanguage();
   
   const [formData, setFormData] = useState({
     name: "",
@@ -36,10 +38,10 @@ export default function SiteFeedback() {
     onSuccess: () => {
       setSubmitted(true);
       setFormData({ name: "", email: "", phone: "", question: "" });
-      toast.success("Ваше обращение отправлено");
+      toast.success(t('feedback.success'));
     },
     onError: (error) => {
-      toast.error("Ошибка: " + error.message);
+      toast.error(t('common.error') + ": " + error.message);
     },
   });
 
@@ -47,12 +49,12 @@ export default function SiteFeedback() {
     e.preventDefault();
     
     if (!formData.name || !formData.question) {
-      toast.error("Заполните обязательные поля");
+      toast.error(t('common.error'));
       return;
     }
 
     if (!client?.id) {
-      toast.error("Ошибка загрузки данных");
+      toast.error(t('common.error'));
       return;
     }
 
@@ -72,10 +74,10 @@ export default function SiteFeedback() {
         <div className="container">
           <h1 className="text-3xl lg:text-4xl font-bold mb-4 flex items-center gap-3">
             <MessageSquare className="h-8 w-8" />
-            Обращения граждан
+            {t('feedback.title')}
           </h1>
           <p className="text-lg text-white/90 max-w-3xl">
-            Задайте вопрос или оставьте обращение. Мы ответим в кратчайшие сроки.
+            {t('feedback.desc')}
           </p>
         </div>
       </section>
@@ -88,10 +90,10 @@ export default function SiteFeedback() {
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <Send className="h-5 w-5 text-gov-primary" />
-                  Отправить обращение
+                  {t('feedback.sendRequest')}
                 </CardTitle>
                 <CardDescription>
-                  Заполните форму ниже, и мы ответим на ваш вопрос
+                  {t('feedback.fillForm')}
                 </CardDescription>
               </CardHeader>
               <CardContent>
@@ -100,29 +102,29 @@ export default function SiteFeedback() {
                     <div className="h-16 w-16 rounded-full bg-green-100 flex items-center justify-center mx-auto mb-4">
                       <CheckCircle className="h-8 w-8 text-green-600" />
                     </div>
-                    <h3 className="text-xl font-semibold mb-2">Обращение отправлено!</h3>
+                    <h3 className="text-xl font-semibold mb-2">{t('feedback.success')}</h3>
                     <p className="text-muted-foreground mb-6">
-                      Мы рассмотрим ваш вопрос и ответим в ближайшее время
+                      {t('feedback.successDesc')}
                     </p>
                     <Button onClick={() => setSubmitted(false)}>
-                      Отправить ещё
+                      {t('feedback.sendMore')}
                     </Button>
                   </div>
                 ) : (
                   <form onSubmit={handleSubmit} className="space-y-4">
                     <div className="space-y-2">
-                      <Label htmlFor="name">Ваше имя *</Label>
+                      <Label htmlFor="name">{t('feedback.name')} *</Label>
                       <Input
                         id="name"
                         value={formData.name}
                         onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                        placeholder="Введите ваше имя"
+                        placeholder={t('feedback.name')}
                         required
                       />
                     </div>
                     <div className="grid md:grid-cols-2 gap-4">
                       <div className="space-y-2">
-                        <Label htmlFor="email">Email</Label>
+                        <Label htmlFor="email">{t('feedback.email')}</Label>
                         <Input
                           id="email"
                           type="email"
@@ -132,7 +134,7 @@ export default function SiteFeedback() {
                         />
                       </div>
                       <div className="space-y-2">
-                        <Label htmlFor="phone">Телефон</Label>
+                        <Label htmlFor="phone">{t('feedback.phone')}</Label>
                         <Input
                           id="phone"
                           value={formData.phone}
@@ -142,12 +144,12 @@ export default function SiteFeedback() {
                       </div>
                     </div>
                     <div className="space-y-2">
-                      <Label htmlFor="question">Ваш вопрос *</Label>
+                      <Label htmlFor="question">{t('feedback.message')} *</Label>
                       <Textarea
                         id="question"
                         value={formData.question}
                         onChange={(e) => setFormData({ ...formData, question: e.target.value })}
-                        placeholder="Опишите ваш вопрос или обращение..."
+                        placeholder={t('feedback.placeholder')}
                         rows={5}
                         required
                       />
@@ -158,7 +160,7 @@ export default function SiteFeedback() {
                       disabled={createMutation.isPending}
                     >
                       <Send className="h-4 w-4 mr-2" />
-                      {createMutation.isPending ? "Отправка..." : "Отправить обращение"}
+                      {createMutation.isPending ? t('feedback.sending') : t('feedback.send')}
                     </Button>
                   </form>
                 )}
@@ -170,7 +172,7 @@ export default function SiteFeedback() {
           <div>
             <h2 className="text-2xl font-bold text-gov-primary mb-6 flex items-center gap-2">
               <HelpCircle className="h-6 w-6" />
-              Часто задаваемые вопросы
+              {t('feedback.faq')}
             </h2>
             
             {isLoading ? (
@@ -184,7 +186,7 @@ export default function SiteFeedback() {
                 <CardContent className="py-8 text-center">
                   <HelpCircle className="h-12 w-12 mx-auto text-muted-foreground/30 mb-4" />
                   <p className="text-muted-foreground">
-                    Раздел FAQ будет заполнен по мере поступления вопросов
+                    {t('feedback.noFaq')}
                   </p>
                 </CardContent>
               </Card>
@@ -195,14 +197,14 @@ export default function SiteFeedback() {
                     <CardContent className="pt-6">
                       <div className="flex gap-3 mb-3">
                         <div className="h-6 w-6 rounded-full bg-gov-primary/10 flex items-center justify-center shrink-0">
-                          <span className="text-gov-primary font-bold text-sm">В</span>
+                          <span className="text-gov-primary font-bold text-sm">?</span>
                         </div>
                         <p className="font-medium">{item.question}</p>
                       </div>
                       {item.answer && (
                         <div className="flex gap-3 pl-9">
                           <div className="h-6 w-6 rounded-full bg-green-100 flex items-center justify-center shrink-0">
-                            <span className="text-green-600 font-bold text-sm">О</span>
+                            <span className="text-green-600 font-bold text-sm">!</span>
                           </div>
                           <p className="text-muted-foreground">{item.answer}</p>
                         </div>
