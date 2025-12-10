@@ -9,6 +9,6 @@ cmds = ["npm install"]
 cmds = ["npm run db:push || echo 'DB push will run on first deploy'"]
 
 [start]
-cmd = "npm run server"
+cmd = "npm run start"
 
 
