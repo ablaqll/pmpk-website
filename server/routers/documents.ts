@@ -1,6 +1,6 @@
 import { router, publicProcedure, protectedProcedure } from '../trpc';
 import { z } from 'zod';
-import { db } from '../db';
+import { db, queryFirst } from '../db';
 import { documents } from '../db/schema';
 import { eq, and, desc } from 'drizzle-orm';
 import { v4 as uuidv4 } from 'uuid';
@@ -40,11 +40,9 @@ export const documentsRouter = router({
   getById: publicProcedure
     .input(z.object({ id: z.string() }))
     .query(async ({ input }) => {
-      const result = await db
-        .select()
-        .from(documents)
-        .where(eq(documents.id, input.id))
-        .get();
+      const result = await queryFirst(
+        db.select().from(documents).where(eq(documents.id, input.id))
+      );
       return result || null;
     }),
 

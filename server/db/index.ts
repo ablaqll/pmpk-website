@@ -6,6 +6,7 @@ import * as schema from './schema';
 const isDevelopment = process.env.NODE_ENV !== 'production' && !process.env.DATABASE_URL;
 
 let db: ReturnType<typeof drizzle>;
+let isPostgres: boolean;
 
 try {
   if (isDevelopment) {
@@ -14,6 +15,7 @@ try {
     const Database = (await import('better-sqlite3')).default;
     const sqlite = new Database('sqlite.db');
     db = drizzleSqlite(sqlite, { schema }) as any;
+    isPostgres = false;
     console.log('🔧 Using SQLite database (development mode)');
   } else {
     // Production: Use PostgreSQL
@@ -40,6 +42,7 @@ try {
     await pool.query('SELECT 1');
     
     db = drizzle(pool, { schema });
+    isPostgres = true;
     console.log('✅ Using PostgreSQL database (production mode)');
     console.log('✅ Database connection established successfully');
   }
@@ -50,4 +53,16 @@ try {
   throw error;
 }
 
-export { db };
+// Helper function to get first result from query (works for both SQLite and PostgreSQL)
+export async function queryFirst<T>(queryBuilder: any): Promise<T | undefined> {
+  if (isPostgres) {
+    // PostgreSQL: query returns promise that resolves to array, get first element
+    const results = await queryBuilder;
+    return (Array.isArray(results) ? results[0] : undefined) as T | undefined;
+  } else {
+    // SQLite: use .get() method which returns the first result directly
+    return await queryBuilder.get() as T | undefined;
+  }
+}
+
+export { db, isPostgres };
