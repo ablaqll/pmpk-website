@@ -30,14 +30,13 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 export default function ClientAdminStaff() {
-  const params = useParams<{ clientSlug: string }>();
-  const clientSlug = params.clientSlug;
+  const clientSlug = "pmpk9";
   const [searchQuery, setSearchQuery] = useState("");
   const [deleteId, setDeleteId] = useState<number | null>(null);
 
   const { data: client } = trpc.clients.getBySlug.useQuery(
     { slug: clientSlug! },
-    { enabled: !!clientSlug }
+    { enabled: true }
   );
 
   const { data: staff, isLoading, refetch } = trpc.staff.list.useQuery(
@@ -70,7 +69,7 @@ export default function ClientAdminStaff() {
     return acc;
   }, {} as Record<string, typeof filteredStaff>);
 
-  const basePath = `/admin/${clientSlug}`;
+  const basePath = `/admin`;
 
   return (
     <ClientAdminLayout>

@@ -12,15 +12,15 @@ import { Link, useLocation, useParams } from "wouter";
 import { toast } from "sonner";
 
 export default function ClientAdminVacancyForm() {
-  const params = useParams<{ clientSlug: string; id?: string }>();
-  const clientSlug = params.clientSlug;
+  const params = useParams<{ id?: string }>();
+  const clientSlug = "pmpk9";
   const vacancyId = params.id ? parseInt(params.id) : null;
   const isEditing = !!vacancyId;
   const [, setLocation] = useLocation();
 
   const { data: client } = trpc.clients.getBySlug.useQuery(
     { slug: clientSlug! },
-    { enabled: !!clientSlug }
+    { enabled: true }
   );
 
   const { data: existingVacancies, isLoading: loadingVacancy } = trpc.vacancies.list.useQuery(
@@ -55,7 +55,7 @@ export default function ClientAdminVacancyForm() {
   const createMutation = trpc.vacancies.create.useMutation({
     onSuccess: () => {
       toast.success("Вакансия добавлена");
-      setLocation(`/admin/${clientSlug}/vacancies`);
+      setLocation(`/admin/vacancies`);
     },
     onError: (error) => {
       toast.error(error.message);
@@ -65,7 +65,7 @@ export default function ClientAdminVacancyForm() {
   const updateMutation = trpc.vacancies.update.useMutation({
     onSuccess: () => {
       toast.success("Вакансия обновлена");
-      setLocation(`/admin/${clientSlug}/vacancies`);
+      setLocation(`/admin/vacancies`);
     },
     onError: (error) => {
       toast.error(error.message);
@@ -94,7 +94,7 @@ export default function ClientAdminVacancyForm() {
   };
 
   const isSubmitting = createMutation.isPending || updateMutation.isPending;
-  const basePath = `/admin/${clientSlug}`;
+  const basePath = `/admin`;
 
   if (isEditing && loadingVacancy) {
     return (

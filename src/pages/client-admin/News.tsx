@@ -42,8 +42,7 @@ const categoryLabels: Record<string, string> = {
 };
 
 export default function NewsPage() {
-  const params = useParams<{ clientSlug: string }>();
-  const clientSlug = params.clientSlug;
+  const clientSlug = "pmpk9";
   const [, setLocation] = useLocation();
   const [searchQuery, setSearchQuery] = useState("");
   const [activeTab, setActiveTab] = useState<string>("all");
@@ -51,7 +50,7 @@ export default function NewsPage() {
   
   const { data: client } = trpc.clients.getBySlug.useQuery(
     { slug: clientSlug! },
-    { enabled: !!clientSlug }
+    { enabled: true }
   );
   
   const { data: news, isLoading, refetch } = trpc.news.list.useQuery(
@@ -77,7 +76,7 @@ export default function NewsPage() {
     item.title.toLowerCase().includes(searchQuery.toLowerCase())
   ) || [];
 
-  const basePath = `/admin/${clientSlug}`;
+  const basePath = `/admin`;
 
   return (
     <ClientAdminLayout>

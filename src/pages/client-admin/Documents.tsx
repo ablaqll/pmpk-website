@@ -45,15 +45,14 @@ const DOCUMENT_CATEGORIES = {
 };
 
 export default function ClientAdminDocuments() {
-  const params = useParams<{ clientSlug: string }>();
-  const clientSlug = params.clientSlug;
+  const clientSlug = "pmpk9";
   const [searchQuery, setSearchQuery] = useState("");
   const [categoryFilter, setCategoryFilter] = useState<string>("all");
   const [deleteId, setDeleteId] = useState<number | null>(null);
 
   const { data: client } = trpc.clients.getBySlug.useQuery(
-    { slug: clientSlug! },
-    { enabled: !!clientSlug }
+    { slug: clientSlug },
+    { enabled: true }
   );
 
   const { data: documents, isLoading, refetch } = trpc.documents.list.useQuery(
@@ -76,7 +75,7 @@ export default function ClientAdminDocuments() {
     d.title.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
-  const basePath = `/admin/${clientSlug}`;
+  const basePath = `/admin`;
 
   return (
     <ClientAdminLayout>
