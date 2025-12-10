@@ -632,3 +632,5 @@ Need help with deployment? Check these files:
 - `.env.example` - Environment variables reference
 
 **Ready to deploy? Start with Step 1 above!** 🚀
+
+

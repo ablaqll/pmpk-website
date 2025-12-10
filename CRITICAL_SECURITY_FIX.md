@@ -313,3 +313,5 @@ npm run dev:all
 **Security vulnerability FIXED!** 🔐✅
 
 **Action**: Install bcrypt and reset database NOW!
+
+

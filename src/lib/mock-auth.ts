@@ -21,3 +21,5 @@ export function isNetlifyDeployment(): boolean {
   return window.location.hostname.includes('netlify.app') || 
          window.location.hostname.includes('pmpkedu');
 }
+
+

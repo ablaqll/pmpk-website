@@ -383,3 +383,5 @@ Everything needed for Railway deployment is **complete and tested**.
 **NEXT COMMAND TO RUN**: `npm install pg @types/pg`
 
 🚂 **Ready for Railway! Let's go!** 🎉
+
+

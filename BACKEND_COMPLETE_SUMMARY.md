@@ -737,3 +737,5 @@ Your PMPK website backend is:
 **Command to run next**: `npm install pg @types/pg`
 
 **You're 15 minutes away from a fully functional admin panel!** 🎉
+
+
