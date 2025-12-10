@@ -1,6 +1,7 @@
 import Fastify from 'fastify';
 import cors from '@fastify/cors';
 import { fastifyTRPCPlugin } from '@trpc/server/adapters/fastify';
+import superjson from 'superjson';
 import { appRouter } from './routers';
 import { createContext } from './trpc';
 
@@ -45,6 +46,7 @@ async function main() {
     trpcOptions: {
       router: appRouter,
       createContext,
+      transformer: superjson, // Must match client transformer
     },
   });
 

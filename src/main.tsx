@@ -37,6 +37,14 @@ queryClient.getQueryCache().subscribe(event => {
   if (event.type === "updated" && event.action.type === "error") {
     const error = event.query.state.error;
     redirectToLoginIfUnauthorized(error);
+    
+    // Log transformation errors but don't show toasts for them
+    // (they'll be handled gracefully by fallbacks)
+    if (error?.message?.includes('transform') || error?.message?.includes('Unable to transform')) {
+      console.warn("[tRPC Transformation Error - using fallback]", error);
+      return;
+    }
+    
     console.error("[API Query Error]", error);
   }
 });
@@ -45,6 +53,13 @@ queryClient.getMutationCache().subscribe(event => {
   if (event.type === "updated" && event.action.type === "error") {
     const error = event.mutation.state.error;
     redirectToLoginIfUnauthorized(error);
+    
+    // Log transformation errors but don't show toasts for them
+    if (error?.message?.includes('transform') || error?.message?.includes('Unable to transform')) {
+      console.warn("[tRPC Transformation Error - using fallback]", error);
+      return;
+    }
+    
     console.error("[API Mutation Error]", error);
   }
 });
@@ -74,6 +89,10 @@ const trpcClient = trpc.createClient({
         return globalThis.fetch(input, {
           ...(init ?? {}),
           credentials: "include",
+        }).catch((error) => {
+          // Better error handling for network/transformation errors
+          console.error('[tRPC Fetch Error]', error);
+          throw error;
         });
       },
     }),

@@ -32,6 +32,10 @@ export function useAuth(options?: UseAuthOptions) {
   const meQuery = trpc.auth.me.useQuery(undefined, {
     retry: false,
     refetchOnWindowFocus: false,
+    staleTime: 0,
+    gcTime: 0,
+    // Silently fail - use localStorage fallback if backend unavailable
+    throwOnError: false,
   });
 
   const logoutMutation = trpc.auth.logout.useMutation({
