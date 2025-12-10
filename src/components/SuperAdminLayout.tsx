@@ -64,13 +64,13 @@ export default function SuperAdminLayout({
       <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-purple-50 via-pink-50 to-orange-50">
         <div className="flex flex-col items-center gap-8 p-8 max-w-md w-full bg-white rounded-2xl shadow-xl">
           <div className="w-16 h-16 rounded-xl bg-platform-gradient flex items-center justify-center">
-            <img src="/aql-logo.png" alt="AQL Lab" className="w-10 h-10 object-contain" />
+             <Settings className="w-10 h-10 text-white" />
           </div>
           <div className="flex flex-col items-center gap-4">
             <h1 className="text-2xl font-bold tracking-tight text-center bg-gradient-to-r from-purple-600 via-pink-500 to-orange-400 bg-clip-text text-transparent">
-              AQL Lab
+              Super Admin
             </h1>
-            <p className="text-xs text-muted-foreground mt-1">Студия внедрения ИИ</p>
+            <p className="text-xs text-muted-foreground mt-1">Management Console</p>
             <p className="text-sm text-muted-foreground text-center max-w-sm">
               Войдите в систему для доступа к панели управления
             </p>
@@ -197,16 +197,16 @@ function SuperAdminLayoutContent({
                 {isCollapsed ? (
                   <PanelLeft className="h-5 w-5 text-white" />
                 ) : (
-                  <img src="/aql-logo.png" alt="AQL Lab" className="h-6 w-6 object-contain" />
+                  <Settings className="h-6 w-6 text-white" />
                 )}
               </button>
               {!isCollapsed ? (
                 <div className="flex flex-col min-w-0">
                   <span className="font-bold bg-gradient-to-r from-purple-600 via-pink-500 to-orange-400 bg-clip-text text-transparent truncate">
-                    AQL Lab
+                    Super Admin
                   </span>
                   <span className="text-xs text-muted-foreground">
-                    Супер-админ
+                    Panel
                   </span>
                 </div>
               ) : null}

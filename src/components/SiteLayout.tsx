@@ -271,7 +271,7 @@ export default function SiteLayout({ children, basePath: propBasePath }: SiteLay
                 © {new Date().getFullYear()} {t('footer.rights')}
               </p>
               <p className="text-xs text-white/50 mt-2">
-                {t('footer.poweredBy')} <a href="https://instagram.com/aqllab" target="_blank" rel="noopener noreferrer" className="hover:text-white">AQL Lab</a>
+                © {new Date().getFullYear()} PMPK
               </p>
             </div>
             <div>

@@ -13,7 +13,7 @@ type Translations = {
 // Translations dictionary
 export const translations: Translations = {
   // Header
-  'nav.about': { kz: 'Біз туралы', ru: 'О нас', en: 'About Us' },
+  'nav.about': { kz: 'ПМПК туралы', ru: 'О ПМПК', en: 'About PMPK' },
   'nav.news': { kz: 'Жаңалықтар', ru: 'Новости', en: 'News' },
   'nav.documents': { kz: 'ҚР НҚА', ru: 'НПА РК', en: 'Legal Acts' },
   'nav.management': { kz: 'Мемлекеттік басқару', ru: 'Гос. управление', en: 'State Management' },

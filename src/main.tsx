@@ -42,6 +42,22 @@ const trpcClient = trpc.createClient({
     httpBatchLink({
       url: "/api/trpc",
       transformer: superjson,
+      headers() {
+        try {
+          const userStr = localStorage.getItem("manus-runtime-user-info");
+          if (userStr) {
+             const user = JSON.parse(userStr);
+             if (user && user.id) {
+               return {
+                 'x-user-id': user.id
+               };
+             }
+          }
+        } catch (e) {
+          // ignore
+        }
+        return {};
+      },
       fetch(input, init) {
         return globalThis.fetch(input, {
           ...(init ?? {}),
