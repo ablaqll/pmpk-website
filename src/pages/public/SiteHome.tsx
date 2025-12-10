@@ -10,6 +10,7 @@ import { Link, useParams } from "wouter";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
+import { useState, useEffect } from "react";
 
 // External portal links
 const PORTAL_LINKS = [
@@ -53,7 +54,12 @@ export default function SiteHome({ basePath: basePathProp }: { basePath?: string
   
   const { data: clientData, isLoading: clientLoadingQuery } = trpc.clients.getBySlug.useQuery(
     { slug: clientSlug! },
-    { enabled: !!clientSlug, retry: false }
+    { 
+      enabled: !!clientSlug, 
+      retry: false,
+      staleTime: 0,
+      gcTime: 0,
+    }
   );
   
   // Mock Fallback for Netlify/Demo
@@ -71,8 +77,19 @@ export default function SiteHome({ basePath: basePathProp }: { basePath?: string
       directorPhoto: null
   };
 
+  // Always use mock client if slug is pmpk9 - don't wait for backend
   const client = clientData || (clientSlug === 'pmpk9' ? mockClient : null);
-  const clientLoading = clientLoadingQuery && !client;
+  
+  // Only show loading for max 1 second, then show content
+  const [showLoading, setShowLoading] = useState(true);
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setShowLoading(false);
+    }, 1000);
+    return () => clearTimeout(timer);
+  }, []);
+  
+  const clientLoading = showLoading && clientLoadingQuery && !client;
 
   const { data: newsData } = trpc.news.listPublished.useQuery(
     { clientId: client?.id! },

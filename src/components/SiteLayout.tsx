@@ -5,7 +5,7 @@ import {
 } from "lucide-react";
 import { Link, useParams, useLocation } from "wouter";
 import { Skeleton } from "@/components/ui/skeleton";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useLanguage, Language } from "@/contexts/LanguageContext";
 
 // Kazakhstan state symbols (local files)
@@ -58,7 +58,14 @@ export default function SiteLayout({ children, basePath: propBasePath }: SiteLay
   
   const { data: clientData, isLoading: isClientLoading } = trpc.clients.getBySlug.useQuery(
     { slug: clientSlug },
-    { enabled: true, retry: false, refetchOnWindowFocus: false }
+    { 
+      enabled: true, 
+      retry: false, 
+      refetchOnWindowFocus: false,
+      staleTime: 0,
+      gcTime: 0,
+      // Use mock data immediately, update if backend responds
+    }
   );
 
   // Mock Fallback for Netlify/Demo (when backend is unreachable)
@@ -76,8 +83,20 @@ export default function SiteLayout({ children, basePath: propBasePath }: SiteLay
       directorPhoto: null
   };
 
-  const client = clientData || mockClient; // Always use mock as fallback
-  const isLoading = isClientLoading && !clientData; // Only show loading if we're actually fetching
+  // Always use mock client immediately - don't wait for backend
+  const client = clientData || mockClient;
+  
+  // Only show loading for a very short time (max 1 second)
+  // After that, show content with mock data
+  const [showLoading, setShowLoading] = useState(true);
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setShowLoading(false);
+    }, 1000); // Max 1 second loading
+    return () => clearTimeout(timer);
+  }, []);
+  
+  const isLoading = showLoading && isClientLoading && !clientData;
 
   // Use provided basePath or default to empty string (root)
   const basePath = propBasePath !== undefined ? propBasePath : '';
