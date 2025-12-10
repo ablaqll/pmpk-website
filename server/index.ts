@@ -53,7 +53,8 @@ async function main() {
     return { 
       status: 'ok', 
       timestamp: new Date().toISOString(),
-      environment: process.env.NODE_ENV || 'development'
+      environment: process.env.NODE_ENV || 'development',
+      port: parseInt(process.env.PORT || '3000')
     };
   });
 
@@ -90,4 +91,7 @@ Health: http://${HOST}:${PORT}/health
   }
 }
 
-main();
+main().catch((error) => {
+  console.error('❌ Failed to start server:', error);
+  process.exit(1);
+});

@@ -8,7 +8,10 @@
     "server": "tsx watch server/index.ts",
     "dev:all": "concurrently \"npm run server\" \"npm run dev\"",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "start": "NODE_ENV=production tsx server/index.ts",
+    "db:push": "drizzle-kit push",
+    "db:seed": "tsx server/seed.ts"
   },
   "dependencies": {
     "@fastify/cors": "^11.1.0",
@@ -37,6 +40,8 @@
     "@trpc/server": "^11.7.2",
     "@types/uuid": "^11.0.0",
     "better-sqlite3": "^12.5.0",
+    "bcrypt": "^5.1.1",
+    "pg": "^8.13.1",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "cmdk": "^1.0.4",
@@ -66,7 +71,9 @@
   "devDependencies": {
     "@tailwindcss/vite": "^4.0.0-beta.8",
     "@types/better-sqlite3": "^7.6.13",
+    "@types/bcrypt": "^5.0.2",
     "@types/node": "^22.19.2",
+    "@types/pg": "^8.11.10",
     "@types/react": "^19.0.1",
     "@types/react-dom": "^19.0.1",
     "@vitejs/plugin-react": "^4.3.4",
