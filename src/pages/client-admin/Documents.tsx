@@ -44,20 +44,16 @@ const DOCUMENT_CATEGORIES = {
   other: "Прочее",
 };
 
+import { DEFAULT_CLIENT_ID } from "@/const/client";
+
 export default function ClientAdminDocuments() {
-  const clientSlug = "pmpk9";
   const [searchQuery, setSearchQuery] = useState("");
   const [categoryFilter, setCategoryFilter] = useState<string>("all");
   const [deleteId, setDeleteId] = useState<number | null>(null);
 
-  const { data: client } = trpc.clients.getBySlug.useQuery(
-    { slug: clientSlug },
-    { enabled: true }
-  );
-
   const { data: documents, isLoading, refetch } = trpc.documents.list.useQuery(
-    { clientId: client?.id!, category: categoryFilter === "all" ? undefined : categoryFilter as any },
-    { enabled: !!client?.id }
+    { clientId: DEFAULT_CLIENT_ID, category: categoryFilter === "all" ? undefined : categoryFilter as any },
+    { enabled: true }
   );
 
   const deleteMutation = trpc.documents.delete.useMutation({

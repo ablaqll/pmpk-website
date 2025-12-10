@@ -29,19 +29,15 @@ import {
 } from "@/components/ui/table";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
+import { DEFAULT_CLIENT_ID } from "@/const/client";
+
 export default function ClientAdminStaff() {
-  const clientSlug = "pmpk9";
   const [searchQuery, setSearchQuery] = useState("");
   const [deleteId, setDeleteId] = useState<number | null>(null);
 
-  const { data: client } = trpc.clients.getBySlug.useQuery(
-    { slug: clientSlug! },
-    { enabled: true }
-  );
-
   const { data: staff, isLoading, refetch } = trpc.staff.list.useQuery(
-    { clientId: client?.id! },
-    { enabled: !!client?.id }
+    { clientId: DEFAULT_CLIENT_ID },
+    { enabled: true }
   );
 
   const deleteMutation = trpc.staff.delete.useMutation({

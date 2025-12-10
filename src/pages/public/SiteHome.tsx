@@ -100,10 +100,8 @@ export default function SiteHome({ basePath: basePathProp }: { basePath?: string
 
   const news = newsData || (clientSlug === 'pmpk9' ? mockNews : []);
 
-  // Determine base path: if explicitly provided use it, otherwise check if we have clientSlug in params
-  const basePath = basePathProp !== undefined 
-    ? basePathProp 
-    : (params.clientSlug ? `/site/${clientSlug}` : '');
+  // Use provided basePath or default to empty string (root)
+  const basePath = basePathProp !== undefined ? basePathProp : '';
 
   if (clientLoading) {
     return (

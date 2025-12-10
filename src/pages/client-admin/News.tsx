@@ -34,6 +34,7 @@ import { useState } from "react";
 import { Link, useLocation, useParams } from "wouter";
 import { toast } from "sonner";
 import { Skeleton } from "@/components/ui/skeleton";
+import { DEFAULT_CLIENT_ID } from "@/const/client";
 
 const categoryLabels: Record<string, string> = {
   news: "Новости",
@@ -42,23 +43,17 @@ const categoryLabels: Record<string, string> = {
 };
 
 export default function NewsPage() {
-  const clientSlug = "pmpk9";
   const [, setLocation] = useLocation();
   const [searchQuery, setSearchQuery] = useState("");
   const [activeTab, setActiveTab] = useState<string>("all");
   const [deleteId, setDeleteId] = useState<number | null>(null);
   
-  const { data: client } = trpc.clients.getBySlug.useQuery(
-    { slug: clientSlug! },
-    { enabled: true }
-  );
-  
   const { data: news, isLoading, refetch } = trpc.news.list.useQuery(
     { 
-      clientId: client?.id!,
+      clientId: DEFAULT_CLIENT_ID,
       category: activeTab !== 'all' ? activeTab as any : undefined
     },
-    { enabled: !!client?.id }
+    { enabled: true }
   );
   
   const deleteMutation = trpc.news.delete.useMutation({

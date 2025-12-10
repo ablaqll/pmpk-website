@@ -20,6 +20,7 @@ import {
   useSidebar,
 } from "@/components/ui/sidebar";
 import { getLoginUrl } from "@/const";
+import { DEFAULT_CLIENT, DEFAULT_CLIENT_SLUG } from "@/const/client";
 import { useIsMobile } from "@/hooks/useMobile";
 import { 
   LayoutDashboard, LogOut, PanelLeft, Newspaper, Users2, 
@@ -43,24 +44,31 @@ export default function ClientAdminLayout({
 }: {
   children: React.ReactNode;
 }) {
-  // Use hardcoded client slug since we only have one organization
-  const clientSlug = "pmpk9";
-  
   const [sidebarWidth, setSidebarWidth] = useState(() => {
     const saved = localStorage.getItem(SIDEBAR_WIDTH_KEY);
     return saved ? parseInt(saved, 10) : DEFAULT_WIDTH;
   });
   const { loading, user } = useAuth();
-  const { data: client, isLoading: clientLoading } = trpc.clients.getBySlug.useQuery(
-    { slug: clientSlug },
-    { enabled: true }
+  
+  // Try to fetch client, but use default if it fails
+  const { data: clientData } = trpc.clients.getBySlug.useQuery(
+    { slug: DEFAULT_CLIENT_SLUG },
+    { 
+      enabled: true,
+      retry: false,
+      refetchOnWindowFocus: false
+    }
   );
+  
+  // Always use default client if fetch fails
+  const client = clientData || DEFAULT_CLIENT;
+  const clientSlug = DEFAULT_CLIENT_SLUG;
 
   useEffect(() => {
     localStorage.setItem(SIDEBAR_WIDTH_KEY, sidebarWidth.toString());
   }, [sidebarWidth]);
 
-  if (loading || clientLoading) {
+  if (loading) {
     return <DashboardLayoutSkeleton />
   }
 
@@ -88,17 +96,6 @@ export default function ClientAdminLayout({
           >
             Войти в систему
           </Button>
-        </div>
-      </div>
-    );
-  }
-
-  if (!client) {
-    return (
-      <div className="flex items-center justify-center min-h-screen">
-        <div className="text-center">
-          <h1 className="text-2xl font-bold mb-2">Клиент не найден</h1>
-          <p className="text-muted-foreground">Проверьте правильность URL</p>
         </div>
       </div>
     );
@@ -148,7 +145,7 @@ export default function ClientAdminLayout({
 type ClientAdminLayoutContentProps = {
   children: React.ReactNode;
   setSidebarWidth: (width: number) => void;
-  client: { id: number; name: string; logoUrl?: string | null };
+  client: { id: string | number; name: string; logoUrl?: string | null };
   clientSlug: string;
 };
 

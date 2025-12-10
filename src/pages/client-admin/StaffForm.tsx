@@ -10,22 +10,17 @@ import { ArrowLeft, Save, Loader2 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Link, useLocation, useParams } from "wouter";
 import { toast } from "sonner";
+import { DEFAULT_CLIENT_ID } from "@/const/client";
 
 export default function ClientAdminStaffForm() {
   const params = useParams<{ id?: string }>();
-  const clientSlug = "pmpk9";
   const staffId = params.id ? parseInt(params.id) : null;
   const isEditing = !!staffId;
   const [, setLocation] = useLocation();
 
-  const { data: client } = trpc.clients.getBySlug.useQuery(
-    { slug: clientSlug! },
-    { enabled: true }
-  );
-
   const { data: existingStaff, isLoading: loadingStaff } = trpc.staff.list.useQuery(
-    { clientId: client?.id! },
-    { enabled: !!client?.id && isEditing }
+    { clientId: DEFAULT_CLIENT_ID },
+    { enabled: isEditing }
   );
 
   const staffMember = existingStaff?.find(s => s.id === staffId);
@@ -99,9 +94,9 @@ export default function ClientAdminStaffForm() {
         id: staffId,
         ...formData,
       });
-    } else if (client?.id) {
+    } else {
       createMutation.mutate({
-        clientId: client.id,
+        clientId: DEFAULT_CLIENT_ID,
         ...formData,
       });
     }

@@ -18,10 +18,10 @@ import { useEffect, useState } from "react";
 import { Link, useLocation, useParams } from "wouter";
 import { toast } from "sonner";
 import { Skeleton } from "@/components/ui/skeleton";
+import { DEFAULT_CLIENT_ID } from "@/const/client";
 
 export default function NewsFormPage() {
   const params = useParams<{ id?: string }>();
-  const clientSlug = "pmpk9";
   const [, setLocation] = useLocation();
   const isEditing = params.id && params.id !== "new";
   const newsId = isEditing ? parseInt(params.id!) : null;
@@ -33,11 +33,6 @@ export default function NewsFormPage() {
     category: "news" as "news" | "press_release" | "announcement",
     isPublished: false,
   });
-
-  const { data: client } = trpc.clients.getBySlug.useQuery(
-    { slug: clientSlug },
-    { enabled: true }
-  );
 
   const { data: newsItem, isLoading } = trpc.news.getById.useQuery(
     { id: newsId! },
@@ -92,11 +87,13 @@ export default function NewsFormPage() {
     if (isEditing && newsId) {
       updateMutation.mutate({ id: newsId, ...formData });
     } else {
-      createMutation.mutate({ clientId: client.id, ...formData });
+      createMutation.mutate({ clientId: DEFAULT_CLIENT_ID, ...formData });
     }
   };
 
   const basePath = `/admin`;
+  
+  // Remove unused client check - we always have a default client
 
   if (isLoading && isEditing) {
     return (

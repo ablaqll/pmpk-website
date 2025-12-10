@@ -26,21 +26,17 @@ const DOCUMENT_CATEGORIES = {
   other: "Прочее",
 };
 
+import { DEFAULT_CLIENT_ID } from "@/const/client";
+
 export default function ClientAdminDocumentForm() {
   const params = useParams<{ id?: string }>();
-  const clientSlug = "pmpk9";
   const documentId = params.id ? parseInt(params.id) : null;
   const isEditing = !!documentId;
   const [, setLocation] = useLocation();
 
-  const { data: client } = trpc.clients.getBySlug.useQuery(
-    { slug: clientSlug! },
-    { enabled: true }
-  );
-
   const { data: existingDocs, isLoading: loadingDoc } = trpc.documents.list.useQuery(
-    { clientId: client?.id! },
-    { enabled: !!client?.id && isEditing }
+    { clientId: DEFAULT_CLIENT_ID },
+    { enabled: isEditing }
   );
 
   const existingDoc = existingDocs?.find(d => d.id === documentId);
@@ -103,9 +99,9 @@ export default function ClientAdminDocumentForm() {
         category: formData.category,
         isPublished: formData.isPublished,
       });
-    } else if (client?.id) {
+    } else {
       createMutation.mutate({
-        clientId: client.id,
+        clientId: DEFAULT_CLIENT_ID,
         title: formData.title,
         titleKz: formData.titleKz || undefined,
         fileUrl: formData.fileUrl,

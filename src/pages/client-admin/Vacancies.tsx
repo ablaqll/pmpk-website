@@ -28,19 +28,15 @@ import {
   TableRow,
 } from "@/components/ui/table";
 
+import { DEFAULT_CLIENT_ID } from "@/const/client";
+
 export default function ClientAdminVacancies() {
-  const clientSlug = "pmpk9";
   const [searchQuery, setSearchQuery] = useState("");
   const [deleteId, setDeleteId] = useState<number | null>(null);
 
-  const { data: client } = trpc.clients.getBySlug.useQuery(
-    { slug: clientSlug! },
-    { enabled: true }
-  );
-
   const { data: vacancies, isLoading, refetch } = trpc.vacancies.list.useQuery(
-    { clientId: client?.id! },
-    { enabled: !!client?.id }
+    { clientId: DEFAULT_CLIENT_ID },
+    { enabled: true }
   );
 
   const deleteMutation = trpc.vacancies.delete.useMutation({

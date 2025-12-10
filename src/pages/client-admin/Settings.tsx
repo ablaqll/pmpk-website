@@ -9,13 +9,17 @@ import { Save, Loader2, Building2, Phone, MapPin, Clock, Globe } from "lucide-re
 import { useEffect, useState } from "react";
 import { useParams } from "wouter";
 import { toast } from "sonner";
+import { DEFAULT_CLIENT_ID } from "@/const/client";
 
 export default function ClientAdminSettings() {
-  const clientSlug = "pmpk9";
-
+  // Try to fetch client, but use default if it fails
   const { data: client, refetch } = trpc.clients.getBySlug.useQuery(
-    { slug: clientSlug! },
-    { enabled: true }
+    { slug: "pmpk9" },
+    { 
+      enabled: true,
+      retry: false,
+      refetchOnWindowFocus: false
+    }
   );
 
   const [formData, setFormData] = useState({
@@ -66,12 +70,10 @@ export default function ClientAdminSettings() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (client?.id) {
-      updateMutation.mutate({
-        id: client.id,
-        ...formData,
-      });
-    }
+    updateMutation.mutate({
+      id: DEFAULT_CLIENT_ID,
+      ...formData,
+    });
   };
 
   const isSubmitting = updateMutation.isPending;

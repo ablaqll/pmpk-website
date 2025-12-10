@@ -10,16 +10,27 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { useLanguage } from "@/contexts/LanguageContext";
 
 export default function SiteAbout() {
-  const params = useParams<{ clientSlug: string }>();
-  const clientSlug = params.clientSlug;
+  const clientSlug = "pmpk9";
   const { t } = useLanguage();
   
-  const { data: client, isLoading } = trpc.clients.getBySlug.useQuery(
-    { slug: clientSlug! },
-    { enabled: !!clientSlug }
+  // Mock client fallback
+  const mockClient = {
+    id: '1',
+    slug: 'pmpk9',
+    name: 'ПМПК №9',
+    description: 'Психолого-медико-педагогическая консультация',
+    directorName: 'Иванова Мария Ивановна',
+    directorBio: 'Педагог-психолог высшей категории, стаж работы 20 лет.',
+    directorPhoto: null
+  };
+  const { data: clientData, isLoading: isClientLoading } = trpc.clients.getBySlug.useQuery(
+    { slug: clientSlug },
+    { enabled: true, retry: false, refetchOnWindowFocus: false }
   );
+  const client = clientData || mockClient;
+  const isLoading = isClientLoading && !client;
 
-  const basePath = `/site/${clientSlug}`;
+  const basePath = '';
 
   if (isLoading) {
     return (
