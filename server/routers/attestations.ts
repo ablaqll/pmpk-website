@@ -1,45 +1,32 @@
 import { router, publicProcedure, protectedProcedure } from '../trpc';
 import { z } from 'zod';
 import { db, queryFirst } from '../db';
-import { vacancies } from '../db/schema';
+import { attestations } from '../db/schema';
 import { eq, and, desc } from 'drizzle-orm';
 import { v4 as uuidv4 } from 'uuid';
 
-export const vacanciesRouter = router({
-  // Public: List active vacancies
-  listActive: publicProcedure
+export const attestationsRouter = router({
+  // Public: List all attestations
+  list: publicProcedure
     .input(z.object({ clientId: z.string() }))
     .query(async ({ input }) => {
       return await db.select()
-        .from(vacancies)
-        .where(and(
-          eq(vacancies.clientId, input.clientId),
-          eq(vacancies.active, true)
-        ))
-        .orderBy(desc(vacancies.createdAt));
+        .from(attestations)
+        .where(eq(attestations.clientId, input.clientId))
+        .orderBy(desc(attestations.attestationDate || attestations.createdAt));
     }),
 
-  // Public: Get single vacancy
+  // Public: Get single attestation
   getById: publicProcedure
     .input(z.object({ id: z.string() }))
     .query(async ({ input }) => {
       const result = await queryFirst(
-        db.select().from(vacancies).where(eq(vacancies.id, input.id))
+        db.select().from(attestations).where(eq(attestations.id, input.id))
       );
       return result || null;
     }),
 
-  // Admin: List all vacancies
-  list: protectedProcedure
-    .input(z.object({ clientId: z.string() }))
-    .query(async ({ input }) => {
-      return await db.select()
-        .from(vacancies)
-        .where(eq(vacancies.clientId, input.clientId))
-        .orderBy(desc(vacancies.createdAt));
-    }),
-
-  // Admin: Create vacancy
+  // Admin: Create attestation
   create: protectedProcedure
     .input(z.object({
       clientId: z.string(),
@@ -49,17 +36,16 @@ export const vacanciesRouter = router({
       descriptionRu: z.string().optional(),
       descriptionKz: z.string().optional(),
       descriptionEn: z.string().optional(),
-      requirementsRu: z.string().optional(),
-      requirementsKz: z.string().optional(),
-      requirementsEn: z.string().optional(),
-      enbekUrl: z.string().optional(),
-      active: z.boolean().default(true),
+      documentUrl: z.string().optional(),
+      protocolUrl: z.string().optional(),
+      results: z.string().optional(),
+      attestationDate: z.date().optional(),
     }))
     .mutation(async ({ input }) => {
       const id = uuidv4();
       const now = new Date();
       
-      await db.insert(vacancies).values({
+      await db.insert(attestations).values({
         id,
         ...input,
         createdAt: now,
@@ -69,7 +55,7 @@ export const vacanciesRouter = router({
       return { id };
     }),
 
-  // Admin: Update vacancy
+  // Admin: Update attestation
   update: protectedProcedure
     .input(z.object({
       id: z.string(),
@@ -79,27 +65,26 @@ export const vacanciesRouter = router({
       descriptionRu: z.string().optional(),
       descriptionKz: z.string().optional(),
       descriptionEn: z.string().optional(),
-      requirementsRu: z.string().optional(),
-      requirementsKz: z.string().optional(),
-      requirementsEn: z.string().optional(),
-      enbekUrl: z.string().optional(),
-      active: z.boolean().optional(),
+      documentUrl: z.string().optional(),
+      protocolUrl: z.string().optional(),
+      results: z.string().optional(),
+      attestationDate: z.date().optional(),
     }))
     .mutation(async ({ input }) => {
       const { id, ...data } = input;
       
-      await db.update(vacancies)
+      await db.update(attestations)
         .set({ ...data, updatedAt: new Date() })
-        .where(eq(vacancies.id, id));
+        .where(eq(attestations.id, id));
       
       return { success: true };
     }),
 
-  // Admin: Delete vacancy
+  // Admin: Delete attestation
   delete: protectedProcedure
     .input(z.object({ id: z.string() }))
     .mutation(async ({ input }) => {
-      await db.delete(vacancies).where(eq(vacancies.id, input.id));
+      await db.delete(attestations).where(eq(attestations.id, input.id));
       return { success: true };
     }),
 });

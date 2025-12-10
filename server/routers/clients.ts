@@ -15,7 +15,16 @@ export const clientsRouter = router({
     }),
   
   list: publicProcedure.query(async () => {
-    return await db.select().from(clients).all();
+    return await db.select().from(clients);
   }),
-});
 
+  getStateSymbols: publicProcedure
+    .input(z.object({ clientId: z.string() }))
+    .query(async ({ input }) => {
+      const { stateSymbols } = await import('../db/schema');
+      const result = await queryFirst(
+        db.select().from(stateSymbols).where(eq(stateSymbols.clientId, input.clientId))
+      );
+      return result || null;
+    }),
+});

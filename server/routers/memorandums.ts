@@ -1,45 +1,32 @@
 import { router, publicProcedure, protectedProcedure } from '../trpc';
 import { z } from 'zod';
 import { db, queryFirst } from '../db';
-import { vacancies } from '../db/schema';
+import { memorandums } from '../db/schema';
 import { eq, and, desc } from 'drizzle-orm';
 import { v4 as uuidv4 } from 'uuid';
 
-export const vacanciesRouter = router({
-  // Public: List active vacancies
-  listActive: publicProcedure
+export const memorandumsRouter = router({
+  // Public: List all memorandums
+  list: publicProcedure
     .input(z.object({ clientId: z.string() }))
     .query(async ({ input }) => {
       return await db.select()
-        .from(vacancies)
-        .where(and(
-          eq(vacancies.clientId, input.clientId),
-          eq(vacancies.active, true)
-        ))
-        .orderBy(desc(vacancies.createdAt));
+        .from(memorandums)
+        .where(eq(memorandums.clientId, input.clientId))
+        .orderBy(desc(memorandums.signedDate || memorandums.createdAt));
     }),
 
-  // Public: Get single vacancy
+  // Public: Get single memorandum
   getById: publicProcedure
     .input(z.object({ id: z.string() }))
     .query(async ({ input }) => {
       const result = await queryFirst(
-        db.select().from(vacancies).where(eq(vacancies.id, input.id))
+        db.select().from(memorandums).where(eq(memorandums.id, input.id))
       );
       return result || null;
     }),
 
-  // Admin: List all vacancies
-  list: protectedProcedure
-    .input(z.object({ clientId: z.string() }))
-    .query(async ({ input }) => {
-      return await db.select()
-        .from(vacancies)
-        .where(eq(vacancies.clientId, input.clientId))
-        .orderBy(desc(vacancies.createdAt));
-    }),
-
-  // Admin: Create vacancy
+  // Admin: Create memorandum
   create: protectedProcedure
     .input(z.object({
       clientId: z.string(),
@@ -49,17 +36,20 @@ export const vacanciesRouter = router({
       descriptionRu: z.string().optional(),
       descriptionKz: z.string().optional(),
       descriptionEn: z.string().optional(),
-      requirementsRu: z.string().optional(),
-      requirementsKz: z.string().optional(),
-      requirementsEn: z.string().optional(),
-      enbekUrl: z.string().optional(),
-      active: z.boolean().default(true),
+      goalsRu: z.string().optional(),
+      goalsKz: z.string().optional(),
+      goalsEn: z.string().optional(),
+      participants: z.any().optional(), // JSON
+      signatories: z.any().optional(), // JSON
+      jointActivitiesResults: z.string().optional(),
+      signedDate: z.date().optional(),
+      documentUrl: z.string().optional(),
     }))
     .mutation(async ({ input }) => {
       const id = uuidv4();
       const now = new Date();
       
-      await db.insert(vacancies).values({
+      await db.insert(memorandums).values({
         id,
         ...input,
         createdAt: now,
@@ -69,7 +59,7 @@ export const vacanciesRouter = router({
       return { id };
     }),
 
-  // Admin: Update vacancy
+  // Admin: Update memorandum
   update: protectedProcedure
     .input(z.object({
       id: z.string(),
@@ -79,27 +69,30 @@ export const vacanciesRouter = router({
       descriptionRu: z.string().optional(),
       descriptionKz: z.string().optional(),
       descriptionEn: z.string().optional(),
-      requirementsRu: z.string().optional(),
-      requirementsKz: z.string().optional(),
-      requirementsEn: z.string().optional(),
-      enbekUrl: z.string().optional(),
-      active: z.boolean().optional(),
+      goalsRu: z.string().optional(),
+      goalsKz: z.string().optional(),
+      goalsEn: z.string().optional(),
+      participants: z.any().optional(),
+      signatories: z.any().optional(),
+      jointActivitiesResults: z.string().optional(),
+      signedDate: z.date().optional(),
+      documentUrl: z.string().optional(),
     }))
     .mutation(async ({ input }) => {
       const { id, ...data } = input;
       
-      await db.update(vacancies)
+      await db.update(memorandums)
         .set({ ...data, updatedAt: new Date() })
-        .where(eq(vacancies.id, id));
+        .where(eq(memorandums.id, id));
       
       return { success: true };
     }),
 
-  // Admin: Delete vacancy
+  // Admin: Delete memorandum
   delete: protectedProcedure
     .input(z.object({ id: z.string() }))
     .mutation(async ({ input }) => {
-      await db.delete(vacancies).where(eq(vacancies.id, input.id));
+      await db.delete(memorandums).where(eq(memorandums.id, input.id));
       return { success: true };
     }),
 });

@@ -1,5 +1,5 @@
 import { db } from './db';
-import { clients, news, users, staff, vacancies, feedback, documents } from './db/schema';
+import { users, clients, stateSymbols } from './db/schema';
 import { v4 as uuidv4 } from 'uuid';
 import { eq } from 'drizzle-orm';
 import { hashPassword } from './utils/password';
@@ -22,67 +22,32 @@ async function seed() {
       await db.insert(clients).values({
         id: pmpkId,
         slug: 'pmpk9',
-        name: 'ПМПК №9',
+        nameRu: 'ПМПК №9',
+        nameKz: 'ПМПК №9',
+        nameEn: 'PMPK №9',
         description: 'Психолого-медико-педагогическая консультация',
-        logo: '/pmpk9-logo.png',
         phone: '+7 777 608 00 65',
         email: 'pmpk9_ast@mail.ru',
         address: 'Астана қ., Е-321 көшесі, 18 үй',
-        directorName: 'Иванова Мария Ивановна',
-        directorBio: 'Педагог-психолог высшей категории, стаж работы 20 лет.',
-        theme: 'light',
+        hotline: '+7 777 608 00 65',
+        socialLinks: {
+          facebook: null,
+          instagram: null,
+          twitter: null,
+          youtube: null,
+        },
       });
       console.log('✅ PMPK9 client created');
     }
 
-    // 2. Create News (if doesn't exist)
-    console.log('📰 Creating news articles...');
-    const existingNews = await db.select().from(news).limit(1);
-    if (existingNews.length === 0) {
-      await db.insert(news).values([
-        {
-          id: uuidv4(),
-          clientId: pmpkId,
-          title: 'Открытие нового филиала ПМПК №9',
-          content: 'Уважаемые родители и педагоги!\n\nМы рады сообщить об открытии нового филиала нашей консультации. Теперь мы сможем принять больше детей и оказать квалифицированную помощь большему числу семей.\n\nНовый филиал оснащен современным оборудованием и располагает просторными кабинетами для комфортного проведения диагностики и консультаций.',
-          imageUrl: 'https://images.unsplash.com/photo-1577412647305-991150c7d163?w=800&auto=format&fit=crop&q=60',
-          category: 'news',
-          published: true,
-        },
-        {
-          id: uuidv4(),
-          clientId: pmpkId,
-          title: 'График работы в праздничные дни',
-          content: 'Уважаемые родители!\n\nОбратите внимание на график работы ПМПК №9 в праздничные дни:\n\n- 1 января - выходной\n- 2-8 января - выходные\n- 9 января - рабочий день\n\nЗапись на консультации возобновится 9 января. Все ранее записанные приемы переносятся автоматически.',
-          category: 'announcement',
-          published: true,
-        },
-        {
-          id: uuidv4(),
-          clientId: pmpkId,
-          title: 'Новые методические рекомендации Министерства образования',
-          content: 'Министерство образования и науки Республики Казахстан опубликовало новые методические рекомендации по организации работы ПМПК.\n\nОсновные изменения касаются процедуры диагностики детей с особыми образовательными потребностями.',
-          category: 'press_release',
-          published: true,
-        }
-      ]);
-      console.log('✅ News articles created');
-    } else {
-      console.log('ℹ️  News already exist, skipping');
-    }
-
-    // 3. Create Default Admin User
+    // 2. Create Admin User
     console.log('👤 Creating admin user...');
-    
-    // Remove old admin users to ensure clean state
     try {
       await db.delete(users).where(eq(users.email, 'admin'));
-      await db.delete(users).where(eq(users.email, 'admin@pmpk.kz'));
     } catch (e) {
       // Ignore errors if users don't exist
     }
 
-    // Hash the default password for security
     const defaultPassword = 'Aa123456';
     const hashedPassword = await hashPassword(defaultPassword);
     
@@ -91,46 +56,30 @@ async function seed() {
       email: 'admin',
       name: 'Admin',
       role: 'admin',
-      password: hashedPassword, // ✅ Now properly hashed with bcrypt
+      password: hashedPassword,
     });
     console.log('✅ Admin user created (email: admin, password: Aa123456)');
     console.log('   ⚠️  Password is securely hashed using bcrypt');
     console.log('   ✅ Role: admin (unified admin panel)');
 
-    // 4. Create Sample Staff (Optional)
-    console.log('👥 Creating sample staff...');
-    const existingStaff = await db.select().from(staff).limit(1);
-    if (existingStaff.length === 0) {
-      await db.insert(staff).values([
-        {
-          id: uuidv4(),
-          clientId: pmpkId,
-          name: 'Иванова Мария Ивановна',
-          position: 'Директор',
-          department: 'Руководство',
-          email: 'director@pmpk9.kz',
-          phone: '+7 777 608 00 65',
-          active: true,
-        },
-        {
-          id: uuidv4(),
-          clientId: pmpkId,
-          name: 'Петрова Анна Сергеевна',
-          position: 'Педагог-психолог высшей категории',
-          department: 'Психологическая служба',
-          active: true,
-        },
-        {
-          id: uuidv4(),
-          clientId: pmpkId,
-          name: 'Сидоров Иван Петрович',
-          position: 'Учитель-дефектолог',
-          department: 'Коррекционная педагогика',
-          active: true,
-        }
-      ]);
-      console.log('✅ Sample staff created');
+    // 3. Create State Symbols
+    console.log('🏛️ Creating state symbols...');
+    try {
+      await db.delete(stateSymbols).where(eq(stateSymbols.clientId, pmpkId));
+    } catch (e) {
+      // Ignore
     }
+
+    await db.insert(stateSymbols).values({
+      id: uuidv4(),
+      clientId: pmpkId,
+      flagUrl: '/kz-flag.svg',
+      emblemUrl: '/kz-emblem.png',
+      anthemTextRu: 'Гимн Республики Казахстан',
+      anthemTextKz: 'Қазақстан Республикасының Әнұраны',
+      anthemTextEn: 'Anthem of the Republic of Kazakhstan',
+    });
+    console.log('✅ State symbols created');
 
     console.log('\n✨ Seeding complete!\n');
     console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
