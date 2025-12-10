@@ -51,15 +51,14 @@ function LanguageSwitcher() {
 }
 
 export default function SiteLayout({ children, basePath: propBasePath }: SiteLayoutProps) {
-  const params = useParams<{ clientSlug?: string }>();
-  const clientSlug = params.clientSlug || "pmpk9";
+  const clientSlug = "pmpk9";
   const [location] = useLocation();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const { t, language } = useLanguage();
   
   const { data: clientData, isLoading: isClientLoading } = trpc.clients.getBySlug.useQuery(
-    { slug: clientSlug! },
-    { enabled: !!clientSlug, retry: false }
+    { slug: clientSlug },
+    { enabled: true, retry: false, refetchOnWindowFocus: false }
   );
 
   // Mock Fallback for Netlify/Demo (when backend is unreachable)
@@ -77,13 +76,11 @@ export default function SiteLayout({ children, basePath: propBasePath }: SiteLay
       directorPhoto: null
   };
 
-  const client = clientData || (clientSlug === 'pmpk9' ? mockClient : null);
-  const isLoading = isClientLoading && !client; // Stop loading if we have mock data
+  const client = clientData || mockClient; // Always use mock as fallback
+  const isLoading = isClientLoading && !clientData; // Only show loading if we're actually fetching
 
-  // If propBasePath is explicitly passed (e.g., ""), use it. Otherwise determine based on params.
-  const basePath = propBasePath !== undefined 
-    ? propBasePath 
-    : (params.clientSlug ? `/site/${clientSlug}` : '');
+  // Use provided basePath or default to empty string (root)
+  const basePath = propBasePath !== undefined ? propBasePath : '';
   
   // Navigation items with translations
   const navItems = [
@@ -107,19 +104,9 @@ export default function SiteLayout({ children, basePath: propBasePath }: SiteLay
     );
   }
 
+  // Always use mock client as fallback - never show error
   if (!client) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-50">
-        <div className="text-center">
-          <h1 className="text-2xl font-bold mb-2">
-            {language === 'kz' ? 'Сайт табылмады' : language === 'ru' ? 'Сайт не найден' : 'Site not found'}
-          </h1>
-          <p className="text-muted-foreground">
-            {language === 'kz' ? 'Мекенжайды тексеріңіз' : language === 'ru' ? 'Проверьте правильность адреса' : 'Check the address'}
-          </p>
-        </div>
-      </div>
-    );
+    return null; // This should never happen due to mock fallback, but just in case
   }
 
   // Client name based on language - shortened for header

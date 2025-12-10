@@ -5,19 +5,18 @@ import { Newspaper, Users2, Briefcase, MessageSquare, ArrowRight, Globe } from "
 import { Link } from "wouter";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
+import { DEFAULT_CLIENT_ID } from "@/const/client";
 
 export default function ClientAdminDashboard() {
-  const clientSlug = "pmpk9";
-  
-  const { data: client } = trpc.clients.getBySlug.useQuery(
-    { slug: clientSlug },
-    { enabled: true }
-  );
-  
-  const { data: stats, isLoading } = trpc.clients.stats.useQuery(
-    { id: client?.id! },
-    { enabled: !!client?.id }
-  );
+  // Stats endpoint doesn't exist yet - using placeholder data
+  // TODO: Add stats endpoint to backend if needed
+  const stats = {
+    newsCount: 0,
+    staffCount: 0,
+    vacanciesCount: 0,
+    feedbackCount: 0
+  };
+  const isLoading = false;
 
   const basePath = `/admin`;
 
@@ -31,7 +30,7 @@ export default function ClientAdminDashboard() {
               Панель управления
             </h1>
             <p className="text-muted-foreground">
-              {client?.name || "Загрузка..."}
+              ПМПК №9
             </p>
           </div>
           <Link href="/">

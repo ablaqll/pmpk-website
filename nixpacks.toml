@@ -12,3 +12,4 @@ cmds = ["npm run db:push || echo 'DB push will run on first deploy'"]
 cmd = "npm run start"
 
 
+

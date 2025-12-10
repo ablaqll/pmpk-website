@@ -6,18 +6,20 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { useLanguage } from "@/contexts/LanguageContext";
 
 export default function SiteStructure() {
-  const params = useParams<{ clientSlug: string }>();
-  const clientSlug = params.clientSlug;
+  const clientSlug = "pmpk9";
   const { t } = useLanguage();
   
-  const { data: client } = trpc.clients.getBySlug.useQuery(
-    { slug: clientSlug! },
-    { enabled: !!clientSlug }
+  // Mock client fallback
+  const mockClient = { id: '1', slug: 'pmpk9', name: 'ПМПК №9' };
+  const { data: clientData } = trpc.clients.getBySlug.useQuery(
+    { slug: clientSlug },
+    { enabled: true, retry: false, refetchOnWindowFocus: false }
   );
+  const client = clientData || mockClient;
   
   const { data: staff, isLoading } = trpc.staff.listActive.useQuery(
     { clientId: client?.id! },
-    { enabled: !!client?.id }
+    { enabled: !!client?.id, retry: false }
   );
 
   // Group staff by department

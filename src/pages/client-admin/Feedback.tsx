@@ -21,21 +21,17 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
 
+import { DEFAULT_CLIENT_ID } from "@/const/client";
+
 export default function FeedbackPage() {
-  const clientSlug = "pmpk9";
   const [activeTab, setActiveTab] = useState<string>("all");
   const [selectedFeedback, setSelectedFeedback] = useState<any>(null);
   const [answer, setAnswer] = useState("");
   const [isPublished, setIsPublished] = useState(false);
   
-  const { data: client } = trpc.clients.getBySlug.useQuery(
-    { slug: clientSlug! },
-    { enabled: true }
-  );
-  
   const { data: feedbackList, isLoading, refetch } = trpc.feedback.list.useQuery(
-    { clientId: client?.id! },
-    { enabled: !!client?.id }
+    { clientId: DEFAULT_CLIENT_ID },
+    { enabled: true }
   );
   
   // Filter locally based on tab

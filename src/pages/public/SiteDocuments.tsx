@@ -17,18 +17,20 @@ const CATEGORY_ICONS: Record<string, string> = {
 };
 
 export default function SiteDocuments() {
-  const params = useParams<{ clientSlug: string }>();
-  const clientSlug = params.clientSlug;
+  const clientSlug = "pmpk9";
   const { t } = useLanguage();
   
-  const { data: client } = trpc.clients.getBySlug.useQuery(
-    { slug: clientSlug! },
-    { enabled: !!clientSlug }
+  // Mock client fallback
+  const mockClient = { id: '1', slug: 'pmpk9', name: 'ПМПК №9' };
+  const { data: clientData } = trpc.clients.getBySlug.useQuery(
+    { slug: clientSlug },
+    { enabled: true, retry: false, refetchOnWindowFocus: false }
   );
+  const client = clientData || mockClient;
   
   const { data: documents, isLoading } = trpc.documents.listPublished.useQuery(
     { clientId: client?.id! },
-    { enabled: !!client?.id }
+    { enabled: !!client?.id, retry: false }
   );
 
   // Group documents by category

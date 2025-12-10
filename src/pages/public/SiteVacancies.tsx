@@ -8,18 +8,20 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { useLanguage } from "@/contexts/LanguageContext";
 
 export default function SiteVacancies() {
-  const params = useParams<{ clientSlug: string }>();
-  const clientSlug = params.clientSlug || "pmpk9";
+  const clientSlug = "pmpk9";
   const { t, language } = useLanguage();
   
-  const { data: client } = trpc.clients.getBySlug.useQuery(
-    { slug: clientSlug! },
-    { enabled: !!clientSlug }
+  // Mock client fallback
+  const mockClient = { id: '1', slug: 'pmpk9', name: 'ПМПК №9' };
+  const { data: clientData } = trpc.clients.getBySlug.useQuery(
+    { slug: clientSlug },
+    { enabled: true, retry: false, refetchOnWindowFocus: false }
   );
+  const client = clientData || mockClient;
   
   const { data: vacancies, isLoading } = trpc.vacancies.listActive.useQuery(
     { clientId: client?.id! },
-    { enabled: !!client?.id }
+    { enabled: !!client?.id, retry: false }
   );
 
   return (

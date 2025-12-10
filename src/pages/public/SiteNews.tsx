@@ -9,25 +9,27 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { useLanguage } from "@/contexts/LanguageContext";
 
 export default function SiteNews() {
-  const params = useParams<{ clientSlug: string }>();
-  const clientSlug = params.clientSlug;
+  const clientSlug = "pmpk9";
   const [activeCategory, setActiveCategory] = useState<string>("all");
   const { t } = useLanguage();
   
-  const { data: client } = trpc.clients.getBySlug.useQuery(
-    { slug: clientSlug! },
-    { enabled: !!clientSlug }
+  // Mock client fallback
+  const mockClient = { id: '1', slug: 'pmpk9', name: 'ПМПК №9' };
+  const { data: clientData } = trpc.clients.getBySlug.useQuery(
+    { slug: clientSlug },
+    { enabled: true, retry: false, refetchOnWindowFocus: false }
   );
+  const client = clientData || mockClient;
   
   const { data: news, isLoading } = trpc.news.listPublished.useQuery(
     { 
       clientId: client?.id!,
       category: activeCategory !== 'all' ? activeCategory as any : undefined
     },
-    { enabled: !!client?.id }
+    { enabled: !!client?.id, retry: false }
   );
 
-  const basePath = `/site/${clientSlug}`;
+  const basePath = "";
 
   const getCategoryLabel = (category: string) => {
     switch (category) {

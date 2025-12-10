@@ -10,22 +10,17 @@ import { ArrowLeft, Save, Loader2 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Link, useLocation, useParams } from "wouter";
 import { toast } from "sonner";
+import { DEFAULT_CLIENT_ID } from "@/const/client";
 
 export default function ClientAdminVacancyForm() {
   const params = useParams<{ id?: string }>();
-  const clientSlug = "pmpk9";
   const vacancyId = params.id ? parseInt(params.id) : null;
   const isEditing = !!vacancyId;
   const [, setLocation] = useLocation();
 
-  const { data: client } = trpc.clients.getBySlug.useQuery(
-    { slug: clientSlug! },
-    { enabled: true }
-  );
-
   const { data: existingVacancies, isLoading: loadingVacancy } = trpc.vacancies.list.useQuery(
-    { clientId: client?.id! },
-    { enabled: !!client?.id && isEditing }
+    { clientId: DEFAULT_CLIENT_ID },
+    { enabled: isEditing }
   );
 
   const vacancy = existingVacancies?.find(v => v.id === vacancyId);
@@ -85,9 +80,9 @@ export default function ClientAdminVacancyForm() {
         id: vacancyId,
         ...formData,
       });
-    } else if (client?.id) {
+    } else {
       createMutation.mutate({
-        clientId: client.id,
+        clientId: DEFAULT_CLIENT_ID,
         ...formData,
       });
     }

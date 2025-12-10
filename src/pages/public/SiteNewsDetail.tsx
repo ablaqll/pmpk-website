@@ -8,8 +8,7 @@ import { toast } from "sonner";
 import { useLanguage } from "@/contexts/LanguageContext";
 
 export default function SiteNewsDetail() {
-  const params = useParams<{ clientSlug: string; id: string }>();
-  const clientSlug = params.clientSlug || "pmpk9";
+  const params = useParams<{ id: string }>();
   const newsId = parseInt(params.id!);
   const { t, language } = useLanguage();
   
@@ -18,7 +17,7 @@ export default function SiteNewsDetail() {
     { enabled: !!newsId }
   );
 
-  const basePath = clientSlug ? `/site/${clientSlug}` : '';
+  const basePath = '';
 
   const getCategoryLabel = (category: string) => {
     switch (category) {
