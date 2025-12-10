@@ -56,7 +56,9 @@ export default function ClientAdminLayout({
     { 
       enabled: true,
       retry: false,
-      refetchOnWindowFocus: false
+      refetchOnWindowFocus: false,
+      staleTime: 0,
+      gcTime: 0,
     }
   );
   
@@ -64,15 +66,44 @@ export default function ClientAdminLayout({
   const client = clientData || DEFAULT_CLIENT;
   const clientSlug = DEFAULT_CLIENT_SLUG;
 
+  // Check localStorage for user immediately (don't wait for query)
+  const [localUser, setLocalUser] = useState<any>(null);
+  useEffect(() => {
+    try {
+      const stored = localStorage.getItem("manus-runtime-user-info");
+      if (stored && stored !== "null" && stored !== "undefined") {
+        const parsed = JSON.parse(stored);
+        if (parsed && parsed.id) {
+          setLocalUser(parsed);
+        }
+      }
+    } catch (e) {
+      // Ignore
+    }
+  }, []);
+
+  // Only show loading skeleton for max 1 second, then proceed
+  const [showLoading, setShowLoading] = useState(true);
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setShowLoading(false);
+    }, 1000); // Max 1 second loading
+    return () => clearTimeout(timer);
+  }, []);
+
   useEffect(() => {
     localStorage.setItem(SIDEBAR_WIDTH_KEY, sidebarWidth.toString());
   }, [sidebarWidth]);
 
-  if (loading) {
+  // Use localUser if available, otherwise use user from useAuth
+  const currentUser = localUser || user;
+  const isLoading = showLoading && loading && !currentUser;
+
+  if (isLoading) {
     return <DashboardLayoutSkeleton />
   }
 
-  if (!user) {
+  if (!currentUser) {
     return (
       <div className="flex items-center justify-center min-h-screen bg-gov-primary">
         <div className="flex flex-col items-center gap-8 p-8 max-w-md w-full bg-white rounded-2xl shadow-xl">
@@ -102,7 +133,7 @@ export default function ClientAdminLayout({
   }
 
   // Check access - allow all admin roles (including super_admin for backward compatibility)
-  const userRole = user?.role?.toLowerCase() || '';
+  const userRole = currentUser?.role?.toLowerCase() || '';
   const allowedRoles = ['admin', 'client_admin', 'editor', 'super_admin'];
   const hasAccess = allowedRoles.includes(userRole);
   
@@ -111,7 +142,7 @@ export default function ClientAdminLayout({
     console.error('❌ Access denied:', {
       userRole,
       allowedRoles,
-      user,
+      currentUser,
       hasAccess
     });
     return (
@@ -308,15 +339,15 @@ function ClientAdminLayoutContent({
                 <button className="flex items-center gap-3 rounded-lg px-2 py-2 hover:bg-accent/50 transition-colors w-full text-left group-data-[collapsible=icon]:justify-center focus:outline-none">
                   <Avatar className="h-8 w-8 border shrink-0">
                     <AvatarFallback className="text-xs font-medium bg-gov-primary/10 text-gov-primary">
-                      {user?.name?.charAt(0).toUpperCase()}
+                      {currentUser?.name?.charAt(0).toUpperCase()}
                     </AvatarFallback>
                   </Avatar>
                   <div className="flex-1 min-w-0 group-data-[collapsible=icon]:hidden">
                     <p className="text-sm font-medium truncate leading-none">
-                      {user?.name || "-"}
+                      {currentUser?.name || "-"}
                     </p>
                     <p className="text-xs text-muted-foreground truncate mt-1">
-                      {user?.role === 'client_admin' ? t('admin.role.admin') : t('admin.role.editor')}
+                      {currentUser?.role === 'client_admin' ? t('admin.role.admin') : t('admin.role.editor')}
                     </p>
                   </div>
                 </button>
