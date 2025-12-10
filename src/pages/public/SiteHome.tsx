@@ -9,6 +9,7 @@ import {
 import { Link, useParams } from "wouter";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 
 // External portal links
 const PORTAL_LINKS = [
@@ -64,6 +65,7 @@ export default function SiteHome({ basePath: basePathProp }: { basePath?: string
   // Default to pmpk9 if no slug is provided (custom domain case)
   const clientSlug = params.clientSlug || "pmpk9"; 
   const { language, t } = useLanguage();
+  useScrollAnimation();
   
   const { data: clientData, isLoading: clientLoadingQuery } = trpc.clients.getBySlug.useQuery(
     { slug: clientSlug! },
@@ -160,7 +162,7 @@ export default function SiteHome({ basePath: basePathProp }: { basePath?: string
   return (
     <div>
       {/* Hero Section */}
-      <section className="bg-gov-primary py-8 sm:py-12 lg:py-16">
+      <section className="bg-gov-primary py-8 sm:py-12 lg:py-16 fade-in-up">
         <div className="container">
           <div className="grid lg:grid-cols-2 gap-6 lg:gap-8 items-center">
             <div>
@@ -196,7 +198,7 @@ export default function SiteHome({ basePath: basePathProp }: { basePath?: string
       </section>
 
       {/* Quick Links */}
-      <section className="py-4 sm:py-6 bg-white border-b overflow-x-auto">
+      <section className="py-4 sm:py-6 bg-white border-b overflow-x-auto fade-in-up">
         <div className="container">
           <div className="flex lg:grid lg:grid-cols-5 gap-2 sm:gap-3 min-w-max lg:min-w-0">
             {PORTAL_LINKS.map((link) => (
@@ -219,14 +221,14 @@ export default function SiteHome({ basePath: basePathProp }: { basePath?: string
       </section>
 
       {/* Services Section */}
-      <section className="py-8 sm:py-12 bg-gray-50">
+      <section className="py-8 sm:py-12 bg-gray-50 fade-in-up">
         <div className="container">
           <h2 className="text-xl sm:text-2xl font-bold text-gov-primary mb-6 sm:mb-8 text-center">
             {t('home.services')}
           </h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
             {SERVICES.map((service, index) => (
-              <Card key={index} className="border-0 shadow-md hover:shadow-lg transition-all">
+              <Card key={index} className="border-0 shadow-md hover:shadow-lg transition-all icon-float">
                 <CardContent className="pt-6">
                   <div className="h-12 w-12 rounded-lg bg-gov-primary/10 flex items-center justify-center mb-4">
                     <service.icon className="h-6 w-6 text-gov-primary" />
@@ -245,7 +247,7 @@ export default function SiteHome({ basePath: basePathProp }: { basePath?: string
       </section>
 
       {/* Main Content */}
-      <section className="py-8 sm:py-12">
+      <section className="py-8 sm:py-12 fade-in-up">
         <div className="container">
           <div className="grid lg:grid-cols-3 gap-6 lg:gap-8">
             {/* News Section */}

@@ -23,7 +23,8 @@ import { getLoginUrl } from "@/const";
 import { useIsMobile } from "@/hooks/useMobile";
 import { 
   LayoutDashboard, LogOut, PanelLeft, Newspaper, Users2, 
-  GraduationCap, Briefcase, MessageSquare, FileText, Calendar, Settings, Globe
+  GraduationCap, Briefcase, MessageSquare, FileText, Calendar, Settings, Globe,
+  Scale, Building, FileSignature, BookOpen, Award, UserCircle
 } from "lucide-react";
 import { CSSProperties, useEffect, useRef, useState } from "react";
 import { useLocation, useParams } from "wouter";
@@ -169,13 +170,16 @@ function ClientAdminLayoutContent({
   
   const menuItems = [
     { icon: LayoutDashboard, label: "Обзор", path: basePath },
+    { icon: UserCircle, label: "О ПМПК", path: `${basePath}/about-pmpk` }, 
     { icon: Newspaper, label: "Новости", path: `${basePath}/news` },
-    { icon: Users2, label: "Сотрудники", path: `${basePath}/staff` },
-    { icon: GraduationCap, label: "Направления", path: `${basePath}/courses` },
+    { icon: Scale, label: "НПА РК", path: `${basePath}/documents` },
+    { icon: Building, label: "Гос. управление", path: `${basePath}/management` },
+    { icon: MessageSquare, label: "Обратная связь", path: `${basePath}/feedback` },
     { icon: Briefcase, label: "Вакансии", path: `${basePath}/vacancies` },
-    { icon: MessageSquare, label: "Обращения", path: `${basePath}/feedback` },
-    { icon: FileText, label: "Документы", path: `${basePath}/documents` },
-    { icon: Calendar, label: "Расписание приёма", path: `${basePath}/schedule` },
+    { icon: Calendar, label: "Мероприятия", path: `${basePath}/events` },
+    { icon: FileSignature, label: "Меморандум", path: `${basePath}/memorandum` },
+    { icon: BookOpen, label: "Издание", path: `${basePath}/publications` },
+    { icon: Award, label: "Аттестация", path: `${basePath}/attestation` },
     { icon: Settings, label: "Настройки", path: `${basePath}/settings` },
   ];
 
@@ -282,10 +286,9 @@ function ClientAdminLayoutContent({
           </SidebarContent>
 
           <div className="px-3 py-2 border-t bg-gray-50">
-              <a href="/" className="flex items-center gap-2 opacity-60 hover:opacity-100 transition-opacity">
-                <img src="/aql-logo.png" alt="AQL Lab" className="h-5 w-5 object-contain" />
-                {!isCollapsed && <span className="text-xs text-muted-foreground">Powered by AQL Lab</span>}
-              </a>
+              <div className="flex items-center gap-2 opacity-60">
+                {!isCollapsed && <span className="text-xs text-muted-foreground">© {new Date().getFullYear()} PMPK</span>}
+              </div>
             </div>
             <SidebarFooter className="p-3">
             <DropdownMenu>

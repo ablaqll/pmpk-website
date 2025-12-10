@@ -43,14 +43,13 @@ async function seed() {
   // 3. Create Default User (Super Admin)
   await db.insert(users).values({
     id: uuidv4(),
-    email: 'admin@aqll.net',
+    email: 'admin',
     name: 'Super Admin',
     role: 'super_admin',
-    password: 'admin', // Plain text for demo
+    password: 'Aa123456', 
   }).onConflictDoNothing();
 
   console.log('Seeding complete!');
 }
 
 seed().catch(console.error);
-
