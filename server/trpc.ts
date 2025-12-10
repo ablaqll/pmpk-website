@@ -1,5 +1,6 @@
 import { initTRPC, TRPCError } from '@trpc/server';
 import { CreateFastifyContextOptions } from '@trpc/server/adapters/fastify';
+import superjson from 'superjson';
 import { db } from './db';
 import { users } from './db/schema';
 import { eq } from 'drizzle-orm';
@@ -34,7 +35,10 @@ export const createContext = async ({ req, res }: CreateFastifyContextOptions) =
 
 export type Context = Awaited<ReturnType<typeof createContext>>;
 
-const t = initTRPC.context<Context>().create();
+// Initialize tRPC with superjson transformer (must match client)
+const t = initTRPC.context<Context>().create({
+  transformer: superjson,
+});
 
 export const router = t.router;
 export const publicProcedure = t.procedure;
