@@ -47,53 +47,10 @@ function SitePageWrapper({ children }: { children: React.ReactNode }) {
 }
 
 function Router() {
-  const isPmpkDomain = window.location.hostname === "pmpk.edu.kz" || (window.location.hostname === "localhost" && window.location.port === "5174"); // Example dev port for simulation
-
-  if (isPmpkDomain) {
-    // Custom domain routing for PMPK
-    // Root "/" maps to SiteHome with "pmpk9" logic
-    return (
-      <Switch>
-        <Route path="/">
-          {() => <SitePageWrapper><SiteHome basePath="" /></SitePageWrapper>}
-        </Route>
-        <Route path="/news">
-          {() => <SitePageWrapper><SiteNews /></SitePageWrapper>}
-        </Route>
-        <Route path="/news/:id">
-          {() => <SitePageWrapper><SiteNewsDetail /></SitePageWrapper>}
-        </Route>
-        <Route path="/about">
-          {() => <SitePageWrapper><SiteAbout /></SitePageWrapper>}
-        </Route>
-        <Route path="/structure">
-          {() => <SitePageWrapper><SiteStructure /></SitePageWrapper>}
-        </Route>
-        <Route path="/documents">
-          {() => <SitePageWrapper><SiteDocuments /></SitePageWrapper>}
-        </Route>
-        <Route path="/vacancies">
-          {() => <SitePageWrapper><SiteVacancies /></SitePageWrapper>}
-        </Route>
-        <Route path="/feedback">
-          {() => <SitePageWrapper><SiteFeedback /></SitePageWrapper>}
-        </Route>
-        <Route path="/contacts">
-          {() => <SitePageWrapper><SiteContacts /></SitePageWrapper>}
-        </Route>
-        <Route path="/management">
-          {() => <SitePageWrapper><SiteManagement /></SitePageWrapper>}
-        </Route>
-        <Route component={NotFound} />
-      </Switch>
-    );
-  }
-
-  // Default AQL Lab routing
   return (
     <Switch>
-      {/* Main landing page */}
-      <Route path="/" component={Home} />
+      {/* Admin Login */}
+      <Route path="/admin" component={Home} />
       
       {/* Super Admin routes */}
       <Route path="/super-admin" component={SuperAdminDashboard} />
@@ -119,7 +76,39 @@ function Router() {
       <Route path="/admin/:clientSlug/vacancies/:id" component={ClientAdminVacancyForm} />
       <Route path="/admin/:clientSlug/settings" component={ClientAdminSettings} />
       
-      {/* Public site routes with SiteLayout (keep these for AQL Lab domain) */}
+      {/* Public site routes - Defaulting Root to PMPK9 */}
+      <Route path="/">
+        {() => <SitePageWrapper><SiteHome /></SitePageWrapper>}
+      </Route>
+      <Route path="/news">
+        {() => <SitePageWrapper><SiteNews /></SitePageWrapper>}
+      </Route>
+      <Route path="/news/:id">
+        {() => <SitePageWrapper><SiteNewsDetail /></SitePageWrapper>}
+      </Route>
+      <Route path="/about">
+        {() => <SitePageWrapper><SiteAbout /></SitePageWrapper>}
+      </Route>
+      <Route path="/structure">
+        {() => <SitePageWrapper><SiteStructure /></SitePageWrapper>}
+      </Route>
+      <Route path="/documents">
+        {() => <SitePageWrapper><SiteDocuments /></SitePageWrapper>}
+      </Route>
+      <Route path="/vacancies">
+        {() => <SitePageWrapper><SiteVacancies /></SitePageWrapper>}
+      </Route>
+      <Route path="/feedback">
+        {() => <SitePageWrapper><SiteFeedback /></SitePageWrapper>}
+      </Route>
+      <Route path="/contacts">
+        {() => <SitePageWrapper><SiteContacts /></SitePageWrapper>}
+      </Route>
+      <Route path="/management">
+        {() => <SitePageWrapper><SiteManagement /></SitePageWrapper>}
+      </Route>
+
+      {/* Explicit site routes for flexibility */}
       <Route path="/site/:clientSlug">
         {() => <SitePageWrapper><SiteHome /></SitePageWrapper>}
       </Route>

@@ -31,6 +31,7 @@ import { useLocation, useParams } from "wouter";
 import { DashboardLayoutSkeleton } from './DashboardLayoutSkeleton';
 import { Button } from "./ui/button";
 import { trpc } from "@/lib/trpc";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const SIDEBAR_WIDTH_KEY = "client-admin-sidebar-width";
 const DEFAULT_WIDTH = 260;
@@ -165,22 +166,23 @@ function ClientAdminLayoutContent({
   const [isResizing, setIsResizing] = useState(false);
   const sidebarRef = useRef<HTMLDivElement>(null);
   const isMobile = useIsMobile();
+  const { t } = useLanguage();
 
   const basePath = `/admin/${clientSlug}`;
   
   const menuItems = [
-    { icon: LayoutDashboard, label: "Обзор", path: basePath },
-    { icon: UserCircle, label: "О ПМПК", path: `${basePath}/about-pmpk` }, 
-    { icon: Newspaper, label: "Новости", path: `${basePath}/news` },
-    { icon: Scale, label: "НПА РК", path: `${basePath}/documents` },
-    { icon: Building, label: "Гос. управление", path: `${basePath}/management` },
-    { icon: MessageSquare, label: "Обратная связь", path: `${basePath}/feedback` },
-    { icon: Briefcase, label: "Вакансии", path: `${basePath}/vacancies` },
-    { icon: Calendar, label: "Мероприятия", path: `${basePath}/events` },
-    { icon: FileSignature, label: "Меморандум", path: `${basePath}/memorandum` },
-    { icon: BookOpen, label: "Издание", path: `${basePath}/publications` },
-    { icon: Award, label: "Аттестация", path: `${basePath}/attestation` },
-    { icon: Settings, label: "Настройки", path: `${basePath}/settings` },
+    { icon: LayoutDashboard, label: t('admin.overview'), path: basePath },
+    { icon: UserCircle, label: t('admin.aboutPmpk'), path: `${basePath}/about-pmpk` }, 
+    { icon: Newspaper, label: t('admin.news'), path: `${basePath}/news` },
+    { icon: Scale, label: t('admin.legalActs'), path: `${basePath}/documents` },
+    { icon: Building, label: t('admin.management'), path: `${basePath}/management` },
+    { icon: MessageSquare, label: t('admin.feedback'), path: `${basePath}/feedback` },
+    { icon: Briefcase, label: t('admin.vacancies'), path: `${basePath}/vacancies` },
+    { icon: Calendar, label: t('admin.events'), path: `${basePath}/events` },
+    { icon: FileSignature, label: t('admin.memorandum'), path: `${basePath}/memorandum` },
+    { icon: BookOpen, label: t('admin.publications'), path: `${basePath}/publications` },
+    { icon: Award, label: t('admin.attestation'), path: `${basePath}/attestation` },
+    { icon: Settings, label: t('admin.settings'), path: `${basePath}/settings` },
   ];
 
   const activeMenuItem = menuItems.find(item => 
@@ -251,7 +253,7 @@ function ClientAdminLayoutContent({
                     {client.name}
                   </span>
                   <span className="text-xs text-white/70">
-                    Панель управления
+                    {t('admin.panel')}
                   </span>
                 </div>
               ) : null}
@@ -304,7 +306,7 @@ function ClientAdminLayoutContent({
                       {user?.name || "-"}
                     </p>
                     <p className="text-xs text-muted-foreground truncate mt-1">
-                      {user?.role === 'client_admin' ? 'Администратор' : 'Редактор'}
+                      {user?.role === 'client_admin' ? t('admin.role.admin') : t('admin.role.editor')}
                     </p>
                   </div>
                 </button>
@@ -312,14 +314,14 @@ function ClientAdminLayoutContent({
               <DropdownMenuContent align="end" className="w-48">
                 <DropdownMenuItem onClick={() => setLocation(`/site/${clientSlug}`)}>
                   <Globe className="mr-2 h-4 w-4" />
-                  <span>Просмотр сайта</span>
+                  <span>{t('admin.viewSite')}</span>
                 </DropdownMenuItem>
                 <DropdownMenuItem
                   onClick={logout}
                   className="cursor-pointer text-destructive focus:text-destructive"
                 >
                   <LogOut className="mr-2 h-4 w-4" />
-                  <span>Выйти</span>
+                  <span>{t('admin.logout')}</span>
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>

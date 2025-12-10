@@ -7,10 +7,12 @@ import {
 } from "lucide-react";
 import { Link, useParams } from "wouter";
 import { Skeleton } from "@/components/ui/skeleton";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 export default function SiteAbout() {
   const params = useParams<{ clientSlug: string }>();
   const clientSlug = params.clientSlug;
+  const { t } = useLanguage();
   
   const { data: client, isLoading } = trpc.clients.getBySlug.useQuery(
     { slug: clientSlug! },
@@ -35,10 +37,10 @@ export default function SiteAbout() {
       <section className="bg-gov-primary text-white py-12">
         <div className="container">
           <h1 className="text-3xl lg:text-4xl font-bold mb-4">
-            О нашей организации
+            {t('about.title')}
           </h1>
           <p className="text-lg text-white/90 max-w-3xl">
-            {client?.description || "Психолого-медико-педагогическая консультация оказывает комплексную помощь детям с особыми образовательными потребностями и их семьям."}
+            {client?.description || t('home.description')}
           </p>
         </div>
       </section>
@@ -52,18 +54,15 @@ export default function SiteAbout() {
               <CardHeader>
                 <CardTitle className="flex items-center gap-2 text-gov-primary">
                   <Target className="h-5 w-5" />
-                  Наша миссия
+                  {t('about.mission')}
                 </CardTitle>
               </CardHeader>
               <CardContent className="prose max-w-none">
                 <p className="text-gray-700 leading-relaxed">
-                  Психолого-медико-педагогическая консультация (ПМПК) — это государственное учреждение, 
-                  осуществляющее комплексное психолого-медико-педагогическое обследование детей 
-                  с целью определения специальных условий для получения образования.
+                  {t('about.missionText1')}
                 </p>
                 <p className="text-gray-700 leading-relaxed">
-                  Мы оказываем помощь детям с особыми образовательными потребностями, 
-                  их родителям и педагогам в вопросах обучения, воспитания и развития.
+                  {t('about.missionText2')}
                 </p>
               </CardContent>
             </Card>
@@ -73,27 +72,27 @@ export default function SiteAbout() {
               <CardHeader>
                 <CardTitle className="flex items-center gap-2 text-gov-primary">
                   <BookOpen className="h-5 w-5" />
-                  Направления деятельности
+                  {t('about.activities')}
                 </CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="grid md:grid-cols-2 gap-4">
                   {[
                     {
-                      title: "Диагностика",
-                      description: "Комплексное психолого-медико-педагогическое обследование детей"
+                      title: t('about.diag'),
+                      description: t('about.diagDesc')
                     },
                     {
-                      title: "Консультирование",
-                      description: "Консультации для родителей и педагогов по вопросам развития детей"
+                      title: t('about.consult'),
+                      description: t('about.consultDesc')
                     },
                     {
-                      title: "Коррекция",
-                      description: "Коррекционно-развивающие занятия для детей с ООП"
+                      title: t('about.correct'),
+                      description: t('about.correctDesc')
                     },
                     {
-                      title: "Методическая помощь",
-                      description: "Методическое сопровождение образовательных организаций"
+                      title: t('about.method'),
+                      description: t('about.methodDesc')
                     },
                   ].map((item, index) => (
                     <div key={index} className="p-4 rounded-lg bg-muted/50">
@@ -110,27 +109,27 @@ export default function SiteAbout() {
               <CardHeader>
                 <CardTitle className="flex items-center gap-2 text-gov-primary">
                   <Award className="h-5 w-5" />
-                  Наши ценности
+                  {t('about.values')}
                 </CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
                   {[
                     {
-                      title: "Профессионализм",
-                      description: "Высокий уровень квалификации специалистов и постоянное повышение компетенций"
+                      title: t('about.val1'),
+                      description: t('about.val1Desc')
                     },
                     {
-                      title: "Индивидуальный подход",
-                      description: "Учет особенностей каждого ребенка при определении образовательного маршрута"
+                      title: t('about.val2'),
+                      description: t('about.val2Desc')
                     },
                     {
-                      title: "Конфиденциальность",
-                      description: "Защита персональных данных и результатов обследования"
+                      title: t('about.val3'),
+                      description: t('about.val3Desc')
                     },
                     {
-                      title: "Доступность",
-                      description: "Обеспечение равного доступа к услугам для всех категорий граждан"
+                      title: t('about.val4'),
+                      description: t('about.val4Desc')
                     },
                   ].map((item, index) => (
                     <div key={index} className="flex gap-4">
@@ -154,7 +153,7 @@ export default function SiteAbout() {
             {client?.directorName && (
               <Card className="border-0 shadow-md overflow-hidden">
                 <div className="bg-gov-primary p-4">
-                  <h3 className="text-white font-semibold">Руководитель</h3>
+                  <h3 className="text-white font-semibold">{t('about.director')}</h3>
                 </div>
                 <CardContent className="pt-4">
                   <div className="flex items-start gap-4">
@@ -171,7 +170,7 @@ export default function SiteAbout() {
                     )}
                     <div>
                       <p className="font-semibold text-lg">{client.directorName}</p>
-                      <p className="text-sm text-muted-foreground">Директор</p>
+                      <p className="text-sm text-muted-foreground">{t('about.director')}</p>
                     </div>
                   </div>
                   {client.directorBio && (
@@ -186,14 +185,14 @@ export default function SiteAbout() {
             {/* Quick Links */}
             <Card className="border-0 shadow-md">
               <CardHeader className="bg-gov-primary rounded-t-lg">
-                <CardTitle className="text-white text-base">Разделы</CardTitle>
+                <CardTitle className="text-white text-base">{t('about.sections')}</CardTitle>
               </CardHeader>
               <CardContent className="pt-4 space-y-1">
                 <Link href={`${basePath}/structure`}>
                   <Button variant="ghost" className="w-full justify-between">
                     <span className="flex items-center gap-2">
                       <Building2 className="h-4 w-4" />
-                      Структура ПМПК
+                      {t('about.structure')}
                     </span>
                     <ChevronRight className="h-4 w-4" />
                   </Button>
@@ -202,7 +201,7 @@ export default function SiteAbout() {
                   <Button variant="ghost" className="w-full justify-between">
                     <span className="flex items-center gap-2">
                       <FileText className="h-4 w-4" />
-                      Устав и документы
+                      {t('about.documents')}
                     </span>
                     <ChevronRight className="h-4 w-4" />
                   </Button>

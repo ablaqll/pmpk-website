@@ -4,6 +4,7 @@ import { db } from '../db';
 import { users } from '../db/schema';
 import { eq } from 'drizzle-orm';
 import { TRPCError } from '@trpc/server';
+import { v4 as uuidv4 } from 'uuid';
 
 export const authRouter = router({
   me: publicProcedure.query(async ({ ctx }) => {
@@ -12,7 +13,7 @@ export const authRouter = router({
   login: publicProcedure
     .input(z.object({ email: z.string(), password: z.string() }))
     .mutation(async ({ input, ctx }) => {
-      // Find user by email (or username if we used 'admin' as email)
+      // Find user by email (or username)
       const user = await db.select().from(users).where(eq(users.email, input.email)).get();
       
       if (!user) {

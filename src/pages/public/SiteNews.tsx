@@ -6,17 +6,13 @@ import { Newspaper, Calendar } from "lucide-react";
 import { useState } from "react";
 import { Link, useParams } from "wouter";
 import { Skeleton } from "@/components/ui/skeleton";
-
-const CATEGORY_LABELS: Record<string, string> = {
-  news: "Новости",
-  press_release: "Пресс-релизы",
-  announcement: "Объявления",
-};
+import { useLanguage } from "@/contexts/LanguageContext";
 
 export default function SiteNews() {
   const params = useParams<{ clientSlug: string }>();
   const clientSlug = params.clientSlug;
   const [activeCategory, setActiveCategory] = useState<string>("all");
+  const { t } = useLanguage();
   
   const { data: client } = trpc.clients.getBySlug.useQuery(
     { slug: clientSlug! },
@@ -33,6 +29,15 @@ export default function SiteNews() {
 
   const basePath = `/site/${clientSlug}`;
 
+  const getCategoryLabel = (category: string) => {
+    switch (category) {
+      case 'news': return t('news.title');
+      case 'press_release': return t('news.press');
+      case 'announcement': return t('news.announcements');
+      default: return category;
+    }
+  };
+
   return (
     <div>
       {/* Hero Section */}
@@ -40,10 +45,10 @@ export default function SiteNews() {
         <div className="container">
           <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold flex items-center gap-2 sm:gap-3">
             <Newspaper className="h-5 w-5 sm:h-6 sm:w-6 lg:h-8 lg:w-8" />
-            Новости и объявления
+            {t('news.title')}
           </h1>
           <p className="text-white/80 mt-2 text-xs sm:text-sm lg:text-base">
-            Актуальные новости, пресс-релизы и объявления организации
+            {t('news.desc')}
           </p>
         </div>
       </section>
@@ -52,10 +57,10 @@ export default function SiteNews() {
         {/* Category Tabs */}
         <Tabs value={activeCategory} onValueChange={setActiveCategory} className="mb-6 sm:mb-8">
           <TabsList className="flex-wrap h-auto gap-1">
-            <TabsTrigger value="all" className="text-xs sm:text-sm">Все</TabsTrigger>
-            <TabsTrigger value="news" className="text-xs sm:text-sm">Новости</TabsTrigger>
-            <TabsTrigger value="press_release" className="text-xs sm:text-sm">Пресс-релизы</TabsTrigger>
-            <TabsTrigger value="announcement" className="text-xs sm:text-sm">Объявления</TabsTrigger>
+            <TabsTrigger value="all" className="text-xs sm:text-sm">{t('news.all')}</TabsTrigger>
+            <TabsTrigger value="news" className="text-xs sm:text-sm">{t('news.title')}</TabsTrigger>
+            <TabsTrigger value="press_release" className="text-xs sm:text-sm">{t('news.press')}</TabsTrigger>
+            <TabsTrigger value="announcement" className="text-xs sm:text-sm">{t('news.announcements')}</TabsTrigger>
           </TabsList>
         </Tabs>
 
@@ -70,9 +75,9 @@ export default function SiteNews() {
           <Card className="border-0 shadow-md">
             <CardContent className="py-16 text-center">
               <Newspaper className="h-16 w-16 mx-auto text-muted-foreground/30 mb-4" />
-              <h3 className="text-xl font-medium mb-2">Нет публикаций</h3>
+              <h3 className="text-xl font-medium mb-2">{t('news.noData')}</h3>
               <p className="text-muted-foreground">
-                В данной категории пока нет публикаций
+                {t('news.noDataDesc')}
               </p>
             </CardContent>
           </Card>
@@ -93,7 +98,7 @@ export default function SiteNews() {
                   <CardHeader className="pb-2 p-3 sm:p-6">
                     <div className="flex items-center gap-2 mb-2">
                       <Badge variant="outline" className="text-xs">
-                        {CATEGORY_LABELS[item.category] || item.category}
+                        {getCategoryLabel(item.category)}
                       </Badge>
                     </div>
                     <CardTitle className="text-base sm:text-lg line-clamp-2 group-hover:text-gov-primary transition-colors">

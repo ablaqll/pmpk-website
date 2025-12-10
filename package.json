@@ -1,14 +1,16 @@
 {
   "name": "pmpk-website",
   "version": "1.0.0",
-  "description": "AQL Lab - AI Web Development Studio",
+  "description": "PMPK Website",
   "type": "module",
   "scripts": {
     "dev": "vite",
     "server": "tsx watch server/index.ts",
     "dev:all": "concurrently \"npm run server\" \"npm run dev\"",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "db:seed": "tsx server/seed.ts",
+    "db:reset": "rm -f sqlite.db && tsx server/seed.ts"
   },
   "dependencies": {
     "@fastify/cors": "^11.1.0",
