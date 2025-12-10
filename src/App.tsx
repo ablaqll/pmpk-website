@@ -43,7 +43,7 @@ import SiteManagement from "./pages/public/SiteManagement";
 
 // Wrapper for public site pages with layout
 function SitePageWrapper({ children }: { children: React.ReactNode }) {
-  return <SiteLayout>{children}</SiteLayout>;
+  return <SiteLayout basePath="">{children}</SiteLayout>;
 }
 
 function Router() {
