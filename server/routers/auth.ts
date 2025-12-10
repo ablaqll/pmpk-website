@@ -17,20 +17,19 @@ export const authRouter = router({
       password: z.string().min(1, 'Password is required') 
     }))
     .mutation(async ({ input, ctx }) => {
-      // Find user by email (or username)
+      // Find user by email
       const user = await queryFirst(
         db.select().from(users).where(eq(users.email, input.email))
       );
       
       if (!user) {
-        // Use same error message for both cases to prevent user enumeration
         throw new TRPCError({
           code: 'UNAUTHORIZED',
           message: 'Invalid email or password',
         });
       }
       
-      // Verify password using bcrypt (constant-time comparison)
+      // Verify password using bcrypt
       const isValidPassword = await verifyPassword(input.password, user.password || '');
       
       if (!isValidPassword) {
@@ -46,8 +45,7 @@ export const authRouter = router({
           id: user.id, 
           email: user.email, 
           name: user.name, 
-          role: user.role, 
-          clientId: user.clientId 
+          role: user.role,
         } 
       };
     }),
@@ -56,7 +54,6 @@ export const authRouter = router({
     return { success: true };
   }),
   
-  // Change password endpoint
   changePassword: publicProcedure
     .input(z.object({
       userId: z.string(),

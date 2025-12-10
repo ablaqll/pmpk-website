@@ -1,67 +1,48 @@
 import { router, publicProcedure, protectedProcedure } from '../trpc';
 import { z } from 'zod';
 import { db, queryFirst } from '../db';
-import { news } from '../db/schema';
+import { leaderBlog } from '../db/schema';
 import { eq, and, desc } from 'drizzle-orm';
 import { v4 as uuidv4 } from 'uuid';
 
-export const newsRouter = router({
-  // Public: List published news
+export const leaderBlogRouter = router({
+  // Public: List published blog posts
   listPublished: publicProcedure
-    .input(z.object({ 
-      clientId: z.string(),
-      category: z.enum(['news', 'press_release', 'announcement']).optional()
-    }))
+    .input(z.object({ clientId: z.string() }))
     .query(async ({ input }) => {
-      const conditions: any[] = [
-        eq(news.clientId, input.clientId),
-        eq(news.published, true)
-      ];
-      
-      if (input.category) {
-        conditions.push(eq(news.category, input.category));
-      }
-      
       return await db.select()
-        .from(news)
-        .where(and(...conditions))
-        .orderBy(desc(news.publishedAt || news.createdAt));
+        .from(leaderBlog)
+        .where(and(
+          eq(leaderBlog.clientId, input.clientId),
+          eq(leaderBlog.published, true)
+        ))
+        .orderBy(desc(leaderBlog.publishedAt || leaderBlog.createdAt));
     }),
 
-  // Public: Get single news item
+  // Public: Get single blog post
   getById: publicProcedure
     .input(z.object({ id: z.string() }))
     .query(async ({ input }) => {
       const result = await queryFirst(
-        db.select().from(news).where(eq(news.id, input.id))
+        db.select().from(leaderBlog).where(eq(leaderBlog.id, input.id))
       );
       return result || null;
     }),
 
-  // Admin: List all news
+  // Admin: List all blog posts
   list: protectedProcedure
-    .input(z.object({ 
-      clientId: z.string(),
-      category: z.enum(['news', 'press_release', 'announcement']).optional()
-    }))
+    .input(z.object({ clientId: z.string() }))
     .query(async ({ input }) => {
-      const conditions: any[] = [eq(news.clientId, input.clientId)];
-      
-      if (input.category) {
-        conditions.push(eq(news.category, input.category));
-      }
-      
       return await db.select()
-        .from(news)
-        .where(and(...conditions))
-        .orderBy(desc(news.createdAt));
+        .from(leaderBlog)
+        .where(eq(leaderBlog.clientId, input.clientId))
+        .orderBy(desc(leaderBlog.createdAt));
     }),
 
-  // Admin: Create news
+  // Admin: Create blog post
   create: protectedProcedure
     .input(z.object({
       clientId: z.string(),
-      category: z.enum(['news', 'press_release', 'announcement']),
       titleRu: z.string(),
       titleKz: z.string().optional(),
       titleEn: z.string().optional(),
@@ -75,7 +56,7 @@ export const newsRouter = router({
       const id = uuidv4();
       const now = new Date();
       
-      await db.insert(news).values({
+      await db.insert(leaderBlog).values({
         id,
         ...input,
         publishedAt: input.published ? now : null,
@@ -86,11 +67,10 @@ export const newsRouter = router({
       return { id };
     }),
 
-  // Admin: Update news
+  // Admin: Update blog post
   update: protectedProcedure
     .input(z.object({
       id: z.string(),
-      category: z.enum(['news', 'press_release', 'announcement']).optional(),
       titleRu: z.string().optional(),
       titleKz: z.string().optional(),
       titleEn: z.string().optional(),
@@ -107,25 +87,25 @@ export const newsRouter = router({
       // If publishing for first time, set publishedAt
       if (input.published === true) {
         const existing = await queryFirst(
-          db.select().from(news).where(eq(news.id, id))
+          db.select().from(leaderBlog).where(eq(leaderBlog.id, id))
         );
         if (existing && !existing.publishedAt) {
           updateData.publishedAt = new Date();
         }
       }
       
-      await db.update(news)
+      await db.update(leaderBlog)
         .set(updateData)
-        .where(eq(news.id, id));
+        .where(eq(leaderBlog.id, id));
       
       return { success: true };
     }),
 
-  // Admin: Delete news
+  // Admin: Delete blog post
   delete: protectedProcedure
     .input(z.object({ id: z.string() }))
     .mutation(async ({ input }) => {
-      await db.delete(news).where(eq(news.id, input.id));
+      await db.delete(leaderBlog).where(eq(leaderBlog.id, input.id));
       return { success: true };
     }),
 });

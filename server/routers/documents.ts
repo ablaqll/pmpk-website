@@ -6,37 +6,29 @@ import { eq, and, desc } from 'drizzle-orm';
 import { v4 as uuidv4 } from 'uuid';
 
 export const documentsRouter = router({
-  // Public: List all documents by client
-  list: publicProcedure
-    .input(z.object({ clientId: z.string() }))
-    .query(async ({ input }) => {
-      const result = await db
-        .select()
-        .from(documents)
-        .where(eq(documents.clientId, input.clientId))
-        .orderBy(desc(documents.createdAt));
-      return result;
-    }),
-
-  // Public: List by category
-  listByCategory: publicProcedure
+  // Public: List published documents
+  listPublished: publicProcedure
     .input(z.object({ 
       clientId: z.string(),
-      category: z.string(),
+      category: z.enum(['charter', 'law', 'code', 'order', 'resolution', 'methodological_guideline', 'budget_plan', 'budget_report', 'anti_corruption', 'public_service', 'other']).optional()
     }))
     .query(async ({ input }) => {
-      const result = await db
-        .select()
+      const conditions: any[] = [
+        eq(documents.clientId, input.clientId),
+        eq(documents.published, true)
+      ];
+      
+      if (input.category) {
+        conditions.push(eq(documents.category, input.category));
+      }
+      
+      return await db.select()
         .from(documents)
-        .where(and(
-          eq(documents.clientId, input.clientId),
-          eq(documents.category, input.category)
-        ))
+        .where(and(...conditions))
         .orderBy(desc(documents.createdAt));
-      return result;
     }),
 
-  // Public: Get document by ID
+  // Public: Get single document
   getById: publicProcedure
     .input(z.object({ id: z.string() }))
     .query(async ({ input }) => {
@@ -46,22 +38,52 @@ export const documentsRouter = router({
       return result || null;
     }),
 
+  // Admin: List all documents
+  list: protectedProcedure
+    .input(z.object({ 
+      clientId: z.string(),
+      category: z.enum(['charter', 'law', 'code', 'order', 'resolution', 'methodological_guideline', 'budget_plan', 'budget_report', 'anti_corruption', 'public_service', 'other']).optional()
+    }))
+    .query(async ({ input }) => {
+      const conditions: any[] = [eq(documents.clientId, input.clientId)];
+      
+      if (input.category) {
+        conditions.push(eq(documents.category, input.category));
+      }
+      
+      return await db.select()
+        .from(documents)
+        .where(and(...conditions))
+        .orderBy(desc(documents.createdAt));
+    }),
+
   // Admin: Create document
   create: protectedProcedure
     .input(z.object({
       clientId: z.string(),
-      title: z.string(),
-      description: z.string().optional(),
-      category: z.string(),
-      fileUrl: z.string(),
+      category: z.enum(['charter', 'law', 'code', 'order', 'resolution', 'methodological_guideline', 'budget_plan', 'budget_report', 'anti_corruption', 'public_service', 'other']),
+      titleRu: z.string(),
+      titleKz: z.string().optional(),
+      titleEn: z.string().optional(),
+      descriptionRu: z.string().optional(),
+      descriptionKz: z.string().optional(),
+      descriptionEn: z.string().optional(),
+      fileUrl: z.string().optional(),
+      externalUrl: z.string().optional(),
       fileSize: z.number().optional(),
+      published: z.boolean().default(false),
     }))
     .mutation(async ({ input }) => {
       const id = uuidv4();
+      const now = new Date();
+      
       await db.insert(documents).values({
         id,
         ...input,
+        createdAt: now,
+        updatedAt: now,
       });
+      
       return { id };
     }),
 
@@ -69,17 +91,25 @@ export const documentsRouter = router({
   update: protectedProcedure
     .input(z.object({
       id: z.string(),
-      title: z.string().optional(),
-      description: z.string().optional(),
-      category: z.string().optional(),
+      category: z.enum(['charter', 'law', 'code', 'order', 'resolution', 'methodological_guideline', 'budget_plan', 'budget_report', 'anti_corruption', 'public_service', 'other']).optional(),
+      titleRu: z.string().optional(),
+      titleKz: z.string().optional(),
+      titleEn: z.string().optional(),
+      descriptionRu: z.string().optional(),
+      descriptionKz: z.string().optional(),
+      descriptionEn: z.string().optional(),
       fileUrl: z.string().optional(),
+      externalUrl: z.string().optional(),
       fileSize: z.number().optional(),
+      published: z.boolean().optional(),
     }))
     .mutation(async ({ input }) => {
       const { id, ...data } = input;
+      
       await db.update(documents)
-        .set(data)
+        .set({ ...data, updatedAt: new Date() })
         .where(eq(documents.id, id));
+      
       return { success: true };
     }),
 
@@ -91,6 +121,3 @@ export const documentsRouter = router({
       return { success: true };
     }),
 });
-
-
-

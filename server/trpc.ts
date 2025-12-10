@@ -20,7 +20,6 @@ export const createContext = async ({ req, res }: CreateFastifyContextOptions) =
           role: dbUser.role,
           name: dbUser.name,
           email: dbUser.email,
-          clientId: dbUser.clientId
         };
       }
     } catch (e) {
@@ -46,7 +45,7 @@ export const router = t.router;
 export const publicProcedure = t.procedure;
 export const protectedProcedure = t.procedure.use(async ({ ctx, next }) => {
    if (!ctx.user) {
-     throw new TRPCError({ code: 'UNAUTHORIZED' });
+     throw new TRPCError({ code: 'UNAUTHORIZED', message: 'Authentication required' });
    }
   return next({
     ctx: {

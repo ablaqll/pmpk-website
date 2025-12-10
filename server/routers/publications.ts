@@ -1,84 +1,89 @@
 import { router, publicProcedure, protectedProcedure } from '../trpc';
 import { z } from 'zod';
 import { db, queryFirst } from '../db';
-import { news } from '../db/schema';
+import { publications } from '../db/schema';
 import { eq, and, desc } from 'drizzle-orm';
 import { v4 as uuidv4 } from 'uuid';
 
-export const newsRouter = router({
-  // Public: List published news
+export const publicationsRouter = router({
+  // Public: List published publications
   listPublished: publicProcedure
     .input(z.object({ 
       clientId: z.string(),
-      category: z.enum(['news', 'press_release', 'announcement']).optional()
+      type: z.enum(['newspaper', 'journal', 'collection', 'methodological', 'electronic', 'article']).optional()
     }))
     .query(async ({ input }) => {
       const conditions: any[] = [
-        eq(news.clientId, input.clientId),
-        eq(news.published, true)
+        eq(publications.clientId, input.clientId),
+        eq(publications.published, true)
       ];
       
-      if (input.category) {
-        conditions.push(eq(news.category, input.category));
+      if (input.type) {
+        conditions.push(eq(publications.type, input.type));
       }
       
       return await db.select()
-        .from(news)
+        .from(publications)
         .where(and(...conditions))
-        .orderBy(desc(news.publishedAt || news.createdAt));
+        .orderBy(desc(publications.publishedDate || publications.createdAt));
     }),
 
-  // Public: Get single news item
+  // Public: Get single publication
   getById: publicProcedure
     .input(z.object({ id: z.string() }))
     .query(async ({ input }) => {
       const result = await queryFirst(
-        db.select().from(news).where(eq(news.id, input.id))
+        db.select().from(publications).where(eq(publications.id, input.id))
       );
       return result || null;
     }),
 
-  // Admin: List all news
+  // Admin: List all publications
   list: protectedProcedure
     .input(z.object({ 
       clientId: z.string(),
-      category: z.enum(['news', 'press_release', 'announcement']).optional()
+      type: z.enum(['newspaper', 'journal', 'collection', 'methodological', 'electronic', 'article']).optional()
     }))
     .query(async ({ input }) => {
-      const conditions: any[] = [eq(news.clientId, input.clientId)];
+      const conditions: any[] = [eq(publications.clientId, input.clientId)];
       
-      if (input.category) {
-        conditions.push(eq(news.category, input.category));
+      if (input.type) {
+        conditions.push(eq(publications.type, input.type));
       }
       
       return await db.select()
-        .from(news)
+        .from(publications)
         .where(and(...conditions))
-        .orderBy(desc(news.createdAt));
+        .orderBy(desc(publications.createdAt));
     }),
 
-  // Admin: Create news
+  // Admin: Create publication
   create: protectedProcedure
     .input(z.object({
       clientId: z.string(),
-      category: z.enum(['news', 'press_release', 'announcement']),
+      type: z.enum(['newspaper', 'journal', 'collection', 'methodological', 'electronic', 'article']),
       titleRu: z.string(),
       titleKz: z.string().optional(),
       titleEn: z.string().optional(),
-      contentRu: z.string(),
+      descriptionRu: z.string().optional(),
+      descriptionKz: z.string().optional(),
+      descriptionEn: z.string().optional(),
+      contentRu: z.string().optional(),
       contentKz: z.string().optional(),
       contentEn: z.string().optional(),
+      fileUrl: z.string().optional(),
       imageUrl: z.string().optional(),
+      issueNumber: z.string().optional(),
+      publishedDate: z.date().optional(),
       published: z.boolean().default(false),
     }))
     .mutation(async ({ input }) => {
       const id = uuidv4();
       const now = new Date();
       
-      await db.insert(news).values({
+      await db.insert(publications).values({
         id,
         ...input,
-        publishedAt: input.published ? now : null,
         createdAt: now,
         updatedAt: now,
       });
@@ -86,46 +91,41 @@ export const newsRouter = router({
       return { id };
     }),
 
-  // Admin: Update news
+  // Admin: Update publication
   update: protectedProcedure
     .input(z.object({
       id: z.string(),
-      category: z.enum(['news', 'press_release', 'announcement']).optional(),
+      type: z.enum(['newspaper', 'journal', 'collection', 'methodological', 'electronic', 'article']).optional(),
       titleRu: z.string().optional(),
       titleKz: z.string().optional(),
       titleEn: z.string().optional(),
+      descriptionRu: z.string().optional(),
+      descriptionKz: z.string().optional(),
+      descriptionEn: z.string().optional(),
       contentRu: z.string().optional(),
       contentKz: z.string().optional(),
       contentEn: z.string().optional(),
+      fileUrl: z.string().optional(),
       imageUrl: z.string().optional(),
+      issueNumber: z.string().optional(),
+      publishedDate: z.date().optional(),
       published: z.boolean().optional(),
     }))
     .mutation(async ({ input }) => {
       const { id, ...data } = input;
-      const updateData: any = { ...data, updatedAt: new Date() };
       
-      // If publishing for first time, set publishedAt
-      if (input.published === true) {
-        const existing = await queryFirst(
-          db.select().from(news).where(eq(news.id, id))
-        );
-        if (existing && !existing.publishedAt) {
-          updateData.publishedAt = new Date();
-        }
-      }
-      
-      await db.update(news)
-        .set(updateData)
-        .where(eq(news.id, id));
+      await db.update(publications)
+        .set({ ...data, updatedAt: new Date() })
+        .where(eq(publications.id, id));
       
       return { success: true };
     }),
 
-  // Admin: Delete news
+  // Admin: Delete publication
   delete: protectedProcedure
     .input(z.object({ id: z.string() }))
     .mutation(async ({ input }) => {
-      await db.delete(news).where(eq(news.id, input.id));
+      await db.delete(publications).where(eq(publications.id, input.id));
       return { success: true };
     }),
 });

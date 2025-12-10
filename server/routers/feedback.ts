@@ -10,40 +10,49 @@ export const feedbackRouter = router({
   create: publicProcedure
     .input(z.object({
       clientId: z.string(),
-      name: z.string(),
-      email: z.string().email().optional(),
+      type: z.enum(['question', 'suggestion', 'complaint', 'general']).default('general'),
+      name: z.string().optional(),
+      email: z.string().optional(),
       phone: z.string().optional(),
-      message: z.string(),
+      subjectRu: z.string().optional(),
+      subjectKz: z.string().optional(),
+      subjectEn: z.string().optional(),
+      messageRu: z.string(),
+      messageKz: z.string().optional(),
+      messageEn: z.string().optional(),
     }))
     .mutation(async ({ input }) => {
       const id = uuidv4();
+      const now = new Date();
+      
       await db.insert(feedback).values({
         id,
         ...input,
-        status: 'pending',
+        status: 'new',
+        createdAt: now,
+        updatedAt: now,
       });
-      return { success: true, id };
+      
+      return { id, success: true };
     }),
 
   // Admin: List all feedback
   list: protectedProcedure
     .input(z.object({ 
       clientId: z.string(),
-      status: z.enum(['pending', 'answered', 'archived']).optional(),
+      status: z.enum(['new', 'in_progress', 'answered', 'closed']).optional()
     }))
     .query(async ({ input }) => {
-      const conditions = [eq(feedback.clientId, input.clientId)];
+      const conditions: any[] = [eq(feedback.clientId, input.clientId)];
       
       if (input.status) {
         conditions.push(eq(feedback.status, input.status));
       }
-
-      const result = await db
-        .select()
+      
+      return await db.select()
         .from(feedback)
         .where(and(...conditions))
         .orderBy(desc(feedback.createdAt));
-      return result;
     }),
 
   // Admin: Get feedback by ID
@@ -56,16 +65,30 @@ export const feedbackRouter = router({
       return result || null;
     }),
 
-  // Admin: Update feedback status
-  updateStatus: protectedProcedure
+  // Admin: Update feedback status and answer
+  update: protectedProcedure
     .input(z.object({
       id: z.string(),
-      status: z.enum(['pending', 'answered', 'archived']),
+      status: z.enum(['new', 'in_progress', 'answered', 'closed']).optional(),
+      answerRu: z.string().optional(),
+      answerKz: z.string().optional(),
+      answerEn: z.string().optional(),
     }))
-    .mutation(async ({ input }) => {
+    .mutation(async ({ input, ctx }) => {
+      const { id, ...data } = input;
+      const updateData: any = { ...data, updatedAt: new Date() };
+      
+      // If answering, set answeredAt and answeredBy
+      if (input.status === 'answered' || (input.answerRu || input.answerKz || input.answerEn)) {
+        updateData.status = input.status || 'answered';
+        updateData.answeredAt = new Date();
+        updateData.answeredBy = ctx.user?.id;
+      }
+      
       await db.update(feedback)
-        .set({ status: input.status })
-        .where(eq(feedback.id, input.id));
+        .set(updateData)
+        .where(eq(feedback.id, id));
+      
       return { success: true };
     }),
 
@@ -77,6 +100,3 @@ export const feedbackRouter = router({
       return { success: true };
     }),
 });
-
-
-
