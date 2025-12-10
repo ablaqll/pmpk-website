@@ -90,3 +90,5 @@ export const vacanciesRouter = router({
       return { success: true };
     }),
 });
+
+

@@ -89,3 +89,5 @@ export function generateSecurePassword(): string {
   // Shuffle the password
   return password.split('').sort(() => Math.random() - 0.5).join('');
 }
+
+
