@@ -29,14 +29,13 @@ import {
 } from "@/components/ui/table";
 
 export default function ClientAdminVacancies() {
-  const params = useParams<{ clientSlug: string }>();
-  const clientSlug = params.clientSlug;
+  const clientSlug = "pmpk9";
   const [searchQuery, setSearchQuery] = useState("");
   const [deleteId, setDeleteId] = useState<number | null>(null);
 
   const { data: client } = trpc.clients.getBySlug.useQuery(
     { slug: clientSlug! },
-    { enabled: !!clientSlug }
+    { enabled: true }
   );
 
   const { data: vacancies, isLoading, refetch } = trpc.vacancies.list.useQuery(
@@ -59,7 +58,7 @@ export default function ClientAdminVacancies() {
     v.title.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
-  const basePath = `/admin/${clientSlug}`;
+  const basePath = `/admin`;
 
   return (
     <ClientAdminLayout>

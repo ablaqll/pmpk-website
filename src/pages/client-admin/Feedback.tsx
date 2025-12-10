@@ -22,8 +22,7 @@ import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
 
 export default function FeedbackPage() {
-  const params = useParams<{ clientSlug: string }>();
-  const clientSlug = params.clientSlug;
+  const clientSlug = "pmpk9";
   const [activeTab, setActiveTab] = useState<string>("all");
   const [selectedFeedback, setSelectedFeedback] = useState<any>(null);
   const [answer, setAnswer] = useState("");
@@ -31,7 +30,7 @@ export default function FeedbackPage() {
   
   const { data: client } = trpc.clients.getBySlug.useQuery(
     { slug: clientSlug! },
-    { enabled: !!clientSlug }
+    { enabled: true }
   );
   
   const { data: feedbackList, isLoading, refetch } = trpc.feedback.list.useQuery(

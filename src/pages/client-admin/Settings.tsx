@@ -11,12 +11,11 @@ import { useParams } from "wouter";
 import { toast } from "sonner";
 
 export default function ClientAdminSettings() {
-  const params = useParams<{ clientSlug: string }>();
-  const clientSlug = params.clientSlug;
+  const clientSlug = "pmpk9";
 
   const { data: client, refetch } = trpc.clients.getBySlug.useQuery(
     { slug: clientSlug! },
-    { enabled: !!clientSlug }
+    { enabled: true }
   );
 
   const [formData, setFormData] = useState({

@@ -20,8 +20,8 @@ import { toast } from "sonner";
 import { Skeleton } from "@/components/ui/skeleton";
 
 export default function NewsFormPage() {
-  const params = useParams<{ clientSlug: string; id: string }>();
-  const clientSlug = params.clientSlug;
+  const params = useParams<{ id?: string }>();
+  const clientSlug = "pmpk9";
   const [, setLocation] = useLocation();
   const isEditing = params.id && params.id !== "new";
   const newsId = isEditing ? parseInt(params.id!) : null;
@@ -35,8 +35,8 @@ export default function NewsFormPage() {
   });
 
   const { data: client } = trpc.clients.getBySlug.useQuery(
-    { slug: clientSlug! },
-    { enabled: !!clientSlug }
+    { slug: clientSlug },
+    { enabled: true }
   );
 
   const { data: newsItem, isLoading } = trpc.news.getById.useQuery(
@@ -47,7 +47,7 @@ export default function NewsFormPage() {
   const createMutation = trpc.news.create.useMutation({
     onSuccess: () => {
       toast.success("Публикация создана");
-      setLocation(`/admin/${clientSlug}/news`);
+      setLocation(`/admin/news`);
     },
     onError: (error) => {
       toast.error("Ошибка: " + error.message);
@@ -57,7 +57,7 @@ export default function NewsFormPage() {
   const updateMutation = trpc.news.update.useMutation({
     onSuccess: () => {
       toast.success("Публикация обновлена");
-      setLocation(`/admin/${clientSlug}/news`);
+      setLocation(`/admin/news`);
     },
     onError: (error) => {
       toast.error("Ошибка: " + error.message);
@@ -96,7 +96,7 @@ export default function NewsFormPage() {
     }
   };
 
-  const basePath = `/admin/${clientSlug}`;
+  const basePath = `/admin`;
 
   if (isLoading && isEditing) {
     return (

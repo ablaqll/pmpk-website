@@ -27,15 +27,15 @@ const DOCUMENT_CATEGORIES = {
 };
 
 export default function ClientAdminDocumentForm() {
-  const params = useParams<{ clientSlug: string; id?: string }>();
-  const clientSlug = params.clientSlug;
+  const params = useParams<{ id?: string }>();
+  const clientSlug = "pmpk9";
   const documentId = params.id ? parseInt(params.id) : null;
   const isEditing = !!documentId;
   const [, setLocation] = useLocation();
 
   const { data: client } = trpc.clients.getBySlug.useQuery(
     { slug: clientSlug! },
-    { enabled: !!clientSlug }
+    { enabled: true }
   );
 
   const { data: existingDocs, isLoading: loadingDoc } = trpc.documents.list.useQuery(
@@ -70,7 +70,7 @@ export default function ClientAdminDocumentForm() {
   const createMutation = trpc.documents.create.useMutation({
     onSuccess: () => {
       toast.success("Документ добавлен");
-      setLocation(`/admin/${clientSlug}/documents`);
+      setLocation(`/admin/documents`);
     },
     onError: (error) => {
       toast.error(error.message);
@@ -80,7 +80,7 @@ export default function ClientAdminDocumentForm() {
   const updateMutation = trpc.documents.update.useMutation({
     onSuccess: () => {
       toast.success("Документ обновлён");
-      setLocation(`/admin/${clientSlug}/documents`);
+      setLocation(`/admin/documents`);
     },
     onError: (error) => {
       toast.error(error.message);
@@ -117,7 +117,7 @@ export default function ClientAdminDocumentForm() {
   };
 
   const isSubmitting = createMutation.isPending || updateMutation.isPending;
-  const basePath = `/admin/${clientSlug}`;
+  const basePath = `/admin`;
 
   if (isEditing && loadingDoc) {
     return (

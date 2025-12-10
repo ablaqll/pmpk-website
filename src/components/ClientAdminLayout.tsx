@@ -43,8 +43,8 @@ export default function ClientAdminLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const params = useParams<{ clientSlug: string }>();
-  const clientSlug = params.clientSlug;
+  // Use hardcoded client slug since we only have one organization
+  const clientSlug = "pmpk9";
   
   const [sidebarWidth, setSidebarWidth] = useState(() => {
     const saved = localStorage.getItem(SIDEBAR_WIDTH_KEY);
@@ -52,8 +52,8 @@ export default function ClientAdminLayout({
   });
   const { loading, user } = useAuth();
   const { data: client, isLoading: clientLoading } = trpc.clients.getBySlug.useQuery(
-    { slug: clientSlug! },
-    { enabled: !!clientSlug }
+    { slug: clientSlug },
+    { enabled: true }
   );
 
   useEffect(() => {
@@ -79,9 +79,9 @@ export default function ClientAdminLayout({
               Войдите в систему для доступа к панели управления контентом
             </p>
           </div>
-          <Button
+            <Button
             onClick={() => {
-              window.location.href = getLoginUrl();
+              window.location.href = "/admin/login";
             }}
             size="lg"
             className="w-full bg-gov-primary hover:bg-gov-primary/90"
@@ -104,9 +104,8 @@ export default function ClientAdminLayout({
     );
   }
 
-  // Check access
-  const hasAccess = user.role === 'super_admin' || user.role === 'admin' || 
-    (user.clientId === client.id && ['client_admin', 'editor'].includes(user.role));
+  // Check access - allow admin and client_admin roles
+  const hasAccess = ['admin', 'client_admin', 'editor'].includes(user.role);
   
   if (!hasAccess) {
     return (
@@ -117,7 +116,7 @@ export default function ClientAdminLayout({
           </div>
           <h1 className="text-xl font-semibold text-center">Доступ запрещён</h1>
           <p className="text-sm text-muted-foreground text-center">
-            У вас нет прав для управления этим клиентом
+            У вас нет прав для доступа к панели управления
           </p>
           <Button variant="outline" onClick={() => window.location.href = '/'}>
             Вернуться на главную
@@ -138,7 +137,7 @@ export default function ClientAdminLayout({
       <ClientAdminLayoutContent 
         setSidebarWidth={setSidebarWidth} 
         client={client}
-        clientSlug={clientSlug!}
+        clientSlug={clientSlug}
       >
         {children}
       </ClientAdminLayoutContent>
@@ -168,7 +167,7 @@ function ClientAdminLayoutContent({
   const isMobile = useIsMobile();
   const { t } = useLanguage();
 
-  const basePath = `/admin/${clientSlug}`;
+  const basePath = `/admin`;
   
   const menuItems = [
     { icon: LayoutDashboard, label: t('admin.overview'), path: basePath },

@@ -12,15 +12,15 @@ import { Link, useLocation, useParams } from "wouter";
 import { toast } from "sonner";
 
 export default function ClientAdminStaffForm() {
-  const params = useParams<{ clientSlug: string; id?: string }>();
-  const clientSlug = params.clientSlug;
+  const params = useParams<{ id?: string }>();
+  const clientSlug = "pmpk9";
   const staffId = params.id ? parseInt(params.id) : null;
   const isEditing = !!staffId;
   const [, setLocation] = useLocation();
 
   const { data: client } = trpc.clients.getBySlug.useQuery(
     { slug: clientSlug! },
-    { enabled: !!clientSlug }
+    { enabled: true }
   );
 
   const { data: existingStaff, isLoading: loadingStaff } = trpc.staff.list.useQuery(
@@ -65,7 +65,7 @@ export default function ClientAdminStaffForm() {
   const createMutation = trpc.staff.create.useMutation({
     onSuccess: () => {
       toast.success("Сотрудник добавлен");
-      setLocation(`/admin/${clientSlug}/staff`);
+      setLocation(`/admin/staff`);
     },
     onError: (error) => {
       toast.error(error.message);
@@ -75,7 +75,7 @@ export default function ClientAdminStaffForm() {
   const updateMutation = trpc.staff.update.useMutation({
     onSuccess: () => {
       toast.success("Данные сотрудника обновлены");
-      setLocation(`/admin/${clientSlug}/staff`);
+      setLocation(`/admin/staff`);
     },
     onError: (error) => {
       toast.error(error.message);
@@ -108,7 +108,7 @@ export default function ClientAdminStaffForm() {
   };
 
   const isSubmitting = createMutation.isPending || updateMutation.isPending;
-  const basePath = `/admin/${clientSlug}`;
+  const basePath = `/admin`;
 
   if (isEditing && loadingStaff) {
     return (

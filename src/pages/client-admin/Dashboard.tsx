@@ -2,17 +2,16 @@ import ClientAdminLayout from "@/components/ClientAdminLayout";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { trpc } from "@/lib/trpc";
 import { Newspaper, Users2, Briefcase, MessageSquare, ArrowRight, Globe } from "lucide-react";
-import { Link, useParams } from "wouter";
+import { Link } from "wouter";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 
 export default function ClientAdminDashboard() {
-  const params = useParams<{ clientSlug: string }>();
-  const clientSlug = params.clientSlug;
+  const clientSlug = "pmpk9";
   
   const { data: client } = trpc.clients.getBySlug.useQuery(
-    { slug: clientSlug! },
-    { enabled: !!clientSlug }
+    { slug: clientSlug },
+    { enabled: true }
   );
   
   const { data: stats, isLoading } = trpc.clients.stats.useQuery(
@@ -20,7 +19,7 @@ export default function ClientAdminDashboard() {
     { enabled: !!client?.id }
   );
 
-  const basePath = `/admin/${clientSlug}`;
+  const basePath = `/admin`;
 
   return (
     <ClientAdminLayout>
@@ -35,7 +34,7 @@ export default function ClientAdminDashboard() {
               {client?.name || "Загрузка..."}
             </p>
           </div>
-          <Link href={`/site/${clientSlug}`}>
+          <Link href="/">
             <Button variant="outline" className="gap-2">
               <Globe className="h-4 w-4" />
               Просмотр сайта
