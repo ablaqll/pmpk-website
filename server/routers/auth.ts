@@ -1,6 +1,6 @@
 import { router, publicProcedure } from '../trpc';
 import { z } from 'zod';
-import { db } from '../db';
+import { db, queryFirst } from '../db';
 import { users } from '../db/schema';
 import { eq } from 'drizzle-orm';
 import { TRPCError } from '@trpc/server';
@@ -18,7 +18,9 @@ export const authRouter = router({
     }))
     .mutation(async ({ input, ctx }) => {
       // Find user by email (or username)
-      const user = await db.select().from(users).where(eq(users.email, input.email)).get();
+      const user = await queryFirst(
+        db.select().from(users).where(eq(users.email, input.email))
+      );
       
       if (!user) {
         // Use same error message for both cases to prevent user enumeration
@@ -62,7 +64,9 @@ export const authRouter = router({
       newPassword: z.string().min(8, 'Password must be at least 8 characters'),
     }))
     .mutation(async ({ input }) => {
-      const user = await db.select().from(users).where(eq(users.id, input.userId)).get();
+      const user = await queryFirst(
+        db.select().from(users).where(eq(users.id, input.userId))
+      );
       
       if (!user) {
         throw new TRPCError({

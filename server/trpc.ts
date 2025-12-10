@@ -1,7 +1,7 @@
 import { initTRPC, TRPCError } from '@trpc/server';
 import { CreateFastifyContextOptions } from '@trpc/server/adapters/fastify';
 import superjson from 'superjson';
-import { db } from './db';
+import { db, queryFirst } from './db';
 import { users } from './db/schema';
 import { eq } from 'drizzle-orm';
 
@@ -11,7 +11,9 @@ export const createContext = async ({ req, res }: CreateFastifyContextOptions) =
 
   if (userId) {
     try {
-      const dbUser = await db.select().from(users).where(eq(users.id, userId)).get();
+      const dbUser = await queryFirst(
+        db.select().from(users).where(eq(users.id, userId))
+      );
       if (dbUser) {
         user = {
           id: dbUser.id,
