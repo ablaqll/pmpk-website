@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link, useLocation } from "wouter";
 import { trpc } from "@/lib/trpc";
 import { toast } from "sonner";
@@ -32,12 +32,28 @@ export default function Home() {
     loginMutation.mutate({ email, password });
   };
 
-  if (loading) return null;
+  // Redirect if already logged in - use useEffect to avoid render issues
+  useEffect(() => {
+    if (!loading && user) {
+      setLocation("/admin");
+    }
+  }, [user, loading, setLocation]);
 
-  // If already logged in, redirect to admin panel
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-50">
+        <div className="text-muted-foreground">Loading...</div>
+      </div>
+    );
+  }
+
+  // If already logged in, show loading while redirect happens
   if (user) {
-    setLocation("/admin");
-    return null;
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-50">
+        <div className="text-muted-foreground">Redirecting...</div>
+      </div>
+    );
   }
 
   return (
