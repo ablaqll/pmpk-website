@@ -5,13 +5,39 @@
 [build.environment]
   NODE_VERSION = "20"
 
+# Backend API Proxy
+# IMPORTANT: Uncomment and update with your Railway backend URL after deployment
 # [[redirects]]
 #   from = "/api/*"
-#   to = "https://your-backend-url.railway.app/api/:splat"
+#   to = "https://YOUR-RAILWAY-APP.up.railway.app/api/:splat"
+#   status = 200
+#   force = true
+#   headers = {X-From = "Netlify"}
+
+# Example with environment variable (recommended):
+# [[redirects]]
+#   from = "/api/*"
+#   to = "${BACKEND_URL}/api/:splat"
 #   status = 200
 #   force = true
 
+# SPA fallback - must be last
 [[redirects]]
   from = "/*"
   to = "/index.html"
   status = 200
+
+# Headers for security
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "DENY"
+    X-Content-Type-Options = "nosniff"
+    X-XSS-Protection = "1; mode=block"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+
+# Cache static assets
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"

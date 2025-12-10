@@ -2,48 +2,97 @@
 
 Official website for the Psychological-Medical-Pedagogical Consultation №9, Astana, Kazakhstan.
 
-## 🚀 Quick Start
+## ✅ Backend is 100% Ready for Railway!
 
-### 1. Install Dependencies
+This project is **production-ready** and configured for deployment to Railway.
+
+---
+
+## 🎯 Quick Start Guide
+
+### For Railway Deployment (Production):
+
+1. **Read**: `_START_HERE_RAILWAY.md` (8 simple steps)
+2. **Install**: `npm install pg @types/pg`
+3. **Deploy**: ~15 minutes to production!
+
+### For Local Development:
+
 ```bash
+# 1. Install dependencies
 npm install
-```
 
-### 2. Setup Database
-```bash
+# 2. Setup database
 npm run db:reset
-```
 
-This will:
-- Delete any existing database
-- Create a fresh database
-- Seed with initial data including admin user
-
-### 3. Start Development
-
-**Option A: Run Both Servers Together**
-```bash
+# 3. Start both servers
 npm run dev:all
+
+# 4. Open browser
+# Public: http://localhost:5173/
+# Admin: http://localhost:5173/admin
+# Login: admin / Aa123456
 ```
 
-**Option B: Run Separately**
+---
 
-Terminal 1 - Backend:
-```bash
-npm run server
-```
+## 📚 Documentation Index
 
-Terminal 2 - Frontend:
-```bash
-npm run dev
-```
+**START HERE**: 
+- **`INDEX.md`** - Documentation navigation
+- **`___MASTER_GUIDE.md`** - Complete overview
 
-### 4. Access the Website
+**DEPLOY TO RAILWAY**:
+- **`_START_HERE_RAILWAY.md`** ⭐ **RECOMMENDED**
+- **`DEPLOY_TO_RAILWAY.md`** - Detailed guide
+- **`RAILWAY_QUICK_START.md`** - 5-minute summary
 
-- **Public Website**: http://localhost:5173/
-- **Admin Login**: http://localhost:5173/admin
-  - Username: `admin`
-  - Password: `Aa123456`
+**TECHNICAL**:
+- **`BACKEND_COMPLETE_SUMMARY.md`** - Features & architecture
+- **`DEPLOYMENT_COMPLETE.md`** - What was built
+- **`.env.example`** - Environment variables
+
+**HELP**:
+- **`NETLIFY_LOGIN_FIX.md`** - Fix login issues
+- **`WHAT_TO_DO_NOW.md`** - Decision guide
+
+---
+
+## 🌐 Live Deployments
+
+- **Frontend**: https://pmpkedu.netlify.app (Netlify)
+- **Backend**: Deploy to Railway (follow guide)
+- **Admin**: https://pmpkedu.netlify.app/admin
+
+### Current Status:
+- ✅ Frontend deployed on Netlify
+- ⏳ Backend ready (not deployed yet)
+- ⏳ Database configured (needs Railway PostgreSQL)
+
+---
+
+## 🔧 Tech Stack
+
+### Frontend:
+- React 19
+- TypeScript
+- Vite
+- TailwindCSS + shadcn/ui
+- Wouter (routing)
+- tRPC client
+
+### Backend (Ready for Railway):
+- Node.js 20+
+- Fastify 5.x
+- tRPC 11.x
+- Drizzle ORM
+- PostgreSQL (production) / SQLite (dev)
+- Zod validation
+
+### Hosting:
+- **Frontend**: Netlify (Free)
+- **Backend**: Railway (~$5-10/month)
+- **Database**: Railway PostgreSQL (Included)
 
 ## 📂 Project Structure
 
