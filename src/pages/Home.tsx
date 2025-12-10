@@ -1,11 +1,14 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Alert, AlertDescription } from "@/components/ui/alert";
 import { useState } from "react";
 import { Link, useLocation } from "wouter";
 import { trpc } from "@/lib/trpc";
 import { toast } from "sonner";
 import { useAuth } from "@/_core/hooks/useAuth";
+import { validateDemoCredentials, DEMO_USER, isNetlifyDeployment } from "@/lib/mock-auth";
+import { Info } from "lucide-react";
 
 export default function Home() {
   const { user, loading } = useAuth();
@@ -22,17 +25,38 @@ export default function Home() {
       if (data.user.role === 'super_admin') {
           setLocation("/super-admin");
       } else {
-          // Default fallback
           setLocation("/admin/pmpk9");
       }
     },
     onError: (error) => {
-      toast.error(error.message);
+      // If backend is not available (Netlify), try client-side auth
+      console.error("Backend auth failed, trying client-side fallback:", error);
+      handleClientSideLogin();
     }
   });
 
+  const handleClientSideLogin = () => {
+    // Client-side fallback for Netlify deployments (when backend is not available)
+    if (validateDemoCredentials(email, password)) {
+      localStorage.setItem("manus-runtime-user-info", JSON.stringify(DEMO_USER));
+      utils.auth.me.setData(undefined, DEMO_USER);
+      toast.success(isNetlifyDeployment() ? "Login successful (Demo Mode - No Backend)" : "Login successful");
+      setLocation("/admin/pmpk9");
+    } else {
+      toast.error("Invalid credentials. Demo: admin / Aa123456");
+    }
+  };
+
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
+    
+    // On Netlify or if backend not available, use client-side auth immediately
+    if (isNetlifyDeployment()) {
+      handleClientSideLogin();
+      return;
+    }
+    
+    // Otherwise try backend first, fallback to client-side if it fails
     loginMutation.mutate({ email, password });
   };
 
@@ -93,6 +117,15 @@ export default function Home() {
           </CardDescription>
         </CardHeader>
         <CardContent>
+          {isNetlifyDeployment() && (
+            <Alert className="mb-4 border-blue-200 bg-blue-50">
+              <Info className="h-4 w-4 text-blue-600" />
+              <AlertDescription className="text-blue-800">
+                Demo Mode: Backend not available. Login works with client-side auth.
+              </AlertDescription>
+            </Alert>
+          )}
+
           <form onSubmit={handleLogin} className="space-y-4">
             <div className="space-y-2">
               <Input
@@ -101,6 +134,7 @@ export default function Home() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
+                autoComplete="username"
               />
             </div>
             <div className="space-y-2">
@@ -110,18 +144,26 @@ export default function Home() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
+                autoComplete="current-password"
               />
             </div>
             <Button 
               type="submit" 
               className="w-full bg-blue-600 hover:bg-blue-700"
-              disabled={loginMutation.isPending}
+              disabled={loginMutation.isPending && !isNetlifyDeployment()}
             >
-              {loginMutation.isPending ? "Logging in..." : "Sign In"}
+              {loginMutation.isPending && !isNetlifyDeployment() ? "Logging in..." : "Sign In"}
             </Button>
           </form>
           
-          <div className="mt-6 text-center text-sm">
+          <div className="mt-6 text-center text-sm text-muted-foreground">
+            <p className="mb-2">Demo credentials:</p>
+            <p className="font-mono text-xs bg-gray-100 px-3 py-2 rounded">
+              admin / Aa123456
+            </p>
+          </div>
+          
+          <div className="mt-4 text-center text-sm">
             <Link href="/" className="text-blue-600 hover:underline">
               Back to Website
             </Link>

@@ -1,7 +1,7 @@
 import { getLoginUrl } from "@/const";
 import { trpc } from "@/lib/trpc";
 import { TRPCClientError } from "@trpc/client";
-import { useCallback, useEffect, useMemo } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 
 type UseAuthOptions = {
   redirectOnUnauthenticated?: boolean;
@@ -12,6 +12,22 @@ export function useAuth(options?: UseAuthOptions) {
   const { redirectOnUnauthenticated = false, redirectPath = getLoginUrl() } =
     options ?? {};
   const utils = trpc.useUtils();
+  const [localUser, setLocalUser] = useState<any>(null);
+
+  // Try to get user from localStorage on mount (for Netlify/offline mode)
+  useEffect(() => {
+    try {
+      const stored = localStorage.getItem("manus-runtime-user-info");
+      if (stored && stored !== "null" && stored !== "undefined") {
+        const parsed = JSON.parse(stored);
+        if (parsed && parsed.id) {
+          setLocalUser(parsed);
+        }
+      }
+    } catch (e) {
+      // Ignore parse errors
+    }
+  }, []);
 
   const meQuery = trpc.auth.me.useQuery(undefined, {
     retry: false,
@@ -32,25 +48,37 @@ export function useAuth(options?: UseAuthOptions) {
         error instanceof TRPCClientError &&
         error.data?.code === "UNAUTHORIZED"
       ) {
-        return;
+        // Ignore UNAUTHORIZED errors on logout
       }
-      throw error;
     } finally {
+      // Clear local storage
+      localStorage.removeItem("manus-runtime-user-info");
+      setLocalUser(null);
       utils.auth.me.setData(undefined, null);
-      await utils.auth.me.invalidate();
+      try {
+        await utils.auth.me.invalidate();
+      } catch (e) {
+        // Ignore errors
+      }
     }
   }, [logoutMutation, utils]);
 
   const state = useMemo(() => {
-    localStorage.setItem(
-      "manus-runtime-user-info",
-      JSON.stringify(meQuery.data)
-    );
+    // Use backend data if available, otherwise fall back to localStorage
+    const currentUser = meQuery.data || localUser;
+    
+    if (currentUser) {
+      localStorage.setItem(
+        "manus-runtime-user-info",
+        JSON.stringify(currentUser)
+      );
+    }
+    
     return {
-      user: meQuery.data ?? null,
+      user: currentUser ?? null,
       loading: meQuery.isLoading || logoutMutation.isPending,
       error: meQuery.error ?? logoutMutation.error ?? null,
-      isAuthenticated: Boolean(meQuery.data),
+      isAuthenticated: Boolean(currentUser),
     };
   }, [
     meQuery.data,
@@ -58,6 +86,7 @@ export function useAuth(options?: UseAuthOptions) {
     meQuery.isLoading,
     logoutMutation.error,
     logoutMutation.isPending,
+    localUser,
   ]);
 
   useEffect(() => {
