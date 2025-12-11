@@ -29,30 +29,16 @@ export default function SiteFeedback() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // TODO: Replace with Sanity submission or external form
-    setSubmitted(true);
-    setFormData({ name: "", email: "", phone: "", question: "" });
-    toast.success(t('feedback.success'));
-  };
-      toast.error(t('common.error') + ": " + error.message);
-    },
-  });
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
     
     if (!formData.name || !formData.question) {
       toast.error(t('common.error'));
       return;
     }
-
-    createMutation.mutate({
-      clientId: client?.id || '1',
-      name: formData.name,
-      email: formData.email || undefined,
-      phone: formData.phone || undefined,
-      question: formData.question,
-    });
+    
+    // TODO: Replace with Sanity submission or external form
+    setSubmitted(true);
+    setFormData({ name: "", email: "", phone: "", question: "" });
+    toast.success(t('feedback.success'));
   };
 
   return (
@@ -157,50 +143,39 @@ export default function SiteFeedback() {
 
           {/* FAQ */}
           <div>
-            <h2 className="text-2xl font-bold text-gov-primary mb-6 flex items-center gap-2">
-              <HelpCircle className="h-6 w-6" />
-              {t('feedback.faq')}
-            </h2>
-            
-            {isLoading ? (
-              <div className="space-y-4">
-                {[1, 2, 3].map((i) => (
-                  <Skeleton key={i} className="h-32" />
-                ))}
-              </div>
-            ) : publishedFeedback?.length === 0 ? (
-              <Card className="border-0 shadow-md">
-                <CardContent className="py-8 text-center">
-                  <HelpCircle className="h-12 w-12 mx-auto text-muted-foreground/30 mb-4" />
-                  <p className="text-muted-foreground">
+            <Card className="border-0 shadow-md">
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <HelpCircle className="h-5 w-5 text-gov-primary" />
+                  {t('feedback.faq')}
+                </CardTitle>
+                <CardDescription>
+                  {t('feedback.faqDesc')}
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                {isLoading ? (
+                  <div className="space-y-4">
+                    <Skeleton className="h-20 w-full" />
+                    <Skeleton className="h-20 w-full" />
+                    <Skeleton className="h-20 w-full" />
+                  </div>
+                ) : publishedFeedback.length > 0 ? (
+                  <div className="space-y-6">
+                    {publishedFeedback.map((item) => (
+                      <div key={item.id} className="border-b pb-4 last:border-0">
+                        <h3 className="font-semibold mb-2">{item.question}</h3>
+                        <p className="text-muted-foreground text-sm">{item.answer}</p>
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <p className="text-muted-foreground text-center py-8">
                     {t('feedback.noFaq')}
                   </p>
-                </CardContent>
-              </Card>
-            ) : (
-              <div className="space-y-4">
-                {publishedFeedback?.map((item) => (
-                  <Card key={item.id} className="border-0 shadow-md">
-                    <CardContent className="pt-6">
-                      <div className="flex gap-3 mb-3">
-                        <div className="h-6 w-6 rounded-full bg-gov-primary/10 flex items-center justify-center shrink-0">
-                          <span className="text-gov-primary font-bold text-sm">?</span>
-                        </div>
-                        <p className="font-medium">{item.question}</p>
-                      </div>
-                      {item.answer && (
-                        <div className="flex gap-3 pl-9">
-                          <div className="h-6 w-6 rounded-full bg-green-100 flex items-center justify-center shrink-0">
-                            <span className="text-green-600 font-bold text-sm">!</span>
-                          </div>
-                          <p className="text-muted-foreground">{item.answer}</p>
-                        </div>
-                      )}
-                    </CardContent>
-                  </Card>
-                ))}
-              </div>
-            )}
+                )}
+              </CardContent>
+            </Card>
           </div>
         </div>
       </div>
