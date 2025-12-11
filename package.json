@@ -5,7 +5,10 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build": "npm run build:studio && npm run build:app && npm run copy:studio",
+    "build:studio": "sanity build studio-build",
+    "build:app": "vite build",
+    "copy:studio": "node scripts/copy-studio.js",
     "preview": "vite preview",
     "sanity": "sanity dev",
     "sanity:build": "sanity build",

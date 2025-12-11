@@ -12,14 +12,12 @@ npm install
 
 ### 2. Environment Variables
 
-Create a `.env` file in the project root (not in Sanity):
+Create a `.env` file in the project root:
 
 ```env
 VITE_SANITY_PROJECT_ID=10jnk8h0
 VITE_SANITY_DATASET=production
 ```
-
-**Note:** The `.env` file should be in the **project root** (same directory as `package.json`), not in Sanity. Sanity Studio will read these variables automatically.
 
 ### 3. Run Development Server
 
@@ -35,7 +33,12 @@ In a separate terminal:
 npm run sanity
 ```
 
-Studio will be available at `http://localhost:3333`
+Studio will be available at `http://localhost:3333/studio`
+
+### 5. Access Sanity Studio on Production
+
+After deploying to Netlify, Sanity Studio will be available at:
+- **https://pmpkedu.netlify.app/studio**
 
 ## 📁 Project Structure
 
@@ -68,10 +71,29 @@ Studio will be available at `http://localhost:3333`
 ## 🛠️ Scripts
 
 - `npm run dev` - Start development server
-- `npm run build` - Build for production
+- `npm run build` - Build for production (includes Sanity Studio)
 - `npm run preview` - Preview production build
-- `npm run sanity` - Start Sanity Studio
-- `npm run sanity:deploy` - Deploy Sanity Studio
+- `npm run sanity` - Start Sanity Studio locally
+- `npm run sanity:deploy` - Deploy Studio to sanity.io (alternative)
+
+## 🚀 Deployment
+
+The build process automatically:
+1. Builds Sanity Studio to `studio-build/`
+2. Builds the React app to `dist/`
+3. Copies Studio files to `dist/studio/`
+
+Sanity Studio will be available at `/studio` on your deployed Netlify site.
+
+### CORS Configuration
+
+After deploying, add your Netlify URL to Sanity CORS origins:
+1. Go to [sanity.io/manage](https://www.sanity.io/manage)
+2. Select your project (`10jnk8h0`)
+3. Go to **Settings** > **API** > **CORS Origins**
+4. Add: `https://pmpkedu.netlify.app`
+5. Check "Allow credentials"
+6. Save
 
 ## 📚 Documentation
 
