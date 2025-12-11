@@ -1,5 +1,4 @@
 import { Button } from "@/components/ui/button";
-import { trpc } from "@/lib/trpc";
 import { 
   Phone, Mail, MapPin, Clock, Volume2, Menu, X
 } from "lucide-react";
@@ -56,19 +55,7 @@ export default function SiteLayout({ children, basePath: propBasePath }: SiteLay
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const { t, language } = useLanguage();
   
-  const { data: clientData, isLoading: isClientLoading } = trpc.clients.getBySlug.useQuery(
-    { slug: clientSlug },
-    { 
-      enabled: true, 
-      retry: false, 
-      refetchOnWindowFocus: false,
-      staleTime: 0,
-      gcTime: 0,
-      // Use mock data immediately, update if backend responds
-    }
-  );
-
-  // Mock Fallback for Netlify/Demo (when backend is unreachable)
+  // Mock client data - will be replaced with Sanity queries later
   const mockClient = {
       id: '1',
       slug: 'pmpk9',
@@ -83,20 +70,8 @@ export default function SiteLayout({ children, basePath: propBasePath }: SiteLay
       directorPhoto: null
   };
 
-  // Always use mock client immediately - don't wait for backend
-  const client = clientData || mockClient;
-  
-  // Only show loading for a very short time (max 1 second)
-  // After that, show content with mock data
-  const [showLoading, setShowLoading] = useState(true);
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setShowLoading(false);
-    }, 1000); // Max 1 second loading
-    return () => clearTimeout(timer);
-  }, []);
-  
-  const isLoading = showLoading && isClientLoading && !clientData;
+  const client = mockClient;
+  const isLoading = false;
 
   // Use provided basePath or default to empty string (root)
   const basePath = propBasePath !== undefined ? propBasePath : '';

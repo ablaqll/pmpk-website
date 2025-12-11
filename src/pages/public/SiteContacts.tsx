@@ -1,6 +1,5 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { trpc } from "@/lib/trpc";
 import { 
   MapPin, Phone, Mail, Clock, ExternalLink, 
   MessageSquare, Volume2, Instagram, Send
@@ -13,7 +12,6 @@ export default function SiteContacts() {
   const clientSlug = "pmpk9";
   const { language, t } = useLanguage();
   
-  // Mock client fallback
   const mockClient = {
     id: '1',
     slug: 'pmpk9',
@@ -23,12 +21,8 @@ export default function SiteContacts() {
     trustPhone: null,
     telegram: null
   };
-  const { data: clientData, isLoading: isClientLoading } = trpc.clients.getBySlug.useQuery(
-    { slug: clientSlug },
-    { enabled: true, retry: false, refetchOnWindowFocus: false }
-  );
-  const client = clientData || mockClient;
-  const isLoading = isClientLoading && !client;
+  const client = mockClient;
+  const isLoading = false;
 
   const basePath = '';
 

@@ -1,7 +1,6 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { trpc } from "@/lib/trpc";
 import { FileText, Download, ExternalLink, File } from "lucide-react";
 import { useParams } from "wouter";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -20,18 +19,10 @@ export default function SiteDocuments() {
   const clientSlug = "pmpk9";
   const { t } = useLanguage();
   
-  // Mock client fallback
   const mockClient = { id: '1', slug: 'pmpk9', name: 'ПМПК №9' };
-  const { data: clientData } = trpc.clients.getBySlug.useQuery(
-    { slug: clientSlug },
-    { enabled: true, retry: false, refetchOnWindowFocus: false }
-  );
-  const client = clientData || mockClient;
-  
-  const { data: documents, isLoading } = trpc.documents.listPublished.useQuery(
-    { clientId: client?.id! },
-    { enabled: !!client?.id, retry: false }
-  );
+  const client = mockClient;
+  const documents: any[] = [];
+  const isLoading = false;
 
   // Group documents by category
   const groupedDocs = documents?.reduce((acc, doc) => {
