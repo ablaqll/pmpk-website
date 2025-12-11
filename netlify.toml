@@ -5,13 +5,13 @@
 [build.environment]
   NODE_VERSION = "20"
 
-# Sanity Studio (if deployed separately)
-# [[redirects]]
-#   from = "/studio/*"
-#   to = "https://your-sanity-studio.netlify.app/:splat"
-#   status = 200
+# Sanity Studio - serve Studio files (must come before SPA fallback)
+[[redirects]]
+  from = "/studio"
+  to = "/studio/index.html"
+  status = 200
 
-# SPA fallback - must be last
+# SPA fallback - must be last (won't match /studio/* if files exist)
 [[redirects]]
   from = "/*"
   to = "/index.html"
