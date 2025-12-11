@@ -5,10 +5,9 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "npm run build:studio && npm run build:app && npm run copy:studio",
-    "build:studio": "rm -rf studio-build || true && sanity build studio-build",
+    "build": "npm run build:app && npm run build:studio",
+    "build:studio": "sanity build --output-path dist/studio",
     "build:app": "vite build",
-    "copy:studio": "cp -r studio-build dist/studio",
     "preview": "vite preview",
     "sanity": "sanity dev",
     "sanity:build": "sanity build",
