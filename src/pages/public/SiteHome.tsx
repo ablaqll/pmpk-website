@@ -1,6 +1,5 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { trpc } from "@/lib/trpc";
 import { 
   Phone, Mail, MapPin, Clock, ChevronRight, Newspaper, 
   Users2, FileText, MessageSquare, ExternalLink, Volume2,
@@ -52,17 +51,7 @@ export default function SiteHome({ basePath: basePathProp }: { basePath?: string
   const { language, t } = useLanguage();
   useScrollAnimation();
   
-  const { data: clientData, isLoading: clientLoadingQuery } = trpc.clients.getBySlug.useQuery(
-    { slug: clientSlug! },
-    { 
-      enabled: !!clientSlug, 
-      retry: false,
-      staleTime: 0,
-      gcTime: 0,
-    }
-  );
-  
-  // Mock Fallback for Netlify/Demo
+  // Mock data - will be replaced with Sanity queries later
   const mockClient = {
       id: '1',
       slug: 'pmpk9',
@@ -77,24 +66,8 @@ export default function SiteHome({ basePath: basePathProp }: { basePath?: string
       directorPhoto: null
   };
 
-  // Always use mock client if slug is pmpk9 - don't wait for backend
-  const client = clientData || (clientSlug === 'pmpk9' ? mockClient : null);
-  
-  // Only show loading for max 1 second, then show content
-  const [showLoading, setShowLoading] = useState(true);
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setShowLoading(false);
-    }, 1000);
-    return () => clearTimeout(timer);
-  }, []);
-  
-  const clientLoading = showLoading && clientLoadingQuery && !client;
-
-  const { data: newsData } = trpc.news.listPublished.useQuery(
-    { clientId: client?.id! },
-    { enabled: !!client?.id, retry: false }
-  );
+  const client = mockClient;
+  const clientLoading = false;
 
   const mockNews = [
     {
@@ -115,7 +88,7 @@ export default function SiteHome({ basePath: basePathProp }: { basePath?: string
     }
   ];
 
-  const news = newsData || (clientSlug === 'pmpk9' ? mockNews : []);
+  const news = mockNews;
 
   // Use provided basePath or default to empty string (root)
   const basePath = basePathProp !== undefined ? basePathProp : '';

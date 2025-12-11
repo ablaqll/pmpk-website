@@ -1,6 +1,5 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { trpc } from "@/lib/trpc";
 import { 
   Users2, Target, Award, BookOpen, ChevronRight,
   FileText, Building2
@@ -13,7 +12,6 @@ export default function SiteAbout() {
   const clientSlug = "pmpk9";
   const { t } = useLanguage();
   
-  // Mock client fallback
   const mockClient = {
     id: '1',
     slug: 'pmpk9',
@@ -23,12 +21,8 @@ export default function SiteAbout() {
     directorBio: 'Педагог-психолог высшей категории, стаж работы 20 лет.',
     directorPhoto: null
   };
-  const { data: clientData, isLoading: isClientLoading } = trpc.clients.getBySlug.useQuery(
-    { slug: clientSlug },
-    { enabled: true, retry: false, refetchOnWindowFocus: false }
-  );
-  const client = clientData || mockClient;
-  const isLoading = isClientLoading && !client;
+  const client = mockClient;
+  const isLoading = false;
 
   const basePath = '';
 

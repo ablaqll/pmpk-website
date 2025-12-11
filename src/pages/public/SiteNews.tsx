@@ -1,7 +1,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { trpc } from "@/lib/trpc";
+// TODO: Replace with Sanity queries
 import { Newspaper, Calendar } from "lucide-react";
 import { useState } from "react";
 import { Link, useParams } from "wouter";
@@ -13,21 +13,10 @@ export default function SiteNews() {
   const [activeCategory, setActiveCategory] = useState<string>("all");
   const { t } = useLanguage();
   
-  // Mock client fallback
   const mockClient = { id: '1', slug: 'pmpk9', name: 'ПМПК №9' };
-  const { data: clientData } = trpc.clients.getBySlug.useQuery(
-    { slug: clientSlug },
-    { enabled: true, retry: false, refetchOnWindowFocus: false }
-  );
-  const client = clientData || mockClient;
-  
-  const { data: news, isLoading } = trpc.news.listPublished.useQuery(
-    { 
-      clientId: client?.id!,
-      category: activeCategory !== 'all' ? activeCategory as any : undefined
-    },
-    { enabled: !!client?.id, retry: false }
-  );
+  const client = mockClient;
+  const isLoading = false;
+  const news: any[] = [];
 
   const basePath = "";
 

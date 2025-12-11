@@ -3,7 +3,6 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
-import { trpc } from "@/lib/trpc";
 import { MessageSquare, Send, HelpCircle, CheckCircle } from "lucide-react";
 import { useState } from "react";
 import { useParams } from "wouter";
@@ -23,26 +22,18 @@ export default function SiteFeedback() {
   });
   const [submitted, setSubmitted] = useState(false);
   
-  // Mock client fallback
   const mockClient = { id: '1', slug: 'pmpk9', name: 'ПМПК №9' };
-  const { data: clientData } = trpc.clients.getBySlug.useQuery(
-    { slug: clientSlug },
-    { enabled: true, retry: false, refetchOnWindowFocus: false }
-  );
-  const client = clientData || mockClient;
-  
-  const { data: publishedFeedback, isLoading } = trpc.feedback.listPublished.useQuery(
-    { clientId: client?.id! },
-    { enabled: !!client?.id, retry: false }
-  );
+  const client = mockClient;
+  const publishedFeedback: any[] = [];
+  const isLoading = false;
 
-  const createMutation = trpc.feedback.create.useMutation({
-    onSuccess: () => {
-      setSubmitted(true);
-      setFormData({ name: "", email: "", phone: "", question: "" });
-      toast.success(t('feedback.success'));
-    },
-    onError: (error) => {
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    // TODO: Replace with Sanity submission or external form
+    setSubmitted(true);
+    setFormData({ name: "", email: "", phone: "", question: "" });
+    toast.success(t('feedback.success'));
+  };
       toast.error(t('common.error') + ": " + error.message);
     },
   });
@@ -154,10 +145,9 @@ export default function SiteFeedback() {
                     <Button 
                       type="submit" 
                       className="w-full"
-                      disabled={createMutation.isPending}
                     >
                       <Send className="h-4 w-4 mr-2" />
-                      {createMutation.isPending ? t('feedback.sending') : t('feedback.send')}
+                      {t('feedback.send')}
                     </Button>
                   </form>
                 )}

@@ -1,6 +1,5 @@
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { trpc } from "@/lib/trpc";
 import { ArrowLeft, Calendar, Share2 } from "lucide-react";
 import { Link, useParams } from "wouter";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -12,10 +11,8 @@ export default function SiteNewsDetail() {
   const newsId = parseInt(params.id!);
   const { t, language } = useLanguage();
   
-  const { data: newsItem, isLoading } = trpc.news.getById.useQuery(
-    { id: newsId },
-    { enabled: !!newsId }
-  );
+  const newsItem = null;
+  const isLoading = false;
 
   const basePath = '';
 

@@ -1,5 +1,4 @@
 import { Card, CardContent } from "@/components/ui/card";
-import { trpc } from "@/lib/trpc";
 import { Users2, Mail, Phone, Building2 } from "lucide-react";
 import { useParams } from "wouter";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -9,21 +8,13 @@ export default function SiteStructure() {
   const clientSlug = "pmpk9";
   const { t } = useLanguage();
   
-  // Mock client fallback
   const mockClient = { id: '1', slug: 'pmpk9', name: 'ПМПК №9' };
-  const { data: clientData } = trpc.clients.getBySlug.useQuery(
-    { slug: clientSlug },
-    { enabled: true, retry: false, refetchOnWindowFocus: false }
-  );
-  const client = clientData || mockClient;
-  
-  const { data: staff, isLoading } = trpc.staff.listActive.useQuery(
-    { clientId: client?.id! },
-    { enabled: !!client?.id, retry: false }
-  );
+  const client = mockClient;
+  const staff: any[] = [];
+  const isLoading = false;
 
   // Group staff by department
-  const groupedStaff = staff?.reduce((acc, person) => {
+  const groupedStaff = (staff || []).reduce((acc, person) => {
     const dept = person.department || t('about.director'); // Fallback to "Director/Leadership" translation
     if (!acc[dept]) acc[dept] = [];
     acc[dept].push(person);
