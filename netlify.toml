@@ -5,13 +5,11 @@
 [build.environment]
   NODE_VERSION = "20"
 
-# Backend API Proxy - Connect to Railway backend
-[[redirects]]
-  from = "/api/*"
-  to = "https://pmpk.up.railway.app/api/:splat"
-  status = 200
-  force = true
-  headers = {X-From = "Netlify"}
+# Sanity Studio (if deployed separately)
+# [[redirects]]
+#   from = "/studio/*"
+#   to = "https://your-sanity-studio.netlify.app/:splat"
+#   status = 200
 
 # SPA fallback - must be last
 [[redirects]]
