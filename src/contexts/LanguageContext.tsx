@@ -58,6 +58,7 @@ export const translations: Translations = {
   
   // Documents page
   'docs.title': { kz: 'ҚР НҚА', ru: 'НПА РК', en: 'Legal Acts of RK' },
+  'docs.egov': { kz: 'Электрондық үкімет', ru: 'Электронное правительство', en: 'E-Government' },
   'docs.laws': { kz: 'Заңдар мен кодекстер', ru: 'Законы и кодексы', en: 'Laws and Codes' },
   'docs.orders': { kz: 'Бұйрықтар мен қаулылар', ru: 'Приказы и постановления', en: 'Orders and Resolutions' },
   
@@ -80,11 +81,13 @@ export const translations: Translations = {
   
   // Vacancies page
   'vacancies.title': { kz: 'Вакансиялар', ru: 'Вакансии', en: 'Vacancies' },
+  'vacancies.portal': { kz: 'Еңбек биржасы', ru: 'Вакансии', en: 'Job Portal' },
   'vacancies.requirements': { kz: 'Біліктілік талаптары', ru: 'Квалификационные требования', en: 'Qualification Requirements' },
   'vacancies.apply': { kz: 'Өтініш беру', ru: 'Подать заявку', en: 'Apply' },
   
   // Contacts
   'contacts.title': { kz: 'Байланыс ақпараты', ru: 'Контактная информация', en: 'Contact Information' },
+  'contacts.usefulLinks': { kz: 'Пайдалы сілтемелер', ru: 'Полезные ссылки', en: 'Useful Links' },
   'contacts.address': { kz: 'Мекенжай', ru: 'Адрес', en: 'Address' },
   'contacts.phone': { kz: 'Телефон', ru: 'Телефон', en: 'Phone' },
   'contacts.email': { kz: 'Электрондық пошта', ru: 'Электронная почта', en: 'Email' },

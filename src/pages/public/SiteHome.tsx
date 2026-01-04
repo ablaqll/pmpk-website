@@ -128,7 +128,7 @@ export default function SiteHome({ basePath: basePathProp }: { basePath?: string
         <div className="container">
           <div className="grid lg:grid-cols-2 gap-6 lg:gap-8 items-center">
             <div>
-              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-3 sm:mb-4 text-white">
+              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-1 sm:mb-2 text-white">
                 {t('home.welcome')}
               </h2>
               <p className="text-base sm:text-lg text-white mb-4 sm:mb-6">
@@ -136,13 +136,13 @@ export default function SiteHome({ basePath: basePathProp }: { basePath?: string
               </p>
               <div className="flex flex-col sm:flex-row gap-3">
                 <Link href={`${basePath}/about`}>
-                  <Button variant="secondary" size="lg" className="w-full sm:w-auto bg-white text-gov-primary hover:bg-white/90">
+                  <Button variant="secondary" size="lg" className="group w-full sm:w-auto bg-white text-gov-primary border border-transparent hover:bg-transparent hover:text-white hover:border-white transition-all duration-300 hover:scale-105">
                     {t('home.readMore')}
-                    <ChevronRight className="h-4 w-4 ml-1" />
+                    <ChevronRight className="h-5 w-5 ml-2 transition-transform duration-300 group-hover:rotate-90" />
                   </Button>
                 </Link>
                 <Link href={`${basePath}/feedback`}>
-                  <Button variant="outline" size="lg" className="w-full sm:w-auto border-white text-white hover:bg-white/10">
+                  <Button variant="outline" size="lg" className="w-full sm:w-auto border-white text-white hover:bg-white hover:text-gov-primary transition-all duration-300 hover:scale-105">
                     {t('feedback.question')}
                   </Button>
                 </Link>

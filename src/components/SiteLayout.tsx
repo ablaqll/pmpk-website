@@ -107,7 +107,7 @@ export default function SiteLayout({ children, basePath: propBasePath }: SiteLay
   const clientName = language === 'kz' 
     ? '№9 Психологиялық-медициналық-педагогикалық консультация'
     : language === 'ru'
-    ? '№9 Психолого-медико-педагогическая консультация'
+    ? '№9 ПМПК'
     : 'Psychological-Medical-Pedagogical Consultation №9';
 
   const clientNameShort = language === 'en' ? 'PMPK' : 'ПМПК';
@@ -198,16 +198,16 @@ export default function SiteLayout({ children, basePath: propBasePath }: SiteLay
             <Button
               variant="ghost"
               size="icon"
-              className="lg:hidden"
+              className="lg:hidden h-14 w-14 [&_svg]:size-8"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             >
-              {mobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+              {mobileMenuOpen ? <X /> : <Menu />}
             </Button>
           </div>
 
           {/* Mobile Navigation */}
           {mobileMenuOpen && (
-            <nav className="lg:hidden py-4 border-t">
+            <nav className="lg:hidden py-4 border-t relative z-50 bg-white shadow-lg">
               <div className="flex flex-col gap-1">
                 {navItems.map((item) => {
                   const isActive = location.startsWith(item.path);
