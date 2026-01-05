@@ -123,14 +123,14 @@ export default function SiteFeedback() {
                         id="question"
                         value={formData.question}
                         onChange={(e) => setFormData({ ...formData, question: e.target.value })}
-                        placeholder={t('feedback.placeholder')}
+                        placeholder=""
                         rows={5}
                         required
                       />
                     </div>
                     <Button 
                       type="submit" 
-                      className="w-full"
+                      className="w-full bg-gov-primary hover:bg-gov-primary/90 transition-all duration-300 hover:scale-105 hover:shadow-lg"
                     >
                       <Send className="h-4 w-4 mr-2" />
                       {t('feedback.send')}

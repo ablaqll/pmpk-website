@@ -152,7 +152,7 @@ export default function SiteLayout({ children, basePath: propBasePath }: SiteLay
         </div>
       </div>
 
-      {/* Header with Organization Logo */}
+              {/* Header with Organization Logo */}
       <header className="bg-white border-b shadow-sm sticky top-0 z-50">
         <div className="container">
           <div className="flex items-center justify-between py-4">
@@ -198,7 +198,7 @@ export default function SiteLayout({ children, basePath: propBasePath }: SiteLay
             <Button
               variant="ghost"
               size="icon"
-              className="lg:hidden h-14 w-14 [&_svg]:size-12"
+              className="lg:hidden h-14 w-14 [&_svg]:size-8"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             >
               {mobileMenuOpen ? <X /> : <Menu />}
@@ -207,7 +207,7 @@ export default function SiteLayout({ children, basePath: propBasePath }: SiteLay
 
           {/* Mobile Navigation */}
           {mobileMenuOpen && (
-            <nav className="lg:hidden py-4 border-t relative z-50 bg-white shadow-xl animate-in slide-in-from-top duration-300">
+            <nav className="lg:hidden py-4 border-t relative z-50 bg-white shadow-lg">
               <div className="flex flex-col gap-1">
                 {navItems.map((item) => {
                   const isActive = location.startsWith(item.path);
@@ -215,7 +215,7 @@ export default function SiteLayout({ children, basePath: propBasePath }: SiteLay
                     <Link key={item.path} href={item.path}>
                       <Button 
                         variant="ghost" 
-                        className={`w-full justify-start transition-all duration-300 hover:scale-105 hover:shadow-md ${isActive ? "bg-gov-primary/10 text-gov-primary" : ""}`}
+                        className={`w-full justify-start ${isActive ? "bg-gov-primary/10 text-gov-primary" : ""}`}
                         onClick={() => setMobileMenuOpen(false)}
                       >
                         {t(item.labelKey)}
@@ -237,25 +237,19 @@ export default function SiteLayout({ children, basePath: propBasePath }: SiteLay
       {/* Footer with State Symbols */}
       <footer className="bg-gov-primary text-white py-6 sm:py-8 mt-auto">
         <div className="container">
-          {/* State Symbols Section */}
-          <div className="flex items-center justify-center gap-4 sm:gap-8 mb-6 sm:mb-8 pb-6 sm:pb-8 border-b border-white/20">
-            <img src={KZ_FLAG_URL} alt="Флаг Казахстана" className="h-8 sm:h-12 object-contain" />
-            <img src={KZ_EMBLEM_URL} alt="Герб Казахстана" className="h-10 sm:h-16 object-contain" />
-          </div>
-
           <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-8">
             <div>
               <div className="flex items-center gap-3 mb-4">
-                <img src="/pmpk9-logo.png" alt="" className="h-10 w-10 sm:h-12 sm:w-12 object-contain bg-white rounded-lg p-1" />
-                <div>
-                  <p className="font-semibold text-sm">{clientNameFull}</p>
-                </div>
+                 <div className="flex items-center gap-4">
+                    <img src={KZ_FLAG_URL} alt="Флаг Казахстана" className="h-12 sm:h-16 object-contain" />
+                    <img src={KZ_EMBLEM_URL} alt="Герб Казахстана" className="h-12 sm:h-16 object-contain" />
+                 </div>
               </div>
+              <p className="text-xs text-white/50 mt-2 mb-4">
+                © {new Date().getFullYear()} PMPK
+              </p>
               <p className="text-sm text-white/70">
                 © {new Date().getFullYear()} {t('footer.rights')}
-              </p>
-              <p className="text-xs text-white/50 mt-2">
-                © {new Date().getFullYear()} PMPK
               </p>
             </div>
             <div>
@@ -294,6 +288,12 @@ export default function SiteLayout({ children, basePath: propBasePath }: SiteLay
               <h4 className="font-semibold mb-3">
                 {language === 'kz' ? 'Әлеуметтік желілер' : language === 'ru' ? 'Социальные сети' : 'Social Media'}
               </h4>
+               <div className="mb-4">
+                <p className="text-sm text-white/70 flex items-center gap-2">
+                  <Volume2 className="h-4 w-4" />
+                  {language === 'kz' ? 'Сенім телефоны' : language === 'ru' ? 'Телефон доверия' : 'Trust Phone'}
+                </p>
+              </div>
               <div className="flex gap-3">
                 <a 
                   href="https://instagram.com/pmpk_9ast"
@@ -317,12 +317,6 @@ export default function SiteLayout({ children, basePath: propBasePath }: SiteLay
                     <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
                   </svg>
                 </a>
-              </div>
-              <div className="mt-4">
-                <p className="text-sm text-white/70 flex items-center gap-2">
-                  <Volume2 className="h-4 w-4" />
-                  {language === 'kz' ? 'Сенім телефоны' : language === 'ru' ? 'Телефон доверия' : 'Trust Phone'}
-                </p>
               </div>
             </div>
           </div>

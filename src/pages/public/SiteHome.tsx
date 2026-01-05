@@ -138,7 +138,7 @@ export default function SiteHome({ basePath: basePathProp }: { basePath?: string
                 <Link href={`${basePath}/about`}>
                   <Button variant="secondary" size="lg" className="group w-full sm:w-auto bg-white text-gov-primary border border-transparent hover:bg-transparent hover:text-white hover:border-white transition-all duration-300 hover:scale-105">
                     {t('home.readMore')}
-                    <ChevronRight className="h-5 w-5 ml-2 transition-transform duration-300 group-hover:rotate-90" />
+                    <ChevronRight className="h-6 w-6 ml-2 transition-transform duration-300 group-hover:rotate-90 group-hover:text-white" />
                   </Button>
                 </Link>
                 <Link href={`${basePath}/feedback`}>
@@ -152,7 +152,7 @@ export default function SiteHome({ basePath: basePathProp }: { basePath?: string
               <img 
                 src="/pmpk9-logo.png" 
                 alt="ПМПК №9" 
-                className="h-64 w-64 object-contain bg-white/10 rounded-2xl p-4"
+                className="h-64 w-64 object-contain bg-white/10 rounded-2xl p-4 hidden sm:block"
               />
             </div>
           </div>
@@ -185,7 +185,7 @@ export default function SiteHome({ basePath: basePathProp }: { basePath?: string
       {/* Services Section */}
       <section className="py-8 sm:py-12 bg-gray-50 fade-in-up">
         <div className="container">
-          <h2 className="text-xl sm:text-2xl font-bold text-gov-primary mb-6 sm:mb-8 text-center">
+          <h2 className="text-xl sm:text-2xl font-bold text-gov-primary mb-8 sm:mb-10 text-center -mt-2">
             {t('home.services')}
           </h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
@@ -193,12 +193,12 @@ export default function SiteHome({ basePath: basePathProp }: { basePath?: string
               <Card key={index} className="border-0 shadow-md hover:shadow-lg transition-all icon-float">
                 <CardContent className="pt-6">
                   <div className="h-12 w-12 rounded-lg bg-gov-primary/10 flex items-center justify-center mb-4">
-                    <service.icon className="h-6 w-6 text-gov-primary" />
+                    <service.icon className="h-12 w-12 text-gov-primary" />
                   </div>
-                  <h3 className="font-semibold mb-2">
+                  <h3 className="font-semibold mb-1 text-xl">
                     {t(service.titleKey)}
                   </h3>
-                  <p className="text-sm text-muted-foreground">
+                  <p className="text-lg text-muted-foreground">
                     {t(service.descKey)}
                   </p>
                 </CardContent>
@@ -287,8 +287,17 @@ export default function SiteHome({ basePath: basePathProp }: { basePath?: string
                           className="h-20 w-20 rounded-lg object-cover"
                         />
                       ) : (
-                        <div className="h-20 w-20 rounded-lg bg-muted flex items-center justify-center">
-                          <Users2 className="h-8 w-8 text-muted-foreground" />
+                        <div className="h-20 w-20 rounded-lg bg-muted flex items-center justify-center overflow-hidden">
+                          <img 
+                            src="/director.jpg" 
+                            alt={client.directorName}
+                            className="w-full h-full object-cover"
+                            onError={(e) => {
+                                e.currentTarget.style.display = 'none';
+                                e.currentTarget.nextElementSibling?.classList.remove('hidden');
+                            }}
+                          />
+                          <Users2 className="h-8 w-8 text-muted-foreground hidden" />
                         </div>
                       )}
                       <div className="flex-1 min-w-0">
@@ -374,6 +383,30 @@ export default function SiteHome({ basePath: basePathProp }: { basePath?: string
                 </CardContent>
               </Card>
 
+              {/* Quick Actions */}
+              <Card className="border-0 shadow-md">
+                <CardContent className="pt-6 flex flex-col gap-4">
+                  <Link href={`${basePath}/feedback`}>
+                    <Button variant="outline" className="w-full justify-center gap-2 transition-all duration-300 hover:scale-105 hover:shadow-md">
+                      <MessageSquare className="h-4 w-4" />
+                      {t('feedback.question')}
+                    </Button>
+                  </Link>
+                  <Link href={`${basePath}/documents`}>
+                    <Button variant="outline" className="w-full justify-center gap-2 transition-all duration-300 hover:scale-105 hover:shadow-md">
+                      <FileText className="h-4 w-4" />
+                      {t('nav.documents')}
+                    </Button>
+                  </Link>
+                  <Link href={`${basePath}/about`}>
+                    <Button variant="outline" className="w-full justify-center gap-2 transition-all duration-300 hover:scale-105 hover:shadow-md">
+                      <Users2 className="h-4 w-4" />
+                      {t('about.structure')}
+                    </Button>
+                  </Link>
+                </CardContent>
+              </Card>
+
               {/* Map Card */}
               <Card className="border-0 shadow-md overflow-hidden">
                 <div className="bg-gov-primary p-4">
@@ -401,54 +434,6 @@ export default function SiteHome({ basePath: basePathProp }: { basePath?: string
                     >
                       <ExternalLink className="h-4 w-4" />
                       {t('home.openFullMap')}
-                    </a>
-                  </div>
-                </CardContent>
-              </Card>
-
-              {/* Quick Actions */}
-              <Card className="border-0 shadow-md">
-                <CardContent className="pt-6 space-y-3">
-                  <Link href={`${basePath}/feedback`}>
-                    <Button variant="outline" className="w-full justify-start gap-2">
-                      <MessageSquare className="h-4 w-4" />
-                      {t('feedback.question')}
-                    </Button>
-                  </Link>
-                  <Link href={`${basePath}/documents`}>
-                    <Button variant="outline" className="w-full justify-start gap-2">
-                      <FileText className="h-4 w-4" />
-                      {t('nav.documents')}
-                    </Button>
-                  </Link>
-                  <Link href={`${basePath}/about`}>
-                    <Button variant="outline" className="w-full justify-start gap-2">
-                      <Users2 className="h-4 w-4" />
-                      {t('about.structure')}
-                    </Button>
-                  </Link>
-                </CardContent>
-              </Card>
-
-              {/* State Symbols */}
-              <Card className="border-0 shadow-md overflow-hidden">
-                <div className="bg-gov-gold/10 p-4">
-                  <h3 className="font-semibold text-gov-primary">{t('home.stateSymbols')}</h3>
-                </div>
-                <CardContent className="pt-4">
-                  <div className="flex items-center justify-center gap-6">
-                    <img src="/kz-flag.svg" alt="Флаг РК" className="h-12 object-contain" />
-                    <img src="/kz-emblem.png" alt="Герб РК" className="h-16 object-contain" />
-                  </div>
-                  <div className="mt-4 pt-4 border-t">
-                    <a 
-                      href="https://www.youtube.com/watch?v=XvjXVBkbDvE" 
-                      target="_blank" 
-                      rel="noopener noreferrer"
-                      className="flex items-center justify-center gap-2 text-sm text-gov-primary hover:underline"
-                    >
-                      <Volume2 className="h-4 w-4" />
-                      {t('home.listenAnthem')}
                     </a>
                   </div>
                 </CardContent>

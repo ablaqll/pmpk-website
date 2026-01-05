@@ -42,11 +42,11 @@ export const translations: Translations = {
   'home.listenAnthem': { kz: 'Әнұранды тыңдау', ru: 'Слушать гимн', en: 'Listen to Anthem' },
   'home.openMap': { kz: 'Картаны ашу', ru: 'Открыть карту', en: 'Open Map' },
   'home.openFullMap': { kz: 'Толық картаны ашу', ru: 'Открыть полную карту', en: 'Open Full Map' },
-  'home.directorBlog': { kz: 'Басшының блогы', ru: 'Блог руководителя', en: 'Director\'s Blog' },
   
   // About page
   'about.title': { kz: 'Біз туралы', ru: 'О нас', en: 'About Us' },
   'about.director': { kz: 'Басшы', ru: 'Руководитель', en: 'Director' },
+  'about.directorBlog': { kz: 'Басшының блогы', ru: 'Блог руководителя', en: 'Director\'s Blog' },
   'about.schedule': { kz: 'Қабылдау кестесі', ru: 'График приёма', en: 'Reception Schedule' },
   'about.structure': { kz: 'Құрылым', ru: 'Структура', en: 'Structure' },
   'about.documents': { kz: 'Құжаттама', ru: 'Документация', en: 'Documentation' },
@@ -93,6 +93,12 @@ export const translations: Translations = {
   'feedback.sendRequest': { kz: 'Өтініш қалдыру', ru: 'Оставить заявку', en: 'Send Request' },
   'feedback.fillForm': { kz: 'Деректерді толтырыңыз', ru: 'Заполните данные', en: 'Fill in the data' },
   'feedback.placeholder': { kz: ' ', ru: ' ', en: ' ' },
+  'feedback.success': { kz: 'Сәтті жіберілді', ru: 'Успешно отправлено', en: 'Successfully sent' },
+  'feedback.successDesc': { kz: 'Біз сіздің өтінішіңізді алдық', ru: 'Мы получили вашу заявку', en: 'We received your request' },
+  'feedback.sendMore': { kz: 'Тағы жіберу', ru: 'Отправить еще', en: 'Send more' },
+  'feedback.faq': { kz: 'Жиі қойылатын сұрақтар', ru: 'Часто задаваемые вопросы', en: 'FAQ' },
+  'feedback.faqDesc': { kz: 'Пайдаланушылардың сұрақтарына жауаптар', ru: 'Ответы на вопросы пользователей', en: 'Answers to user questions' },
+  'feedback.noFaq': { kz: 'Сұрақтар табылмады', ru: 'Вопросы не найдены', en: 'No questions found' },
   
   // Vacancies page
   'vacancies.title': { kz: 'Вакансиялар', ru: 'Вакансии', en: 'Vacancies' },
