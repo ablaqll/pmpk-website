@@ -35,31 +35,20 @@ export const translations: Translations = {
   },
   'home.services': { kz: 'Қызметтер', ru: 'Услуги', en: 'Services' },
   'home.news': { kz: 'Соңғы жаңалықтар', ru: 'Последние новости', en: 'Latest News' },
-  'home.allNews': { kz: 'Барлық жаңалықтар', ru: 'Все новости', en: 'All News' },
   'home.readMore': { kz: 'Толығырақ', ru: 'Подробнее', en: 'Read More' },
   'home.stateSymbols': { kz: 'Мемлекеттік рәміздер', ru: 'Государственные символы', en: 'State Symbols' },
   'home.anthem': { kz: 'Әнұран', ru: 'Гимн', en: 'Anthem' },
   'home.listenAnthem': { kz: 'Әнұранды тыңдау', ru: 'Слушать гимн', en: 'Listen to Anthem' },
-  'home.openMap': { kz: 'Картаны ашу', ru: 'Открыть карту', en: 'Open Map' },
-  'home.openFullMap': { kz: 'Толық картаны ашу', ru: 'Открыть полную карту', en: 'Open Full Map' },
-  'home.directorBlog': { kz: 'Басшының блогы', ru: 'Блог руководителя', en: 'Director\'s Blog' },
   
   // About page
   'about.title': { kz: 'Біз туралы', ru: 'О нас', en: 'About Us' },
   'about.director': { kz: 'Басшы', ru: 'Руководитель', en: 'Director' },
+  'about.directorBlog': { kz: 'Басшының блогы', ru: 'Блог руководителя', en: 'Director\'s Blog' },
   'about.schedule': { kz: 'Қабылдау кестесі', ru: 'График приёма', en: 'Reception Schedule' },
   'about.structure': { kz: 'Құрылым', ru: 'Структура', en: 'Structure' },
   'about.documents': { kz: 'Құжаттама', ru: 'Документация', en: 'Documentation' },
   'about.charter': { kz: 'Жарғы', ru: 'Устав', en: 'Charter' },
   'about.regulations': { kz: 'Ереже', ru: 'Положение', en: 'Regulations' },
-  'about.diag': { kz: 'Диагностика', ru: 'Диагностика', en: 'Diagnostics' },
-  'about.diagDesc': { kz: 'Кешенді диагностика', ru: 'Комплексная диагностика', en: 'Complex Diagnostics' },
-  'about.consult': { kz: 'Кеңес беру', ru: 'Консультирование', en: 'Consulting' },
-  'about.consultDesc': { kz: 'Ата-аналарға кеңес', ru: 'Консультации для родителей', en: 'Parent Consulting' },
-  'about.method': { kz: 'Әдістемелік көмек', ru: 'Методическая помощь', en: 'Methodological Help' },
-  'about.methodDesc': { kz: 'Педагогтарға көмек', ru: 'Помощь педагогам', en: 'Help for Educators' },
-  'about.correct': { kz: 'Түзету', ru: 'Коррекция', en: 'Correction' },
-  'about.correctDesc': { kz: 'Түзету сабақтары', ru: 'Коррекционные занятия', en: 'Correction Classes' },
   
   // News page
   'news.title': { kz: 'Жаңалықтар', ru: 'Новости', en: 'News' },
@@ -89,10 +78,6 @@ export const translations: Translations = {
   'feedback.message': { kz: 'Хабарлама', ru: 'Сообщение', en: 'Message' },
   'feedback.send': { kz: 'Жіберу', ru: 'Отправить', en: 'Send' },
   'feedback.reception': { kz: 'Жеке қабылдау', ru: 'Личный приём', en: 'Personal Reception' },
-  'feedback.desc': { kz: 'Өтініш қалдырыңыз, біз сізбен хабарласамыз.', ru: 'Оставьте заявку, и мы с вами свяжемся.', en: 'Leave a request and we will contact you.' },
-  'feedback.sendRequest': { kz: 'Өтініш қалдыру', ru: 'Оставить заявку', en: 'Send Request' },
-  'feedback.fillForm': { kz: 'Деректерді толтырыңыз', ru: 'Заполните данные', en: 'Fill in the data' },
-  'feedback.placeholder': { kz: ' ', ru: ' ', en: ' ' },
   
   // Vacancies page
   'vacancies.title': { kz: 'Вакансиялар', ru: 'Вакансии', en: 'Vacancies' },
@@ -103,7 +88,6 @@ export const translations: Translations = {
   // Contacts
   'contacts.title': { kz: 'Байланыс ақпараты', ru: 'Контактная информация', en: 'Contact Information' },
   'contacts.usefulLinks': { kz: 'Пайдалы сілтемелер', ru: 'Полезные ссылки', en: 'Useful Links' },
-  'contacts.writeUs': { kz: 'Бізге жазыңыз', ru: 'Написать нам', en: 'Write to us' },
   'contacts.address': { kz: 'Мекенжай', ru: 'Адрес', en: 'Address' },
   'contacts.phone': { kz: 'Телефон', ru: 'Телефон', en: 'Phone' },
   'contacts.email': { kz: 'Электрондық пошта', ru: 'Электронная почта', en: 'Email' },

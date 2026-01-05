@@ -162,14 +162,14 @@ export default function SiteLayout({ children, basePath: propBasePath }: SiteLay
                 <img 
                   src="/pmpk9-logo.png" 
                   alt="ПМПК №9" 
-                  className="h-16 w-16 sm:h-24 sm:w-24 object-contain shrink-0"
+                  className="h-10 w-10 sm:h-14 sm:w-14 object-contain shrink-0"
                 />
                 <div className="min-w-0">
-                  <h1 className="text-sm sm:text-base lg:text-xl font-bold text-gov-primary leading-tight line-clamp-2 max-w-[200px] sm:max-w-md">
+                  <h1 className="text-xs sm:text-sm lg:text-base font-bold text-gov-primary leading-tight line-clamp-2 max-w-[200px] sm:max-w-md">
                     <span className="sm:hidden">{clientNameShort}</span>
                     <span className="hidden sm:inline">{clientName}</span>
                   </h1>
-                  <p className="text-sm text-muted-foreground hidden sm:block">
+                  <p className="text-xs text-muted-foreground hidden sm:block">
                     {cityName}
                   </p>
                 </div>
@@ -198,7 +198,7 @@ export default function SiteLayout({ children, basePath: propBasePath }: SiteLay
             <Button
               variant="ghost"
               size="icon"
-              className="lg:hidden h-14 w-14 [&_svg]:size-12"
+              className="lg:hidden h-14 w-14 [&_svg]:size-8"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             >
               {mobileMenuOpen ? <X /> : <Menu />}
@@ -207,7 +207,7 @@ export default function SiteLayout({ children, basePath: propBasePath }: SiteLay
 
           {/* Mobile Navigation */}
           {mobileMenuOpen && (
-            <nav className="lg:hidden py-4 border-t relative z-50 bg-white shadow-xl animate-in slide-in-from-top duration-300">
+            <nav className="lg:hidden py-4 border-t relative z-50 bg-white shadow-lg">
               <div className="flex flex-col gap-1">
                 {navItems.map((item) => {
                   const isActive = location.startsWith(item.path);
@@ -215,7 +215,7 @@ export default function SiteLayout({ children, basePath: propBasePath }: SiteLay
                     <Link key={item.path} href={item.path}>
                       <Button 
                         variant="ghost" 
-                        className={`w-full justify-start transition-all duration-300 hover:scale-105 hover:shadow-md ${isActive ? "bg-gov-primary/10 text-gov-primary" : ""}`}
+                        className={`w-full justify-start ${isActive ? "bg-gov-primary/10 text-gov-primary" : ""}`}
                         onClick={() => setMobileMenuOpen(false)}
                       >
                         {t(item.labelKey)}
