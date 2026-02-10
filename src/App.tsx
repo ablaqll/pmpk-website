@@ -18,6 +18,17 @@ import SiteVacancies from "./pages/public/SiteVacancies";
 import SiteFeedback from "./pages/public/SiteFeedback";
 import SiteContacts from "./pages/public/SiteContacts";
 import SiteManagement from "./pages/public/SiteManagement";
+// import StudioPage from "./pages/StudioPage"; // Removed Sanity Studio
+
+// Admin Pages
+import AdminLayout from "./admin/AdminLayout";
+import LoginPage from "./admin/LoginPage";
+import DashboardPage from "./admin/DashboardPage";
+import NewsEditor from "./admin/NewsEditor";
+import StaffEditor from "./admin/StaffEditor";
+import InfoEditor from "./admin/InfoEditor";
+import VacanciesEditor from "./admin/VacanciesEditor";
+import FaqEditor from "./admin/FaqEditor";
 
 // Wrapper for public site pages with layout
 function SitePageWrapper({ children }: { children: React.ReactNode }) {
@@ -58,7 +69,47 @@ function Router() {
       <Route path="/management">
         {() => <SitePageWrapper><SiteManagement /></SitePageWrapper>}
       </Route>
-      
+
+      {/* Admin Dashboard Routes */}
+      {/* Admin Dashboard Routes */}
+      <Route path="/admin/login" component={LoginPage} />
+
+      <Route path="/admin">
+        <AdminLayout>
+          <DashboardPage />
+        </AdminLayout>
+      </Route>
+
+      <Route path="/admin/news">
+        <AdminLayout>
+          <NewsEditor />
+        </AdminLayout>
+      </Route>
+
+      <Route path="/admin/staff">
+        <AdminLayout>
+          <StaffEditor />
+        </AdminLayout>
+      </Route>
+
+      <Route path="/admin/info">
+        <AdminLayout>
+          <InfoEditor />
+        </AdminLayout>
+      </Route>
+
+      <Route path="/admin/vacancies">
+        <AdminLayout>
+          <VacanciesEditor />
+        </AdminLayout>
+      </Route>
+
+      <Route path="/admin/faq">
+        <AdminLayout>
+          <FaqEditor />
+        </AdminLayout>
+      </Route>
+
       {/* 404 */}
       <Route path="/404" component={NotFound} />
       <Route component={NotFound} />

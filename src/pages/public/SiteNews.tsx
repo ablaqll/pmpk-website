@@ -8,15 +8,29 @@ import { Link, useParams } from "wouter";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useLanguage } from "@/contexts/LanguageContext";
 
+import { storage } from "@/services/storage";
+import { useEffect } from "react";
+
 export default function SiteNews() {
-  const clientSlug = "pmpk9";
   const [activeCategory, setActiveCategory] = useState<string>("all");
   const { t } = useLanguage();
-  
-  const mockClient = { id: '1', slug: 'pmpk9', name: 'ПМПК №9' };
-  const client = mockClient;
-  const isLoading = false;
-  const news: any[] = [];
+  const [news, setNews] = useState<any[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const loadNews = async () => {
+      const allNews = await storage.getNews();
+      const publishedNews = allNews.filter(n => n.published);
+      setNews(publishedNews);
+      setIsLoading(false);
+    };
+    loadNews();
+  }, []);
+
+  // Filter news based on active category
+  const filteredNews = activeCategory === 'all'
+    ? news
+    : news.filter(item => item.category === activeCategory);
 
   const basePath = "";
 
@@ -62,7 +76,7 @@ export default function SiteNews() {
               <Skeleton key={i} className="h-72" />
             ))}
           </div>
-        ) : news?.length === 0 ? (
+        ) : filteredNews?.length === 0 ? (
           <Card className="border-0 shadow-md">
             <CardContent className="py-16 text-center">
               <Newspaper className="h-16 w-16 mx-auto text-muted-foreground/30 mb-4" />
@@ -74,14 +88,14 @@ export default function SiteNews() {
           </Card>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
-            {news?.map((item) => (
+            {filteredNews?.map((item) => (
               <Link key={item.id} href={`${basePath}/news/${item.id}`}>
                 <Card className="border-0 shadow-md hover:shadow-lg transition-all cursor-pointer h-full group">
                   {item.imageUrl && (
                     <div className="h-40 sm:h-48 overflow-hidden rounded-t-lg">
-                      <img 
-                        src={item.imageUrl} 
-                        alt="" 
+                      <img
+                        src={item.imageUrl}
+                        alt=""
                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                       />
                     </div>

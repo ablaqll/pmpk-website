@@ -5,14 +5,32 @@ import { Link, useParams } from "wouter";
 import { Skeleton } from "@/components/ui/skeleton";
 import { toast } from "sonner";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { storage, NewsItem } from "@/services/storage";
+import { useEffect, useState } from "react";
 
 export default function SiteNewsDetail() {
   const params = useParams<{ id: string }>();
-  const newsId = parseInt(params.id!);
+  const newsId = params.id;
   const { t, language } = useLanguage();
-  
-  const newsItem = null;
-  const isLoading = false;
+
+  const [newsItem, setNewsItem] = useState<NewsItem | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const loadNews = async () => {
+      if (!newsId) return;
+      try {
+        const allNews = await storage.getNews();
+        const found = allNews.find(n => n.id === newsId);
+        setNewsItem(found || null);
+      } catch (e) {
+        console.error("Failed to load news item", e);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    loadNews();
+  }, [newsId]);
 
   const basePath = '';
 
@@ -105,8 +123,8 @@ export default function SiteNewsDetail() {
       {/* Featured Image */}
       {newsItem.imageUrl && (
         <div className="mb-8 rounded-xl overflow-hidden shadow-lg">
-          <img 
-            src={newsItem.imageUrl} 
+          <img
+            src={newsItem.imageUrl}
             alt={newsItem.title}
             className="w-full h-auto max-h-[500px] object-cover"
           />

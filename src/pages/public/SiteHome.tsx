@@ -1,15 +1,16 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { 
-  Phone, Mail, MapPin, Clock, ChevronRight, Newspaper, 
+import {
+  Phone, Mail, MapPin, Clock, ChevronRight, Newspaper,
   Users2, FileText, MessageSquare, ExternalLink, Volume2,
-  Shield, BookOpen, GraduationCap, Heart
+  Shield, BookOpen, GraduationCap, Heart, ArrowRight
 } from "lucide-react";
 import { Link, useParams } from "wouter";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 import { useState, useEffect } from "react";
+import { storage } from "@/services/storage";
 
 // External portal links
 const PORTAL_LINKS = [
@@ -20,80 +21,78 @@ const PORTAL_LINKS = [
   { nameKey: "vacancies.portal", url: "https://enbek.kz", icon: "💼" },
 ];
 
-// Services offered by PMPK
+// Services offered by PMPK with accent colors
 const SERVICES = [
-  { 
-    icon: GraduationCap, 
+  {
+    icon: GraduationCap,
     titleKey: "about.diag",
-    descKey: "about.diagDesc"
+    descKey: "about.diagDesc",
+    accent: "from-blue-500 to-blue-600",
+    bgAccent: "bg-blue-50",
+    iconColor: "text-blue-600",
   },
-  { 
-    icon: Heart, 
+  {
+    icon: Heart,
     titleKey: "about.consult",
-    descKey: "about.consultDesc"
+    descKey: "about.consultDesc",
+    accent: "from-rose-500 to-rose-600",
+    bgAccent: "bg-rose-50",
+    iconColor: "text-rose-600",
   },
-  { 
-    icon: BookOpen, 
+  {
+    icon: BookOpen,
     titleKey: "about.method",
-    descKey: "about.methodDesc"
+    descKey: "about.methodDesc",
+    accent: "from-amber-500 to-amber-600",
+    bgAccent: "bg-amber-50",
+    iconColor: "text-amber-600",
   },
-  { 
-    icon: Shield, 
+  {
+    icon: Shield,
     titleKey: "about.correct",
-    descKey: "about.correctDesc"
+    descKey: "about.correctDesc",
+    accent: "from-emerald-500 to-emerald-600",
+    bgAccent: "bg-emerald-50",
+    iconColor: "text-emerald-600",
   },
 ];
 
+
+
 export default function SiteHome({ basePath: basePathProp }: { basePath?: string }) {
-  const params = useParams<{ clientSlug?: string }>();
-  // Default to pmpk9 if no slug is provided (custom domain case)
-  const clientSlug = params.clientSlug || "pmpk9"; 
   const { language, t } = useLanguage();
   useScrollAnimation();
-  
-  // Mock data - will be replaced with Sanity queries later
-  const mockClient = {
-      id: '1',
-      slug: 'pmpk9',
-      name: 'ПМПК №9',
-      description: 'Психолого-медико-педагогическая консультация',
-      logo: '/pmpk9-logo.png',
-      phone: '+7 777 608 00 65',
-      email: 'pmpk9_ast@mail.ru',
-      address: 'Астана қ., Е-321 көшесі, 18 үй',
-      directorName: 'Иванова Мария Ивановна',
-      directorBio: 'Педагог-психолог высшей категории, стаж работы 20 лет.',
-      directorPhoto: null
-  };
 
-  const client = mockClient;
-  const clientLoading = false;
+  const [client, setClient] = useState<any>(null);
+  const [news, setNews] = useState<any[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
 
-  const mockNews = [
-    {
-      id: "1",
-      title: "Открытие нового филиала",
-      content: "Мы рады сообщить об открытии нового филиала...",
-      imageUrl: "https://images.unsplash.com/photo-1577412647305-991150c7d163?w=800&auto=format&fit=crop&q=60",
-      createdAt: new Date().toISOString(),
-      published: true
-    },
-    {
-      id: "2",
-      title: "График работы в праздничные дни",
-      content: "Уважаемые родители! Обратите внимание на график работы...",
-      imageUrl: null,
-      createdAt: new Date(Date.now() - 86400000).toISOString(),
-      published: true
-    }
-  ];
+  useEffect(() => {
+    const loadData = async () => {
+      try {
+        const info = await storage.getGeneralInfo();
+        const allNews = await storage.getNews();
+        const newsItems = allNews.filter(n => n.published);
 
-  const news = mockNews;
+        setClient({
+          // Use info from storage, layout falls back to specific keys
+          directorName: info.directorName,
+          directorBio: info.directorBio,
+          directorPhoto: info.directorPhoto,
+        });
+        setNews(newsItems);
+      } catch (error) {
+        console.error("Failed to load home data", error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    loadData();
+  }, []);
 
-  // Use provided basePath or default to empty string (root)
   const basePath = basePathProp !== undefined ? basePathProp : '';
 
-  if (clientLoading) {
+  if (isLoading) {
     return (
       <div className="min-h-screen bg-gray-50">
         <div className="container py-8">
@@ -123,44 +122,69 @@ export default function SiteHome({ basePath: basePathProp }: { basePath?: string
 
   return (
     <div>
-      {/* Hero Section */}
-      <section className="bg-gov-primary py-8 sm:py-12 lg:py-16 fade-in-up">
-        <div className="container">
-          <div className="grid lg:grid-cols-2 gap-6 lg:gap-8 items-center">
+      {/* Hero Section — Modern gradient with decorative elements */}
+      <section className="relative overflow-hidden fade-in-up">
+        {/* Gradient background */}
+        <div className="absolute inset-0 bg-gradient-to-br from-[#0f2847] via-[#1e3a5f] to-[#2a4a72]" />
+
+        {/* Decorative circles */}
+        <div className="absolute top-0 right-0 w-96 h-96 bg-[#c9a227]/10 rounded-full blur-3xl transform translate-x-1/2 -translate-y-1/2" />
+        <div className="absolute bottom-0 left-0 w-72 h-72 bg-white/5 rounded-full blur-2xl transform -translate-x-1/3 translate-y-1/3" />
+
+        {/* Subtle pattern overlay */}
+        <div className="absolute inset-0 opacity-[0.03]" style={{
+          backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
+        }} />
+
+        <div className="container relative py-12 sm:py-16 lg:py-20">
+          <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
             <div>
-              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-1 sm:mb-2 text-white">
+              {/* Gold accent line */}
+              <div className="w-16 h-1 bg-gradient-to-r from-[#c9a227] to-[#e0b930] rounded-full mb-6" />
+
+              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-3 text-white leading-tight">
                 {t('home.welcome')}
               </h2>
-              <p className="text-base sm:text-lg text-white mb-4 sm:mb-6">
+              <p className="text-lg sm:text-xl text-white/80 mb-8 leading-relaxed max-w-lg">
                 {t('home.description')}
               </p>
               <div className="flex flex-col sm:flex-row gap-3">
                 <Link href={`${basePath}/about`}>
-                  <Button variant="secondary" size="lg" className="group w-full sm:w-auto bg-white text-gov-primary border border-transparent hover:bg-transparent hover:text-white hover:border-white transition-all duration-300 hover:scale-105">
+                  <Button size="lg" className="group w-full sm:w-auto bg-white text-[#1e3a5f] font-semibold hover:bg-white/90 transition-all duration-300 hover:shadow-lg hover:shadow-white/20 rounded-xl px-6">
                     {t('home.readMore')}
-                    <ChevronRight className="h-6 w-6 ml-2 transition-transform duration-300 group-hover:rotate-90 group-hover:text-white" />
+                    <ArrowRight className="h-5 w-5 ml-2 transition-transform duration-300 group-hover:translate-x-1" />
                   </Button>
                 </Link>
                 <Link href={`${basePath}/feedback`}>
-                  <Button variant="outline" size="lg" className="w-full sm:w-auto border-white text-white hover:bg-white hover:text-gov-primary transition-all duration-300 hover:scale-105">
+                  <Button variant="outline" size="lg" className="w-full sm:w-auto border-2 border-white/30 text-white hover:bg-white/10 hover:border-white/50 transition-all duration-300 rounded-xl px-6">
                     {t('feedback.question')}
                   </Button>
                 </Link>
               </div>
             </div>
             <div className="hidden lg:flex justify-center">
-              <img 
-                src="/pmpk9-logo.png" 
-                alt="ПМПК №9" 
-                className="h-64 w-64 object-contain bg-white/10 rounded-2xl p-4 hidden sm:block"
-              />
+              <div className="relative">
+                <div className="absolute inset-0 bg-gradient-to-br from-[#c9a227]/20 to-transparent rounded-3xl blur-xl scale-110" />
+                <img
+                  src="/pmpk9-logo.png"
+                  alt="ПМПК №9"
+                  className="relative h-72 w-72 object-contain bg-white/10 backdrop-blur-sm rounded-3xl p-6 border border-white/10 shadow-2xl"
+                />
+              </div>
             </div>
           </div>
         </div>
+
+        {/* Bottom wave divider */}
+        <div className="absolute bottom-0 left-0 right-0">
+          <svg viewBox="0 0 1440 60" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-auto">
+            <path d="M0 60L60 52C120 44 240 28 360 24C480 20 600 28 720 32C840 36 960 36 1080 32C1200 28 1320 20 1380 16L1440 12V60H1380C1320 60 1200 60 1080 60C960 60 840 60 720 60C600 60 480 60 360 60C240 60 120 60 60 60H0Z" fill="#f9fafb" />
+          </svg>
+        </div>
       </section>
 
-      {/* Quick Links */}
-      <section className="py-4 sm:py-6 bg-white border-b overflow-x-auto fade-in-up">
+      {/* Quick Links — Cleaner horizontal bar */}
+      <section className="py-4 sm:py-5 bg-white border-b overflow-x-auto fade-in-up">
         <div className="container">
           <div className="flex lg:grid lg:grid-cols-5 gap-2 sm:gap-3 min-w-max lg:min-w-0">
             {PORTAL_LINKS.map((link) => (
@@ -169,36 +193,41 @@ export default function SiteHome({ basePath: basePathProp }: { basePath?: string
                 href={link.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-2 p-2 sm:p-3 rounded-lg border hover:bg-muted/50 transition-colors group shrink-0 lg:shrink"
+                className="flex items-center gap-2.5 p-3 rounded-xl border border-gray-100 hover:border-[#1e3a5f]/20 hover:bg-[#1e3a5f]/[0.03] transition-all duration-200 group shrink-0 lg:shrink"
               >
-                <span className="text-lg sm:text-xl">{link.icon}</span>
-                <span className="text-xs sm:text-sm font-medium group-hover:text-gov-primary transition-colors whitespace-nowrap lg:whitespace-normal lg:line-clamp-1">
+                <span className="text-xl">{link.icon}</span>
+                <span className="text-sm font-medium text-gray-700 group-hover:text-[#1e3a5f] transition-colors whitespace-nowrap lg:whitespace-normal lg:line-clamp-1">
                   {t(link.nameKey)}
                 </span>
-                <ExternalLink className="h-3 w-3 ml-auto text-muted-foreground shrink-0 hidden sm:block" />
+                <ExternalLink className="h-3.5 w-3.5 ml-auto text-gray-300 group-hover:text-[#1e3a5f]/50 shrink-0 hidden sm:block transition-colors" />
               </a>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Services Section */}
-      <section className="py-8 sm:py-12 bg-gray-50 fade-in-up">
+      {/* Services Section — Colored accent cards */}
+      <section className="py-10 sm:py-14 bg-gray-50 fade-in-up">
         <div className="container">
-          <h2 className="text-xl sm:text-2xl font-bold text-gov-primary mb-8 sm:mb-10 text-center -mt-2">
-            {t('home.services')}
-          </h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+          <div className="text-center mb-10">
+            <h2 className="text-2xl sm:text-3xl font-bold text-[#1e3a5f] mb-2">
+              {t('home.services')}
+            </h2>
+            <div className="w-12 h-1 bg-gradient-to-r from-[#c9a227] to-[#e0b930] rounded-full mx-auto" />
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
             {SERVICES.map((service, index) => (
-              <Card key={index} className="border-0 shadow-md hover:shadow-lg transition-all icon-float">
-                <CardContent className="pt-6">
-                  <div className="h-12 w-12 rounded-lg bg-gov-primary/10 flex items-center justify-center mb-4">
-                    <service.icon className="h-12 w-12 text-gov-primary" />
+              <Card key={index} className="border-0 shadow-md hover:shadow-xl transition-all duration-300 icon-float overflow-hidden group relative">
+                {/* Top colored accent bar */}
+                <div className={`h-1.5 bg-gradient-to-r ${service.accent}`} />
+                <CardContent className="pt-6 pb-6">
+                  <div className={`h-14 w-14 rounded-2xl ${service.bgAccent} flex items-center justify-center mb-4 transition-transform duration-300 group-hover:scale-110`}>
+                    <service.icon className={`h-7 w-7 ${service.iconColor}`} />
                   </div>
-                  <h3 className="font-semibold mb-1 text-xl">
+                  <h3 className="font-bold mb-2 text-lg text-gray-900">
                     {t(service.titleKey)}
                   </h3>
-                  <p className="text-lg text-muted-foreground">
+                  <p className="text-sm text-gray-500 leading-relaxed">
                     {t(service.descKey)}
                   </p>
                 </CardContent>
@@ -208,58 +237,63 @@ export default function SiteHome({ basePath: basePathProp }: { basePath?: string
         </div>
       </section>
 
-      {/* Main Content */}
-      <section className="py-8 sm:py-12 fade-in-up">
+      {/* Main Content — News + Sidebar */}
+      <section className="py-10 sm:py-14 bg-white fade-in-up">
         <div className="container">
-          <div className="grid lg:grid-cols-3 gap-6 lg:gap-8">
+          <div className="grid lg:grid-cols-3 gap-8">
             {/* News Section */}
             <div className="lg:col-span-2">
-              <div className="flex items-center justify-between mb-4 sm:mb-6">
-                <h2 className="text-xl sm:text-2xl font-bold text-gov-primary flex items-center gap-2">
-                  <Newspaper className="h-5 w-5 sm:h-6 sm:w-6" />
+              <div className="flex items-center justify-between mb-6">
+                <h2 className="text-xl sm:text-2xl font-bold text-[#1e3a5f] flex items-center gap-2.5">
+                  <div className="h-9 w-9 rounded-lg bg-[#1e3a5f]/10 flex items-center justify-center">
+                    <Newspaper className="h-5 w-5 text-[#1e3a5f]" />
+                  </div>
                   {t('home.news')}
                 </h2>
                 <Link href={`${basePath}/news`}>
-                  <Button variant="ghost" size="sm">
+                  <Button variant="ghost" size="sm" className="text-[#1e3a5f] hover:bg-[#1e3a5f]/5 rounded-lg">
                     {t('home.allNews')}
                     <ChevronRight className="h-4 w-4 ml-1" />
                   </Button>
                 </Link>
               </div>
-              
+
               {recentNews.length === 0 ? (
-                <Card className="border-0 shadow-md">
-                  <CardContent className="py-12 text-center">
-                    <Newspaper className="h-12 w-12 mx-auto text-muted-foreground/50 mb-4" />
-                    <p className="text-muted-foreground">{t('common.noData')}</p>
+                <Card className="border border-gray-100 shadow-sm">
+                  <CardContent className="py-16 text-center">
+                    <div className="h-16 w-16 rounded-2xl bg-gray-100 flex items-center justify-center mx-auto mb-4">
+                      <Newspaper className="h-8 w-8 text-gray-300" />
+                    </div>
+                    <p className="text-gray-400 font-medium">{t('common.noData')}</p>
                   </CardContent>
                 </Card>
               ) : (
-                <div className="grid md:grid-cols-2 gap-4">
+                <div className="grid md:grid-cols-2 gap-5">
                   {recentNews.map((item) => (
                     <Link key={item.id} href={`${basePath}/news/${item.id}`}>
-                      <Card className="border-0 shadow-md hover:shadow-lg transition-all cursor-pointer h-full">
+                      <Card className="border border-gray-100 shadow-sm hover:shadow-lg transition-all duration-300 cursor-pointer h-full group rounded-xl overflow-hidden hover:border-[#1e3a5f]/15">
                         {item.imageUrl && (
-                          <div className="h-40 overflow-hidden rounded-t-lg">
-                            <img 
-                              src={item.imageUrl} 
-                              alt="" 
-                              className="w-full h-full object-cover"
+                          <div className="h-44 overflow-hidden">
+                            <img
+                              src={item.imageUrl}
+                              alt=""
+                              className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                             />
                           </div>
                         )}
                         <CardHeader className="pb-2">
-                          <CardTitle className="text-base line-clamp-2 hover:text-gov-primary transition-colors">
+                          <CardTitle className="text-base font-semibold line-clamp-2 group-hover:text-[#1e3a5f] transition-colors">
                             {item.title}
                           </CardTitle>
                         </CardHeader>
                         <CardContent>
-                          <p className="text-sm text-muted-foreground">
+                          <span className="inline-flex items-center gap-1.5 text-xs text-gray-400 bg-gray-50 px-2.5 py-1 rounded-full">
+                            <Clock className="h-3 w-3" />
                             {new Date(item.createdAt).toLocaleDateString(
                               language === 'kz' ? 'kk-KZ' : language === 'ru' ? 'ru-RU' : 'en-US',
                               { day: 'numeric', month: 'long', year: 'numeric' }
                             )}
-                          </p>
+                          </span>
                         </CardContent>
                       </Card>
                     </Link>
@@ -269,51 +303,51 @@ export default function SiteHome({ basePath: basePathProp }: { basePath?: string
             </div>
 
             {/* Sidebar */}
-            <div className="space-y-6">
+            <div className="space-y-5">
               {/* Director Blog Card */}
               {client.directorName && (
-                <Card className="border-0 shadow-md overflow-hidden">
-                  <div className="bg-gov-primary p-4">
-                    <h3 className="text-white font-semibold">
+                <Card className="border border-gray-100 shadow-sm overflow-hidden rounded-xl">
+                  <div className="bg-gradient-to-r from-[#1e3a5f] to-[#2a4a72] p-4">
+                    <h3 className="text-white font-semibold text-sm tracking-wide">
                       {t('home.directorBlog')}
                     </h3>
                   </div>
-                  <CardContent className="pt-4">
+                  <CardContent className="pt-5">
                     <div className="flex items-start gap-4">
                       {client.directorPhoto ? (
-                        <img 
-                          src={client.directorPhoto} 
+                        <img
+                          src={client.directorPhoto}
                           alt={client.directorName}
-                          className="h-20 w-20 rounded-lg object-cover"
+                          className="h-20 w-20 rounded-xl object-cover ring-2 ring-gray-100"
                         />
                       ) : (
-                        <div className="h-20 w-20 rounded-lg bg-muted flex items-center justify-center overflow-hidden">
-                          <img 
-                            src="/director.jpg" 
+                        <div className="h-20 w-20 rounded-xl bg-gradient-to-br from-gray-100 to-gray-50 flex items-center justify-center overflow-hidden ring-2 ring-gray-100">
+                          <img
+                            src="/director.jpg"
                             alt={client.directorName}
                             className="w-full h-full object-cover"
                             onError={(e) => {
-                                e.currentTarget.style.display = 'none';
-                                e.currentTarget.nextElementSibling?.classList.remove('hidden');
+                              e.currentTarget.style.display = 'none';
+                              e.currentTarget.nextElementSibling?.classList.remove('hidden');
                             }}
                           />
-                          <Users2 className="h-8 w-8 text-muted-foreground hidden" />
+                          <Users2 className="h-8 w-8 text-gray-300 hidden" />
                         </div>
                       )}
                       <div className="flex-1 min-w-0">
-                        <p className="font-semibold">{client.directorName}</p>
-                        <p className="text-sm text-muted-foreground">
+                        <p className="font-semibold text-gray-900">{client.directorName}</p>
+                        <p className="text-sm text-[#1e3a5f]/70 font-medium">
                           {t('about.director')}
                         </p>
                       </div>
                     </div>
                     {client.directorBio && (
-                      <p className="text-sm text-muted-foreground mt-3 line-clamp-3">
+                      <p className="text-sm text-gray-500 mt-4 line-clamp-3 leading-relaxed">
                         {client.directorBio}
                       </p>
                     )}
                     <Link href={`${basePath}/about`}>
-                      <Button variant="outline" size="sm" className="w-full mt-4">
+                      <Button variant="outline" size="sm" className="w-full mt-4 rounded-lg border-gray-200 hover:border-[#1e3a5f]/30 hover:bg-[#1e3a5f]/[0.03] text-[#1e3a5f]">
                         {t('home.readMore')}
                         <ChevronRight className="h-4 w-4 ml-1" />
                       </Button>
@@ -323,59 +357,69 @@ export default function SiteHome({ basePath: basePathProp }: { basePath?: string
               )}
 
               {/* Contact Card */}
-              <Card className="border-0 shadow-md">
-                <div className="bg-gov-primary p-4">
-                  <h3 className="text-white font-semibold">{t('contacts.title')}</h3>
+              <Card className="border border-gray-100 shadow-sm rounded-xl overflow-hidden">
+                <div className="bg-gradient-to-r from-[#1e3a5f] to-[#2a4a72] p-4">
+                  <h3 className="text-white font-semibold text-sm tracking-wide">{t('contacts.title')}</h3>
                 </div>
-                <CardContent className="pt-4 space-y-3">
+                <CardContent className="pt-5 space-y-3.5">
                   <div className="flex items-start gap-3">
-                    <MapPin className="h-5 w-5 text-gov-primary shrink-0 mt-0.5" />
+                    <div className="h-8 w-8 rounded-lg bg-[#1e3a5f]/8 flex items-center justify-center shrink-0 mt-0.5">
+                      <MapPin className="h-4 w-4 text-[#1e3a5f]" />
+                    </div>
                     <div>
-                      <p className="font-medium">{t('contacts.address')}</p>
-                      <p className="text-sm text-muted-foreground">
+                      <p className="font-medium text-sm text-gray-900">{t('contacts.address')}</p>
+                      <p className="text-sm text-gray-500">
                         {t('common.city')}, Е-321, 18
                       </p>
                     </div>
                   </div>
                   <div className="flex items-start gap-3">
-                    <Phone className="h-5 w-5 text-gov-primary shrink-0 mt-0.5" />
+                    <div className="h-8 w-8 rounded-lg bg-[#1e3a5f]/8 flex items-center justify-center shrink-0 mt-0.5">
+                      <Phone className="h-4 w-4 text-[#1e3a5f]" />
+                    </div>
                     <div>
-                      <p className="font-medium">{t('contacts.phone')}</p>
-                      <a href="tel:+77776080065" className="text-sm text-gov-primary hover:underline">
+                      <p className="font-medium text-sm text-gray-900">{t('contacts.phone')}</p>
+                      <a href="tel:+77776080065" className="text-sm text-[#1e3a5f] hover:underline">
                         +7 777 608 00 65
                       </a>
                     </div>
                   </div>
-                  <a 
-                    href="https://wa.me/77776080065" 
-                    target="_blank" 
+                  <a
+                    href="https://wa.me/77776080065"
+                    target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-start gap-3 p-2 -mx-2 rounded-lg hover:bg-green-50 transition-colors"
+                    className="flex items-start gap-3 p-2.5 -mx-2.5 rounded-xl hover:bg-emerald-50/80 transition-colors"
                   >
-                    <svg className="h-5 w-5 text-green-500 shrink-0 mt-0.5" viewBox="0 0 24 24" fill="currentColor">
-                      <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
-                    </svg>
+                    <div className="h-8 w-8 rounded-lg bg-emerald-100 flex items-center justify-center shrink-0">
+                      <svg className="h-4 w-4 text-emerald-600" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
+                      </svg>
+                    </div>
                     <div>
-                      <p className="font-medium text-green-600">WhatsApp</p>
-                      <p className="text-sm text-muted-foreground">
+                      <p className="font-medium text-sm text-emerald-700">WhatsApp</p>
+                      <p className="text-xs text-gray-400">
                         {t('contacts.writeUs')}
                       </p>
                     </div>
                   </a>
                   <div className="flex items-start gap-3">
-                    <Mail className="h-5 w-5 text-gov-primary shrink-0 mt-0.5" />
+                    <div className="h-8 w-8 rounded-lg bg-[#1e3a5f]/8 flex items-center justify-center shrink-0 mt-0.5">
+                      <Mail className="h-4 w-4 text-[#1e3a5f]" />
+                    </div>
                     <div>
-                      <p className="font-medium">{t('contacts.email')}</p>
-                      <a href="mailto:pmpk9_ast@mail.ru" className="text-sm text-gov-primary hover:underline">
+                      <p className="font-medium text-sm text-gray-900">{t('contacts.email')}</p>
+                      <a href="mailto:pmpk9_ast@mail.ru" className="text-sm text-[#1e3a5f] hover:underline">
                         pmpk9_ast@mail.ru
                       </a>
                     </div>
                   </div>
                   <div className="flex items-start gap-3">
-                    <Clock className="h-5 w-5 text-gov-primary shrink-0 mt-0.5" />
+                    <div className="h-8 w-8 rounded-lg bg-[#1e3a5f]/8 flex items-center justify-center shrink-0 mt-0.5">
+                      <Clock className="h-4 w-4 text-[#1e3a5f]" />
+                    </div>
                     <div>
-                      <p className="font-medium">{t('contacts.schedule')}</p>
-                      <p className="text-sm text-muted-foreground">
+                      <p className="font-medium text-sm text-gray-900">{t('contacts.schedule')}</p>
+                      <p className="text-sm text-gray-500">
                         {language === 'kz' ? 'Дб-Жм 8:30-13:20' : language === 'ru' ? 'Пн-Пт 8:30-13:20' : 'Mon-Fri 8:30-13:20'}
                       </p>
                     </div>
@@ -384,23 +428,23 @@ export default function SiteHome({ basePath: basePathProp }: { basePath?: string
               </Card>
 
               {/* Quick Actions */}
-              <Card className="border-0 shadow-md">
-                <CardContent className="pt-6 flex flex-col gap-4">
+              <Card className="border border-gray-100 shadow-sm rounded-xl">
+                <CardContent className="pt-5 pb-5 flex flex-col gap-3">
                   <Link href={`${basePath}/feedback`}>
-                    <Button variant="outline" className="w-full justify-center gap-2 transition-all duration-300 hover:scale-105 hover:shadow-md">
-                      <MessageSquare className="h-4 w-4" />
+                    <Button variant="outline" className="w-full justify-center gap-2 rounded-lg border-gray-200 hover:border-[#1e3a5f]/20 hover:bg-[#1e3a5f]/[0.03] transition-all duration-200">
+                      <MessageSquare className="h-4 w-4 text-[#1e3a5f]" />
                       {t('feedback.question')}
                     </Button>
                   </Link>
                   <Link href={`${basePath}/documents`}>
-                    <Button variant="outline" className="w-full justify-center gap-2 transition-all duration-300 hover:scale-105 hover:shadow-md">
-                      <FileText className="h-4 w-4" />
+                    <Button variant="outline" className="w-full justify-center gap-2 rounded-lg border-gray-200 hover:border-[#1e3a5f]/20 hover:bg-[#1e3a5f]/[0.03] transition-all duration-200">
+                      <FileText className="h-4 w-4 text-[#1e3a5f]" />
                       {t('nav.documents')}
                     </Button>
                   </Link>
                   <Link href={`${basePath}/about`}>
-                    <Button variant="outline" className="w-full justify-center gap-2 transition-all duration-300 hover:scale-105 hover:shadow-md">
-                      <Users2 className="h-4 w-4" />
+                    <Button variant="outline" className="w-full justify-center gap-2 rounded-lg border-gray-200 hover:border-[#1e3a5f]/20 hover:bg-[#1e3a5f]/[0.03] transition-all duration-200">
+                      <Users2 className="h-4 w-4 text-[#1e3a5f]" />
                       {t('about.structure')}
                     </Button>
                   </Link>
@@ -408,9 +452,9 @@ export default function SiteHome({ basePath: basePathProp }: { basePath?: string
               </Card>
 
               {/* Map Card */}
-              <Card className="border-0 shadow-md overflow-hidden">
-                <div className="bg-gov-primary p-4">
-                  <h3 className="text-white font-semibold">
+              <Card className="border border-gray-100 shadow-sm overflow-hidden rounded-xl">
+                <div className="bg-gradient-to-r from-[#1e3a5f] to-[#2a4a72] p-4">
+                  <h3 className="text-white font-semibold text-sm tracking-wide">
                     {t('home.openMap')}
                   </h3>
                 </div>
@@ -426,11 +470,11 @@ export default function SiteHome({ basePath: basePathProp }: { basePath?: string
                     title="Карта ПМПК №9"
                   />
                   <div className="p-4">
-                    <a 
-                      href="https://maps.google.com/?q=51.1,71.4" 
-                      target="_blank" 
+                    <a
+                      href="https://maps.google.com/?q=51.1,71.4"
+                      target="_blank"
                       rel="noopener noreferrer"
-                      className="flex items-center gap-2 text-sm text-gov-primary hover:underline"
+                      className="flex items-center gap-2 text-sm text-[#1e3a5f] hover:underline font-medium"
                     >
                       <ExternalLink className="h-4 w-4" />
                       {t('home.openFullMap')}

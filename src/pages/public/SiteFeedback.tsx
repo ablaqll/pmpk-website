@@ -1,48 +1,65 @@
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import { Label } from "@/components/ui/label";
-import { MessageSquare, Send, HelpCircle, CheckCircle } from "lucide-react";
-import { useState } from "react";
-import { useParams } from "wouter";
-import { Skeleton } from "@/components/ui/skeleton";
-import { toast } from "sonner";
-import { useLanguage } from "@/contexts/LanguageContext";
 
-export default function SiteFeedback() {
-  const clientSlug = "pmpk9";
+import React, { useState, useEffect } from 'react';
+import SiteLayout from '@/components/SiteLayout';
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
+import { Button } from '@/components/ui/button';
+import { Label } from '@/components/ui/label';
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import { MessageSquare, Send, HelpCircle, CheckCircle } from "lucide-react";
+import { useLanguage } from '@/contexts/LanguageContext';
+import { motion } from 'framer-motion';
+import { toast } from 'sonner';
+import { storage, FaqItem } from '@/services/storage';
+
+const SiteFeedback = () => {
   const { t } = useLanguage();
-  
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     phone: "",
-    question: "",
+    question: ""
   });
   const [submitted, setSubmitted] = useState(false);
-  
-  const mockClient = { id: '1', slug: 'pmpk9', name: 'ПМПК №9' };
-  const client = mockClient;
-  const publishedFeedback: any[] = [];
-  const isLoading = false;
+  const [faqs, setFaqs] = useState<FaqItem[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const loadFaqs = async () => {
+      try {
+        const data = await storage.getFaq();
+        setFaqs(data.filter(f => f.published));
+      } catch (err) {
+        console.error(err);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    loadFaqs();
+  }, []);
+
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    
     if (!formData.name || !formData.question) {
       toast.error(t('common.error'));
       return;
     }
-    
-    // TODO: Replace with Sanity submission or external form
+    console.log("Form submitted:", formData);
+    // In a real app we'd post this to an endpoint
     setSubmitted(true);
     setFormData({ name: "", email: "", phone: "", question: "" });
     toast.success(t('feedback.success'));
   };
 
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
+  };
+
   return (
-    <div>
+    <SiteLayout>
       {/* Hero Section */}
       <section className="bg-gov-primary text-white py-12">
         <div className="container">
@@ -57,10 +74,15 @@ export default function SiteFeedback() {
       </section>
 
       <div className="container py-12">
-        <div className="grid lg:grid-cols-2 gap-8">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="grid lg:grid-cols-2 gap-8"
+        >
           {/* Form */}
           <div>
-            <Card className="border-0 shadow-md">
+            <Card className="border-0 shadow-md h-full">
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <Send className="h-5 w-5 text-gov-primary" />
@@ -90,8 +112,9 @@ export default function SiteFeedback() {
                       <Label htmlFor="name">{t('feedback.name')} *</Label>
                       <Input
                         id="name"
+                        name="name"
                         value={formData.name}
-                        onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                        onChange={handleChange}
                         placeholder={t('feedback.name')}
                         required
                       />
@@ -101,9 +124,10 @@ export default function SiteFeedback() {
                         <Label htmlFor="email">{t('feedback.email')}</Label>
                         <Input
                           id="email"
+                          name="email"
                           type="email"
                           value={formData.email}
-                          onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                          onChange={handleChange}
                           placeholder="example@mail.com"
                         />
                       </div>
@@ -111,8 +135,9 @@ export default function SiteFeedback() {
                         <Label htmlFor="phone">{t('feedback.phone')}</Label>
                         <Input
                           id="phone"
+                          name="phone"
                           value={formData.phone}
-                          onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                          onChange={handleChange}
                           placeholder="+7 (___) ___-__-__"
                         />
                       </div>
@@ -121,15 +146,16 @@ export default function SiteFeedback() {
                       <Label htmlFor="question">{t('feedback.message')} *</Label>
                       <Textarea
                         id="question"
+                        name="question"
                         value={formData.question}
-                        onChange={(e) => setFormData({ ...formData, question: e.target.value })}
+                        onChange={handleChange}
                         placeholder=""
                         rows={5}
                         required
                       />
                     </div>
-                    <Button 
-                      type="submit" 
+                    <Button
+                      type="submit"
                       className="w-full bg-gov-primary hover:bg-gov-primary/90 transition-all duration-300 hover:scale-105 hover:shadow-lg"
                     >
                       <Send className="h-4 w-4 mr-2" />
@@ -143,7 +169,7 @@ export default function SiteFeedback() {
 
           {/* FAQ */}
           <div>
-            <Card className="border-0 shadow-md">
+            <Card className="border-0 shadow-md h-full">
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <HelpCircle className="h-5 w-5 text-gov-primary" />
@@ -155,20 +181,20 @@ export default function SiteFeedback() {
               </CardHeader>
               <CardContent>
                 {isLoading ? (
-                  <div className="space-y-4">
-                    <Skeleton className="h-20 w-full" />
-                    <Skeleton className="h-20 w-full" />
-                    <Skeleton className="h-20 w-full" />
-                  </div>
-                ) : publishedFeedback.length > 0 ? (
-                  <div className="space-y-6">
-                    {publishedFeedback.map((item) => (
-                      <div key={item.id} className="border-b pb-4 last:border-0">
-                        <h3 className="font-semibold mb-2">{item.question}</h3>
-                        <p className="text-muted-foreground text-sm">{item.answer}</p>
-                      </div>
+                  <div className="text-center py-4">{t('common.loading')}</div>
+                ) : faqs.length > 0 ? (
+                  <Accordion type="single" collapsible className="w-full">
+                    {faqs.map((item) => (
+                      <AccordionItem key={item.id} value={item.id}>
+                        <AccordionTrigger className="text-left font-semibold">
+                          {item.question}
+                        </AccordionTrigger>
+                        <AccordionContent className="text-gray-700 whitespace-pre-wrap">
+                          {item.answer}
+                        </AccordionContent>
+                      </AccordionItem>
                     ))}
-                  </div>
+                  </Accordion>
                 ) : (
                   <p className="text-muted-foreground text-center py-8">
                     {t('feedback.noFaq')}
@@ -177,8 +203,10 @@ export default function SiteFeedback() {
               </CardContent>
             </Card>
           </div>
-        </div>
+        </motion.div>
       </div>
-    </div>
+    </SiteLayout>
   );
-}
+};
+
+export default SiteFeedback;

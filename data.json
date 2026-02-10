@@ -1,0 +1,47 @@
+{
+  "news": [
+    {
+      "category": "news",
+      "published": true,
+      "title": "Test News Item",
+      "content": "This is a test news item content. It should appear on the public news page.",
+      "id": "17e828f7-7abb-4f29-94f6-897ce846f916",
+      "createdAt": "2026-02-10T15:31:13.769Z"
+    },
+    {
+      "category": "news",
+      "published": true,
+      "title": "Server Storage Test",
+      "content": "This should be saved to data.json",
+      "id": "3ab7f209-fba1-4ddd-9edd-f354fdbf70a4",
+      "createdAt": "2026-02-10T15:12:13.095Z"
+    }
+  ],
+  "staff": [],
+  "info": {
+    "directorName": "Иванова Мария Ивановна",
+    "directorBio": "Педагог-психолог высшей категории, стаж работы 20 лет.",
+    "directorPhoto": "/director.jpg",
+    "address": "Астана қ., Е-321 көшесі, 18 үй",
+    "phone": "+7 777 608 00 65",
+    "email": "pmpk9_ast@mail.ru",
+    "schedule": "Mon-Fri 8:30-13:20"
+  },
+  "vacancies": [
+    {
+      "published": true,
+      "title": "Test Vacancy",
+      "id": "c74e5f32-a7b4-42e4-9208-f8cd77bf00b5",
+      "createdAt": "2026-02-10T15:31:39.270Z"
+    }
+  ],
+  "faq": [
+    {
+      "published": true,
+      "question": "Test FAQ?",
+      "answer": "This is a test FAQ answer.",
+      "id": "388b24c6-5bbc-4774-930e-276359d22b03",
+      "createdAt": "2026-02-10T15:32:12.011Z"
+    }
+  ]
+}

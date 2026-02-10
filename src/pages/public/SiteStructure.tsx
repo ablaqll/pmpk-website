@@ -4,22 +4,30 @@ import { useParams } from "wouter";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useLanguage } from "@/contexts/LanguageContext";
 
+import { storage } from "@/services/storage";
+import { useEffect, useState } from "react";
+
 export default function SiteStructure() {
-  const clientSlug = "pmpk9";
   const { t } = useLanguage();
-  
-  const mockClient = { id: '1', slug: 'pmpk9', name: 'ПМПК №9' };
-  const client = mockClient;
-  const staff: any[] = [];
-  const isLoading = false;
+  const [staff, setStaff] = useState<any[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const loadStaff = async () => {
+      const data = await storage.getStaff();
+      setStaff(data);
+      setIsLoading(false);
+    };
+    loadStaff();
+  }, []);
 
   // Group staff by department
-  const groupedStaff = (staff || []).reduce((acc, person) => {
-    const dept = person.department || t('about.director'); // Fallback to "Director/Leadership" translation
+  const groupedStaff = (staff || []).reduce((acc: Record<string, any[]>, person: any) => {
+    const dept = person.department || t('about.director');
     if (!acc[dept]) acc[dept] = [];
     acc[dept].push(person);
     return acc;
-  }, {} as Record<string, typeof staff>) || {};
+  }, {} as Record<string, any[]>) || {};
 
   return (
     <div>
@@ -67,8 +75,8 @@ export default function SiteStructure() {
                       <CardContent className="pt-6">
                         <div className="flex items-start gap-4">
                           {person.photoUrl ? (
-                            <img 
-                              src={person.photoUrl} 
+                            <img
+                              src={person.photoUrl}
                               alt={person.name}
                               className="h-20 w-20 rounded-lg object-cover"
                             />
@@ -86,11 +94,11 @@ export default function SiteStructure() {
                             </p>
                           </div>
                         </div>
-                        
+
                         {(person.email || person.phone) && (
                           <div className="mt-4 pt-4 border-t space-y-2">
                             {person.email && (
-                              <a 
+                              <a
                                 href={`mailto:${person.email}`}
                                 className="flex items-center gap-2 text-sm text-muted-foreground hover:text-gov-primary transition-colors"
                               >
@@ -99,7 +107,7 @@ export default function SiteStructure() {
                               </a>
                             )}
                             {person.phone && (
-                              <a 
+                              <a
                                 href={`tel:${person.phone}`}
                                 className="flex items-center gap-2 text-sm text-muted-foreground hover:text-gov-primary transition-colors"
                               >
