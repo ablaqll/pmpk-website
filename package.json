@@ -74,5 +74,8 @@
     "tailwindcss": "^4.0.0-beta.8",
     "typescript": "^5.7.2",
     "vite": "^6.0.3"
+  },
+  "optionalDependencies": {
+    "@rollup/rollup-linux-x64-gnu": "^4.57.1"
   }
 }
