@@ -7,6 +7,7 @@ import { useState } from "react";
 import { Link, useParams } from "wouter";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { AnimatedHeroBackground } from "@/components/AnimatedHeroBackground";
 
 import { storage } from "@/services/storage";
 import { useEffect } from "react";
@@ -46,10 +47,11 @@ export default function SiteNews() {
   return (
     <div>
       {/* Hero Section */}
-      <section className="bg-gov-primary text-white py-6 sm:py-8">
-        <div className="container">
+      <section className="relative overflow-hidden text-white py-14 sm:py-20 flex flex-col justify-center min-h-[200px]">
+        <AnimatedHeroBackground />
+        <div className="container relative z-10 flex flex-col">
           <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold flex items-center gap-2 sm:gap-3">
-            <Newspaper className="h-5 w-5 sm:h-6 sm:w-6 lg:h-8 lg:w-8" />
+            <Newspaper className="h-5 w-5 sm:h-6 sm:w-6 lg:h-8 lg:w-8 text-[#c9a227]" />
             {t('news.title')}
           </h1>
           <p className="text-white/80 mt-2 text-xs sm:text-sm lg:text-base">

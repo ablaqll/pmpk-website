@@ -3,6 +3,7 @@ import { Users2, Mail, Phone, Building2 } from "lucide-react";
 import { useParams } from "wouter";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { AnimatedHeroBackground } from "@/components/AnimatedHeroBackground";
 
 import { storage } from "@/services/storage";
 import { useEffect, useState } from "react";
@@ -32,10 +33,11 @@ export default function SiteStructure() {
   return (
     <div>
       {/* Hero Section */}
-      <section className="bg-gov-primary text-white py-12">
-        <div className="container">
+      <section className="relative overflow-hidden text-white py-14 sm:py-20 flex flex-col justify-center min-h-[200px]">
+        <AnimatedHeroBackground />
+        <div className="container relative z-10 flex flex-col">
           <h1 className="text-3xl lg:text-4xl font-bold mb-4 flex items-center gap-3">
-            <Building2 className="h-8 w-8" />
+            <Building2 className="h-8 w-8 text-[#c9a227]" />
             {t('structure.title')}
           </h1>
           <p className="text-lg text-white/90 max-w-3xl">

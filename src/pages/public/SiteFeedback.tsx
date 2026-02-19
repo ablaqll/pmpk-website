@@ -12,6 +12,7 @@ import { useLanguage } from '@/contexts/LanguageContext';
 import { motion } from 'framer-motion';
 import { toast } from 'sonner';
 import { storage, FaqItem } from '@/services/storage';
+import { AnimatedHeroBackground } from '@/components/AnimatedHeroBackground';
 
 const SiteFeedback = () => {
   const { t } = useLanguage();
@@ -46,8 +47,12 @@ const SiteFeedback = () => {
       toast.error(t('common.error'));
       return;
     }
-    console.log("Form submitted:", formData);
-    // In a real app we'd post this to an endpoint
+
+    const subject = `Новая заявка от ${formData.name}`;
+    const body = `Имя: ${formData.name}\nEmail: ${formData.email || '-'}\nТелефон: ${formData.phone || '-'}\n\nВопрос:\n${formData.question}`;
+
+    window.location.href = `mailto:pmpk9_ast@mail.ru?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+
     setSubmitted(true);
     setFormData({ name: "", email: "", phone: "", question: "" });
     toast.success(t('feedback.success'));
@@ -61,8 +66,9 @@ const SiteFeedback = () => {
   return (
     <>
       {/* Hero Section */}
-      <section className="bg-gov-primary text-white py-12">
-        <div className="container">
+      <section className="relative overflow-hidden text-white py-14 sm:py-20 flex flex-col justify-center min-h-[200px]">
+        <AnimatedHeroBackground />
+        <div className="container relative z-10 flex flex-col">
           <h1 className="text-3xl lg:text-4xl font-bold mb-4 flex items-center gap-3">
             <MessageSquare className="h-8 w-8" />
             {t('feedback.title')}

@@ -1,25 +1,26 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { 
-  MapPin, Phone, Mail, Clock, ExternalLink, 
+import {
+  MapPin, Phone, Mail, Clock, ExternalLink,
   MessageSquare, Volume2, Instagram, Send
 } from "lucide-react";
 import { Link, useParams } from "wouter";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { AnimatedHeroBackground } from "@/components/AnimatedHeroBackground";
 
 export default function SiteContacts() {
   const clientSlug = "pmpk9";
   const { language, t } = useLanguage();
-  
+
   const mockClient = {
     id: '1',
     slug: 'pmpk9',
     name: 'ПМПК №9',
     phone: '+7 777 608 00 65',
     email: 'pmpk9_ast@mail.ru',
-    trustPhone: null,
-    telegram: null
+    trustPhone: null as string | null,
+    telegram: null as string | null
   };
   const client = mockClient;
   const isLoading = false;
@@ -51,18 +52,19 @@ export default function SiteContacts() {
   return (
     <div>
       {/* Hero Section */}
-      <section className="bg-gov-primary text-white py-12">
-        <div className="container">
+      <section className="relative overflow-hidden text-white py-14 sm:py-20 flex flex-col justify-center min-h-[200px]">
+        <AnimatedHeroBackground />
+        <div className="container relative z-10 flex flex-col">
           <h1 className="text-3xl lg:text-4xl font-bold mb-4 flex items-center gap-3">
-            <MapPin className="h-8 w-8" />
+            <MapPin className="h-8 w-8 text-[#c9a227]" />
             {t('contacts.title')}
           </h1>
           <p className="text-lg text-white/90 max-w-3xl">
-            {language === 'kz' 
+            {language === 'kz'
               ? 'Бізбен кез келген ыңғайлы тәсілмен байланысыңыз'
               : language === 'ru'
-              ? 'Свяжитесь с нами любым удобным способом'
-              : 'Contact us in any convenient way'}
+                ? 'Свяжитесь с нами любым удобным способом'
+                : 'Contact us in any convenient way'}
           </p>
         </div>
       </section>
@@ -82,11 +84,11 @@ export default function SiteContacts() {
               <CardContent>
                 <p className="text-lg">{language === 'kz' ? contactInfo.addressKz : contactInfo.address}</p>
                 <p className="text-sm text-muted-foreground mt-1">
-                  {language === 'kz' 
+                  {language === 'kz'
                     ? '№9 ПМПК, Астана қаласы'
                     : language === 'ru'
-                    ? 'ПМПК №9, город Астана'
-                    : 'PMPK №9, Astana city'}
+                      ? 'ПМПК №9, город Астана'
+                      : 'PMPK №9, Astana city'}
                 </p>
               </CardContent>
             </Card>
@@ -100,7 +102,7 @@ export default function SiteContacts() {
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-3">
-                <a 
+                <a
                   href={`tel:${contactInfo.phone.replace(/\s/g, '')}`}
                   className="flex items-center gap-3 text-lg hover:text-gov-primary transition-colors"
                 >
@@ -114,7 +116,7 @@ export default function SiteContacts() {
                       <p className="text-sm text-muted-foreground">
                         {language === 'kz' ? 'Сенім телефоны' : language === 'ru' ? 'Телефон доверия' : 'Trust phone'}
                       </p>
-                      <a 
+                      <a
                         href={`tel:${client.trustPhone}`}
                         className="text-lg font-semibold hover:text-gov-primary transition-colors"
                       >
@@ -135,7 +137,7 @@ export default function SiteContacts() {
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <a 
+                <a
                   href={`mailto:${contactInfo.email}`}
                   className="text-lg hover:text-gov-primary transition-colors"
                 >
@@ -166,7 +168,7 @@ export default function SiteContacts() {
               </CardHeader>
               <CardContent>
                 <div className="flex gap-3">
-                  <a 
+                  <a
                     href={`https://instagram.com/${contactInfo.instagram}`}
                     target="_blank"
                     rel="noopener noreferrer"
@@ -175,7 +177,7 @@ export default function SiteContacts() {
                     <Instagram className="h-6 w-6" />
                   </a>
                   {client?.telegram && (
-                    <a 
+                    <a
                       href={client.telegram.startsWith('http') ? client.telegram : `https://t.me/${client.telegram.replace('@', '')}`}
                       target="_blank"
                       rel="noopener noreferrer"
@@ -214,7 +216,7 @@ export default function SiteContacts() {
                   />
                 </div>
                 <div className="p-4 bg-muted/50 border-t">
-                  <a 
+                  <a
                     href={mapUrl}
                     target="_blank"
                     rel="noopener noreferrer"
@@ -235,11 +237,11 @@ export default function SiteContacts() {
                   {language === 'kz' ? 'Сұрақтарыңыз бар ма?' : language === 'ru' ? 'Есть вопросы?' : 'Have questions?'}
                 </h3>
                 <p className="text-white/80 mb-6">
-                  {language === 'kz' 
+                  {language === 'kz'
                     ? 'Бізге өтініш жіберіңіз, біз тез арада жауап береміз'
                     : language === 'ru'
-                    ? 'Отправьте нам обращение, и мы ответим в кратчайшие сроки'
-                    : 'Send us a request and we will respond as soon as possible'}
+                      ? 'Отправьте нам обращение, и мы ответим в кратчайшие сроки'
+                      : 'Send us a request and we will respond as soon as possible'}
                 </p>
                 <Link href={`${basePath}/feedback`}>
                   <Button variant="secondary" size="lg">
@@ -257,7 +259,7 @@ export default function SiteContacts() {
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-2">
-                <a 
+                <a
                   href="https://birge.astana.kz"
                   target="_blank"
                   rel="noopener noreferrer"
@@ -268,7 +270,7 @@ export default function SiteContacts() {
                   </span>
                   <ExternalLink className="h-4 w-4 text-muted-foreground" />
                 </a>
-                <a 
+                <a
                   href="https://egov.kz"
                   target="_blank"
                   rel="noopener noreferrer"

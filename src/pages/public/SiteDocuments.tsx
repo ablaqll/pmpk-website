@@ -5,6 +5,7 @@ import { FileText, Download, ExternalLink, File } from "lucide-react";
 import { useParams } from "wouter";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { AnimatedHeroBackground } from "@/components/AnimatedHeroBackground";
 
 const CATEGORY_ICONS: Record<string, string> = {
   charter: "📜",
@@ -18,7 +19,7 @@ const CATEGORY_ICONS: Record<string, string> = {
 export default function SiteDocuments() {
   const clientSlug = "pmpk9";
   const { t } = useLanguage();
-  
+
   const mockClient = { id: '1', slug: 'pmpk9', name: 'ПМПК №9' };
   const client = mockClient;
   const documents: any[] = [];
@@ -46,15 +47,13 @@ export default function SiteDocuments() {
   return (
     <div>
       {/* Hero Section */}
-      <section className="bg-gov-primary text-white py-12">
-        <div className="container">
-          <h1 className="text-3xl lg:text-4xl font-bold mb-4 flex items-center gap-3">
-            <FileText className="h-8 w-8" />
+      <section className="relative overflow-hidden text-white py-14 sm:py-20 flex flex-col justify-center min-h-[200px]">
+        <AnimatedHeroBackground />
+        <div className="container relative z-10 flex flex-col h-full items-start">
+          <h1 className="text-3xl lg:text-4xl font-bold flex items-center gap-3 my-0">
+            <FileText className="h-8 w-8 text-[#c9a227]" />
             {t('docs.title')}
           </h1>
-          <p className="text-lg text-white/90 max-w-3xl">
-            {t('docs.desc')}
-          </p>
         </div>
       </section>
 
@@ -77,7 +76,7 @@ export default function SiteDocuments() {
           </Card>
         ) : (
           <div className="space-y-8">
-            {Object.entries(groupedDocs).map(([category, docs]) => (
+            {(Object.entries(groupedDocs) as [string, any[]][]).map(([category, docs]) => (
               <Card key={category} className="border-0 shadow-md">
                 <CardHeader className="bg-muted/50">
                   <CardTitle className="flex items-center gap-2">
@@ -90,9 +89,9 @@ export default function SiteDocuments() {
                 </CardHeader>
                 <CardContent className="pt-4">
                   <div className="divide-y">
-                    {docs.map((doc) => (
-                      <div 
-                        key={doc.id} 
+                    {docs.map((doc: any) => (
+                      <div
+                        key={doc.id}
                         className="py-4 first:pt-0 last:pb-0 flex items-center justify-between gap-4"
                       >
                         <div className="flex items-start gap-3 min-w-0">
@@ -147,12 +146,12 @@ export default function SiteDocuments() {
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <ExternalLink className="h-5 w-5" />
-              {t('docs.usefulLinks')}
+              Полезные ссылки
             </CardTitle>
           </CardHeader>
           <CardContent>
             <div className="grid md:grid-cols-2 gap-4">
-              <a 
+              <a
                 href="https://adilet.zan.kz"
                 target="_blank"
                 rel="noopener noreferrer"
@@ -164,7 +163,7 @@ export default function SiteDocuments() {
                   <p className="text-sm text-muted-foreground">adilet.zan.kz</p>
                 </div>
               </a>
-              <a 
+              <a
                 href="https://egov.kz"
                 target="_blank"
                 rel="noopener noreferrer"

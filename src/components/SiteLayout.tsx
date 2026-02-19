@@ -99,12 +99,12 @@ export default function SiteLayout({ children, basePath: propBasePath }: SiteLay
 
   // Client name based on language - shortened for header
   const clientName = language === 'kz'
-    ? '№9 Психологиялық-медициналық-педагогикалық консультация'
+    ? '№9 ПМПК'
     : language === 'ru'
       ? '№9 ПМПК'
-      : 'Psychological-Medical-Pedagogical Consultation №9';
+      : '№9 PMPC';
 
-  const clientNameShort = language === 'en' ? 'PMPK' : 'ПМПК';
+  const clientNameShort = language === 'en' ? 'PMPC' : 'ПМПК';
 
   // Full name for footer
   const clientNameFull = language === 'kz'
@@ -121,7 +121,7 @@ export default function SiteLayout({ children, basePath: propBasePath }: SiteLay
       <div className="bg-gradient-to-r from-[#0f2847] to-[#1e3a5f] text-white">
         <div className="container">
           <div className="flex items-center justify-between py-2 text-sm">
-            <Link href={basePath}>
+            <Link href={basePath || "/"}>
               <div className="flex items-center gap-2 sm:gap-4 cursor-pointer group/topbar">
                 {/* State Symbols */}
                 <div className="flex items-center gap-2 transition-transform duration-200 group-hover/topbar:scale-105">
@@ -151,7 +151,7 @@ export default function SiteLayout({ children, basePath: propBasePath }: SiteLay
       <header className={`bg-white border-b sticky top-0 z-50 transition-shadow duration-300 ${scrolled ? 'shadow-md' : 'shadow-sm'}`}>
         <div className="container">
           <div className="flex items-center justify-between py-3 sm:py-4">
-            <Link href={basePath}>
+            <Link href={basePath || "/"}>
               <div className="flex items-center gap-3 sm:gap-4 cursor-pointer group">
                 {/* Organization Logo */}
                 <img

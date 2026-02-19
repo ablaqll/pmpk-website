@@ -11,6 +11,7 @@ import { useLanguage } from "@/contexts/LanguageContext";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 import { useState, useEffect } from "react";
 import { storage } from "@/services/storage";
+import { AnimatedHeroBackground } from "@/components/AnimatedHeroBackground";
 
 // External portal links
 const PORTAL_LINKS = [
@@ -59,11 +60,13 @@ const SERVICES = [
 
 export default function SiteHome({ basePath: basePathProp }: { basePath?: string }) {
   const { language, t } = useLanguage();
-  useScrollAnimation();
+
 
   const [client, setClient] = useState<any>(null);
   const [news, setNews] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+
+  useScrollAnimation([isLoading, client, language]);
 
   useEffect(() => {
     const loadData = async () => {
@@ -122,19 +125,9 @@ export default function SiteHome({ basePath: basePathProp }: { basePath?: string
     <div>
       {/* Hero Section — Modern gradient with decorative elements */}
       <section className="relative overflow-hidden fade-in-up">
-        {/* Gradient background */}
-        <div className="absolute inset-0 bg-gradient-to-br from-[#0f2847] via-[#1e3a5f] to-[#2a4a72]" />
+        <AnimatedHeroBackground />
 
-        {/* Decorative circles */}
-        <div className="absolute top-0 right-0 w-96 h-96 bg-[#c9a227]/10 rounded-full blur-3xl transform translate-x-1/2 -translate-y-1/2" />
-        <div className="absolute bottom-0 left-0 w-72 h-72 bg-white/5 rounded-full blur-2xl transform -translate-x-1/3 translate-y-1/3" />
-
-        {/* Subtle pattern overlay */}
-        <div className="absolute inset-0 opacity-[0.03]" style={{
-          backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
-        }} />
-
-        <div className="container relative py-12 sm:py-16 lg:py-20">
+        <div className="container relative py-12 sm:py-16 lg:py-20 z-10">
           <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
             <div>
               {/* Gold accent line */}
@@ -162,23 +155,17 @@ export default function SiteHome({ basePath: basePathProp }: { basePath?: string
             </div>
             <div className="hidden lg:flex justify-center">
               <div className="relative">
-                <div className="absolute inset-0 bg-gradient-to-br from-[#c9a227]/20 to-transparent rounded-3xl blur-xl scale-110" />
+                <div className="absolute inset-0 bg-gradient-to-br from-[#c9a227]/20 to-transparent rounded-full blur-3xl scale-125 animate-pulse" />
                 <img
-                  src="/pmpk9-logo.png"
+                  src="/pmpkpng.png"
                   alt="ПМПК №9"
-                  className="relative h-72 w-72 object-contain bg-white/10 backdrop-blur-sm rounded-3xl p-6 border border-white/10 shadow-2xl"
+                  className="relative h-80 w-80 lg:h-96 lg:w-96 object-contain hover:scale-105 transition-transform duration-500 drop-shadow-2xl"
                 />
               </div>
             </div>
           </div>
         </div>
 
-        {/* Bottom wave divider */}
-        <div className="absolute bottom-0 left-0 right-0">
-          <svg viewBox="0 0 1440 60" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-auto">
-            <path d="M0 60L60 52C120 44 240 28 360 24C480 20 600 28 720 32C840 36 960 36 1080 32C1200 28 1320 20 1380 16L1440 12V60H1380C1320 60 1200 60 1080 60C960 60 840 60 720 60C600 60 480 60 360 60C240 60 120 60 60 60H0Z" fill="#f9fafb" />
-          </svg>
-        </div>
       </section>
 
       {/* Quick Links — Cleaner horizontal bar */}
@@ -241,6 +228,33 @@ export default function SiteHome({ basePath: basePathProp }: { basePath?: string
           <div className="grid lg:grid-cols-3 gap-8">
             {/* News Section */}
             <div className="lg:col-span-2">
+              {/* Work Schedule */}
+              <div className="mb-8 p-6 rounded-2xl bg-white border border-gray-100 shadow-sm hover:shadow-md transition-shadow duration-300">
+                <h3 className="text-lg sm:text-xl font-bold text-[#1e3a5f] text-center mb-6 leading-tight">
+                  {language === 'kz' ? '«№9 психологиялық-медициналық-педагогикалық консультациясы» КММ' : language === 'ru' ? 'КГУ «Психолого-медико-педагогическая консультация №9»' : 'KGU "Psychological-Medical-Pedagogical Consultation №9"'}
+                  <br />
+                  <span className="text-base sm:text-lg mt-2 block font-semibold text-gray-700">
+                    {language === 'kz' ? 'ЖҰМЫС КЕСТЕСІ' : language === 'ru' ? 'ГРАФИК РАБОТЫ' : 'WORK SCHEDULE'}
+                  </span>
+                </h3>
+                <div className="max-w-md mx-auto space-y-3 text-sm sm:text-base text-gray-600 font-medium">
+                  {['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'].map((day, idx) => {
+                    const localDay = language === 'kz'
+                      ? ['Дүйсенбі', 'Сейсенбі', 'Сәрсенбі', 'Бейсенбі', 'Жұма'][idx]
+                      : language === 'ru'
+                        ? ['Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница'][idx]
+                        : day;
+
+                    return (
+                      <div key={day} className={`flex justify-between ${idx < 4 ? 'pb-3 border-b border-gray-100' : 'pt-1'}`}>
+                        <span className="text-gray-900">{localDay}</span>
+                        <span className="font-semibold text-[#1e3a5f]">08.00-12.50</span>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+
               <div className="flex items-center justify-between mb-6">
                 <h2 className="text-xl sm:text-2xl font-bold text-[#1e3a5f] flex items-center gap-2.5">
                   <div className="h-9 w-9 rounded-lg bg-[#1e3a5f]/10 flex items-center justify-center">

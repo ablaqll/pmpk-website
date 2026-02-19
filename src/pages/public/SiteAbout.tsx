@@ -7,6 +7,7 @@ import {
 import { Link, useParams } from "wouter";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { AnimatedHeroBackground } from "@/components/AnimatedHeroBackground";
 
 export default function SiteAbout() {
   const clientSlug = "pmpk9";
@@ -21,12 +22,7 @@ export default function SiteAbout() {
     { name: "Бекимова Наргуль Кактаевна", position: "учитель-дефектолог", photo: "/bekimova.jpeg" },
     { name: "Әсетова Мөлдір Романқызы", position: "врач-невропатолог", photo: "/asetova.jpeg" },
     { name: "Абилова Шолпан Кайратовна", position: "методист", photo: "/abilova.jpeg" },
-    { name: "Ахметова Гульмира", position: "Сурдопедагог", photo: null },
-    { name: "Иванова Елена", position: "Логопед", photo: null },
-    { name: "Серікболқызы Анар", position: "Педагог-психолог", photo: null },
-    { name: "Кузнецова Ольга", position: "Невропатолог", photo: null },
-    { name: "Смағұлов Мұрат", position: "Психиатр", photo: null },
-    { name: "Петрова Светлана", position: "Дефектолог", photo: null },
+    { name: "Арыстанов Марат Максимович", position: "врач-офтальмолог", photo: "/arystanov.jpeg" },
   ];
 
   const mockClient = {
@@ -56,8 +52,9 @@ export default function SiteAbout() {
   return (
     <div>
       {/* Hero Section */}
-      <section className="bg-gov-primary text-white py-12">
-        <div className="container">
+      <section className="relative overflow-hidden text-white py-14 sm:py-20 flex flex-col justify-center min-h-[200px]">
+        <AnimatedHeroBackground />
+        <div className="container relative z-10 flex flex-col">
           <h1 className="text-3xl lg:text-4xl font-bold mb-4">
             {t('about.title')}
           </h1>

@@ -47,6 +47,7 @@
     "framer-motion": "^12.34.0",
     "groq": "^2.0.0",
     "lucide-react": "^0.468.0",
+    "multer": "^2.0.2",
     "react": "^19.0.0",
     "react-day-picker": "^9.4.4",
     "react-dom": "^19.0.0",

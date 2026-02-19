@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { ChevronLeft, Quote } from "lucide-react";
 import { Link } from "wouter";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { AnimatedHeroBackground } from "@/components/AnimatedHeroBackground";
 
 export default function SiteDirectorBlog() {
     const { t } = useLanguage();
@@ -17,8 +18,9 @@ export default function SiteDirectorBlog() {
     return (
         <div className="bg-gray-50 min-h-screen pb-12">
             {/* Hero Section */}
-            <section className="bg-gov-primary text-white py-12 mb-8">
-                <div className="container">
+            <section className="relative overflow-hidden text-white py-14 sm:py-20 flex flex-col justify-center min-h-[200px] mb-8">
+                <AnimatedHeroBackground />
+                <div className="container relative z-10 flex flex-col">
                     <div className="flex items-center gap-4 mb-6">
                         <Link href="/">
                             <Button variant="ghost" size="sm" className="text-white hover:bg-white/10 p-0 h-auto">
