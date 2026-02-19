@@ -7,6 +7,7 @@ import { ThemeProvider } from "./contexts/ThemeContext";
 import { LanguageProvider } from "./contexts/LanguageContext";
 
 // Public site pages
+// Public site pages
 import SiteLayout from "./components/SiteLayout";
 import SiteHome from "./pages/public/SiteHome";
 import SiteNews from "./pages/public/SiteNews";
@@ -18,7 +19,7 @@ import SiteVacancies from "./pages/public/SiteVacancies";
 import SiteFeedback from "./pages/public/SiteFeedback";
 import SiteContacts from "./pages/public/SiteContacts";
 import SiteManagement from "./pages/public/SiteManagement";
-// import StudioPage from "./pages/StudioPage"; // Removed Sanity Studio
+import SiteDirectorBlog from "./pages/public/SiteDirectorBlog";
 
 // Admin Pages
 import AdminLayout from "./admin/AdminLayout";
@@ -69,8 +70,10 @@ function Router() {
       <Route path="/management">
         {() => <SitePageWrapper><SiteManagement /></SitePageWrapper>}
       </Route>
+      <Route path="/director-blog">
+        {() => <SitePageWrapper><SiteDirectorBlog /></SitePageWrapper>}
+      </Route>
 
-      {/* Admin Dashboard Routes */}
       {/* Admin Dashboard Routes */}
       <Route path="/admin/login" component={LoginPage} />
 

@@ -57,8 +57,6 @@ const SERVICES = [
   },
 ];
 
-
-
 export default function SiteHome({ basePath: basePathProp }: { basePath?: string }) {
   const { language, t } = useLanguage();
   useScrollAnimation();
@@ -346,7 +344,7 @@ export default function SiteHome({ basePath: basePathProp }: { basePath?: string
                         {client.directorBio}
                       </p>
                     )}
-                    <Link href={`${basePath}/about`}>
+                    <Link href={`${basePath}/director-blog`}>
                       <Button variant="outline" size="sm" className="w-full mt-4 rounded-lg border-gray-200 hover:border-[#1e3a5f]/30 hover:bg-[#1e3a5f]/[0.03] text-[#1e3a5f]">
                         {t('home.readMore')}
                         <ChevronRight className="h-4 w-4 ml-1" />

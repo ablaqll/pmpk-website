@@ -6,6 +6,7 @@ import { Link, useParams, useLocation } from "wouter";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useState, useEffect } from "react";
 import { useLanguage, Language } from "@/contexts/LanguageContext";
+import { storage } from "@/services/storage";
 
 // Kazakhstan state symbols (local files)
 const KZ_FLAG_URL = "/kz-flag.svg";
@@ -47,8 +48,6 @@ function LanguageSwitcher() {
     </div>
   );
 }
-
-import { storage } from "@/services/storage";
 
 export default function SiteLayout({ children, basePath: propBasePath }: SiteLayoutProps) {
   const clientSlug = "pmpk9";
@@ -94,12 +93,11 @@ export default function SiteLayout({ children, basePath: propBasePath }: SiteLay
     { labelKey: "nav.vacancies", path: `${basePath}/vacancies` },
   ];
 
-
-
   if (!client) {
     return null;
   }
 
+  // Client name based on language - shortened for header
   const clientName = language === 'kz'
     ? '№9 Психологиялық-медициналық-педагогикалық консультация'
     : language === 'ru'
@@ -108,6 +106,7 @@ export default function SiteLayout({ children, basePath: propBasePath }: SiteLay
 
   const clientNameShort = language === 'en' ? 'PMPK' : 'ПМПК';
 
+  // Full name for footer
   const clientNameFull = language === 'kz'
     ? 'Астана қаласы әкімдігінің "№9 Психологиялық-медициналық-педагогикалық консультациясы" КММ'
     : language === 'ru'

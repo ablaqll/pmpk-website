@@ -1,6 +1,6 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { 
+import {
   Users2, Target, Award, BookOpen, ChevronRight,
   FileText, Building2
 } from "lucide-react";
@@ -11,15 +11,32 @@ import { useLanguage } from "@/contexts/LanguageContext";
 export default function SiteAbout() {
   const clientSlug = "pmpk9";
   const { t } = useLanguage();
-  
+
+  const STAFF = [
+    { name: 'Байболова Айнур Сайранбекқызы', position: t('about.director'), photo: "/director.jpg" },
+    { name: "Егимбаева Сандугаш Болтабековна", position: "педагог-психолог", photo: "/egimbaeva.jpeg" },
+    { name: "Амарова Асемгуль Ташкенбаевна", position: "учитель-логопед", photo: "/amarova.jpeg" },
+    { name: "Кушанова Лаура Сериковна", position: "социальный педагог", photo: "/kushanova.jpeg" },
+    { name: "Байтулекова Асыл Батыровна", position: "врач-психиатр", photo: "/baitulekova.jpeg" },
+    { name: "Бекимова Наргуль Кактаевна", position: "учитель-дефектолог", photo: "/bekimova.jpeg" },
+    { name: "Әсетова Мөлдір Романқызы", position: "врач-невропатолог", photo: "/asetova.jpeg" },
+    { name: "Абилова Шолпан Кайратовна", position: "методист", photo: "/abilova.jpeg" },
+    { name: "Ахметова Гульмира", position: "Сурдопедагог", photo: null },
+    { name: "Иванова Елена", position: "Логопед", photo: null },
+    { name: "Серікболқызы Анар", position: "Педагог-психолог", photo: null },
+    { name: "Кузнецова Ольга", position: "Невропатолог", photo: null },
+    { name: "Смағұлов Мұрат", position: "Психиатр", photo: null },
+    { name: "Петрова Светлана", position: "Дефектолог", photo: null },
+  ];
+
   const mockClient = {
     id: '1',
     slug: 'pmpk9',
     name: 'ПМПК №9',
     description: 'Психолого-медико-педагогическая консультация',
-    directorName: 'Иванова Мария Ивановна',
+    directorName: 'Байболова Айнур Сайранбекқызы',
     directorBio: 'Педагог-психолог высшей категории, стаж работы 20 лет.',
-    directorPhoto: null
+    directorPhoto: '/director.jpg'
   };
   const client = mockClient;
   const isLoading = false;
@@ -51,23 +68,20 @@ export default function SiteAbout() {
       </section>
 
       <div className="container py-12">
-        <div className="grid lg:grid-cols-3 gap-8">
+        <div className="grid lg:grid-cols-3 gap-8 items-stretch">
           {/* Main Content */}
-          <div className="lg:col-span-2 space-y-8">
-            {/* Mission */}
+          <div className="lg:col-span-2 space-y-8 flex flex-col">
+            {/* Organization Info */}
             <Card className="border-0 shadow-md">
               <CardHeader>
                 <CardTitle className="flex items-center gap-2 text-gov-primary">
                   <Target className="h-5 w-5" />
-                  {t('about.mission')}
+                  {t('about.title')}
                 </CardTitle>
               </CardHeader>
               <CardContent className="prose max-w-none">
-                <p className="text-gray-700 leading-relaxed">
-                  {t('about.missionText1')}
-                </p>
-                <p className="text-gray-700 leading-relaxed">
-                  {t('about.missionText2')}
+                <p className="text-gray-700 text-lg leading-relaxed">
+                  {t('about.orgInfo')}
                 </p>
               </CardContent>
             </Card>
@@ -77,74 +91,27 @@ export default function SiteAbout() {
               <CardHeader>
                 <CardTitle className="flex items-center gap-2 text-gov-primary">
                   <BookOpen className="h-5 w-5" />
-                  {t('about.activities')}
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="grid md:grid-cols-2 gap-4">
-                  {[
-                    {
-                      title: t('about.diag'),
-                      description: t('about.diagDesc')
-                    },
-                    {
-                      title: t('about.consult'),
-                      description: t('about.consultDesc')
-                    },
-                    {
-                      title: t('about.correct'),
-                      description: t('about.correctDesc')
-                    },
-                    {
-                      title: t('about.method'),
-                      description: t('about.methodDesc')
-                    },
-                  ].map((item, index) => (
-                    <div key={index} className="p-4 rounded-lg bg-muted/50">
-                      <h4 className="font-semibold mb-1">{item.title}</h4>
-                      <p className="text-sm text-muted-foreground">{item.description}</p>
-                    </div>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
-
-            {/* Values */}
-            <Card className="border-0 shadow-md">
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2 text-gov-primary">
-                  <Award className="h-5 w-5" />
-                  {t('about.values')}
+                  {t('about.activitiesTitle')}
                 </CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
                   {[
-                    {
-                      title: t('about.val1'),
-                      description: t('about.val1Desc')
-                    },
-                    {
-                      title: t('about.val2'),
-                      description: t('about.val2Desc')
-                    },
-                    {
-                      title: t('about.val3'),
-                      description: t('about.val3Desc')
-                    },
-                    {
-                      title: t('about.val4'),
-                      description: t('about.val4Desc')
-                    },
-                  ].map((item, index) => (
-                    <div key={index} className="flex gap-4">
-                      <div className="h-8 w-8 rounded-full bg-gov-primary/10 flex items-center justify-center shrink-0">
-                        <span className="text-gov-primary font-bold">{index + 1}</span>
+                    t('about.activity1'),
+                    t('about.activity2'),
+                    t('about.activity3'),
+                    t('about.activity4'),
+                    t('about.activity5'),
+                    t('about.activity6'),
+                    t('about.activity7'),
+                  ].map((activity, index) => (
+                    <div key={index} className="flex gap-4 p-4 rounded-xl bg-muted/30 border border-muted-foreground/10 transition-all hover:shadow-sm">
+                      <div className="h-10 w-10 rounded-full bg-gov-primary text-white flex items-center justify-center shrink-0 font-bold shadow-md">
+                        {index + 1}
                       </div>
-                      <div>
-                        <h4 className="font-semibold">{item.title}</h4>
-                        <p className="text-sm text-muted-foreground">{item.description}</p>
-                      </div>
+                      <p className="text-gray-700 leading-relaxed pt-1">
+                        {activity}
+                      </p>
                     </div>
                   ))}
                 </div>
@@ -153,18 +120,18 @@ export default function SiteAbout() {
           </div>
 
           {/* Sidebar */}
-          <div className="space-y-6">
+          <div className="flex flex-col gap-6 h-full">
             {/* Director Card */}
             {client?.directorName && (
               <Card className="border-0 shadow-md overflow-hidden">
-                <div className="bg-gov-primary p-4">
-                  <h3 className="text-white font-semibold">{t('about.director')}</h3>
+                <div className="bg-gov-primary p-4 text-white">
+                  <h3 className="font-semibold">{t('about.director')}</h3>
                 </div>
                 <CardContent className="pt-4">
                   <div className="flex items-start gap-4">
                     {client.directorPhoto ? (
-                      <img 
-                        src={client.directorPhoto} 
+                      <img
+                        src={client.directorPhoto}
                         alt={client.directorName}
                         className="h-24 w-24 rounded-lg object-cover"
                       />
@@ -174,45 +141,104 @@ export default function SiteAbout() {
                       </div>
                     )}
                     <div>
-                      <p className="font-semibold text-lg">{client.directorName}</p>
+                      <p className="font-semibold text-lg line-clamp-2">{client.directorName}</p>
                       <p className="text-sm text-muted-foreground">{t('about.director')}</p>
                     </div>
                   </div>
                   {client.directorBio && (
-                    <p className="text-sm text-muted-foreground mt-4">
+                    <p className="text-sm text-muted-foreground mt-4 line-clamp-3">
                       {client.directorBio}
                     </p>
                   )}
+                  <Link href={`${basePath}/director-blog`}>
+                    <Button variant="outline" size="sm" className="w-full mt-4">
+                      {t('home.readMore')}
+                      <ChevronRight className="h-4 w-4 ml-1" />
+                    </Button>
+                  </Link>
                 </CardContent>
               </Card>
             )}
 
             {/* Quick Links */}
-            <Card className="border-0 shadow-md">
-              <CardHeader className="bg-gov-primary rounded-t-lg">
-                <CardTitle className="text-white text-base">{t('about.sections')}</CardTitle>
-              </CardHeader>
-              <CardContent className="pt-4 space-y-1">
-                <Link href={`${basePath}/structure`}>
-                  <Button variant="ghost" className="w-full justify-between">
+            <Card className="border-0 shadow-md overflow-hidden">
+              <div className="bg-gov-primary p-4 text-white">
+                <h3 className="font-semibold">{t('about.sections')}</h3>
+              </div>
+              <CardContent className="p-2 space-y-1">
+                <a href="/ustav.pdf" download className="block">
+                  <Button variant="ghost" className="w-full justify-between h-12">
                     <span className="flex items-center gap-2">
-                      <Building2 className="h-4 w-4" />
-                      {t('about.structure')}
+                      <FileText className="h-4 w-4 text-gov-primary" />
+                      {t('about.charter')}
                     </span>
-                    <ChevronRight className="h-4 w-4" />
+                    <ChevronRight className="h-4 w-4 text-muted-foreground" />
                   </Button>
-                </Link>
-                <Link href={`${basePath}/documents`}>
-                  <Button variant="ghost" className="w-full justify-between">
-                    <span className="flex items-center gap-2">
-                      <FileText className="h-4 w-4" />
-                      {t('about.documents')}
-                    </span>
-                    <ChevronRight className="h-4 w-4" />
-                  </Button>
-                </Link>
+                </a>
               </CardContent>
             </Card>
+
+            {/* Values moved to Sidebar */}
+            <Card className="border-0 shadow-md flex-1 overflow-hidden">
+              <div className="bg-gov-primary p-4 text-white">
+                <h3 className="font-semibold">{t('about.values')}</h3>
+              </div>
+              <CardContent className="pt-6">
+                <div className="space-y-6">
+                  {[
+                    { title: t('about.val1'), description: t('about.val1Desc') },
+                    { title: t('about.val2'), description: t('about.val2Desc') },
+                    { title: t('about.val3'), description: t('about.val3Desc') },
+                    { title: t('about.val4'), description: t('about.val4Desc') },
+                  ].map((item, index) => (
+                    <div key={index} className="flex gap-4">
+                      <div className="h-8 w-8 rounded-full bg-gov-primary/10 flex items-center justify-center shrink-0">
+                        <span className="text-gov-primary font-bold text-sm">{index + 1}</span>
+                      </div>
+                      <div>
+                        <h4 className="font-semibold text-sm">{item.title}</h4>
+                        <p className="text-xs text-muted-foreground mt-1 leading-relaxed">{item.description}</p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+      </div>
+
+      {/* Staff Section - Full Width Container */}
+      <div className="container py-12 border-t mt-12">
+        <div className="space-y-6">
+          <h2 className="text-2xl font-bold text-gov-primary flex items-center gap-2">
+            <Users2 className="h-6 w-6" />
+            {t('nav.structure')}
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {STAFF.map((member, index) => (
+              <Card key={index} className="border-0 shadow-sm hover:shadow-md transition-all duration-300 group overflow-hidden bg-white">
+                <CardContent className="p-4 flex items-center gap-4">
+                  <div className="h-20 w-20 rounded-full bg-muted overflow-hidden shrink-0 ring-4 ring-gov-primary/5 group-hover:ring-gov-primary/20 transition-all">
+                    {member.photo ? (
+                      <img src={member.photo} alt={member.name} className="h-full w-full object-cover" />
+                    ) : (
+                      <div className="h-full w-full flex items-center justify-center bg-gov-primary/5">
+                        <Users2 className="h-10 w-10 text-gov-primary/30" />
+                      </div>
+                    )}
+                  </div>
+                  <div className="min-w-0">
+                    <h3 className="font-semibold text-gray-900 line-clamp-2 leading-tight">
+                      {member.name}
+                    </h3>
+                    <p className="text-sm text-muted-foreground mt-1">
+                      {member.position}
+                    </p>
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
           </div>
         </div>
       </div>
