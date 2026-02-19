@@ -5,13 +5,7 @@
 [build.environment]
   NODE_VERSION = "20"
 
-# Sanity Studio - serve Studio files (must come before SPA fallback)
-# Only redirect if studio files don't exist (let Netlify serve static files first)
-[[redirects]]
-  from = "/studio"
-  to = "/studio/index.html"
-  status = 200
-  force = false
+
 
 # SPA fallback - must be last
 [[redirects]]
