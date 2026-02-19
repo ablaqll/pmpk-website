@@ -121,16 +121,18 @@ export default function SiteLayout({ children, basePath: propBasePath }: SiteLay
       <div className="bg-gradient-to-r from-[#0f2847] to-[#1e3a5f] text-white">
         <div className="container">
           <div className="flex items-center justify-between py-2 text-sm">
-            <div className="flex items-center gap-2 sm:gap-4">
-              {/* State Symbols */}
-              <div className="flex items-center gap-2">
-                <img src={KZ_FLAG_URL} alt="Флаг Казахстана" className="h-5 sm:h-6 object-contain" />
-                <img src={KZ_EMBLEM_URL} alt="Герб Казахстана" className="h-5 sm:h-6 object-contain" />
+            <Link href={basePath}>
+              <div className="flex items-center gap-2 sm:gap-4 cursor-pointer group/topbar">
+                {/* State Symbols */}
+                <div className="flex items-center gap-2 transition-transform duration-200 group-hover/topbar:scale-105">
+                  <img src={KZ_FLAG_URL} alt="Флаг Казахстана" className="h-5 sm:h-6 object-contain" />
+                  <img src={KZ_EMBLEM_URL} alt="Герб Казахстана" className="h-5 sm:h-6 object-contain" />
+                </div>
+                <span className="hidden sm:inline text-white/70 text-xs font-medium group-hover/topbar:text-white transition-colors">
+                  {language === 'kz' ? 'Қазақстан Республикасы' : language === 'ru' ? 'Республика Казахстан' : 'Republic of Kazakhstan'}
+                </span>
               </div>
-              <span className="hidden sm:inline text-white/70 text-xs font-medium">
-                {language === 'kz' ? 'Қазақстан Республикасы' : language === 'ru' ? 'Республика Казахстан' : 'Republic of Kazakhstan'}
-              </span>
-            </div>
+            </Link>
             <div className="flex items-center gap-2 sm:gap-4">
               <LanguageSwitcher />
 

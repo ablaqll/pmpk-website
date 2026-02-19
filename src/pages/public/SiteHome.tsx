@@ -120,22 +120,21 @@ export default function SiteHome({ basePath: basePathProp }: { basePath?: string
 
   return (
     <div>
-      {/* Hero Section — Modern gradient with background image */}
-      <section className="relative min-h-[500px] flex items-center overflow-hidden fade-in-up">
-        {/* Background Image with Overlay */}
-        <div className="absolute inset-0 z-0">
-          <img
-            src="/pmpkpng.png"
-            alt="Hero Background"
-            className="w-full h-full object-cover"
-          />
-          <div className="absolute inset-0 bg-gradient-to-r from-[#0f2847]/95 via-[#0f2847]/80 to-transparent" />
-        </div>
+      {/* Hero Section — Modern gradient with decorative elements */}
+      <section className="relative overflow-hidden fade-in-up">
+        {/* Gradient background */}
+        <div className="absolute inset-0 bg-gradient-to-br from-[#0f2847] via-[#1e3a5f] to-[#2a4a72]" />
 
-        {/* Decorative elements */}
-        <div className="absolute top-0 right-0 w-96 h-96 bg-[#c9a227]/10 rounded-full blur-3xl transform translate-x-1/2 -translate-y-1/2 z-1" />
+        {/* Decorative circles */}
+        <div className="absolute top-0 right-0 w-96 h-96 bg-[#c9a227]/10 rounded-full blur-3xl transform translate-x-1/2 -translate-y-1/2" />
+        <div className="absolute bottom-0 left-0 w-72 h-72 bg-white/5 rounded-full blur-2xl transform -translate-x-1/3 translate-y-1/3" />
 
-        <div className="container relative py-12 sm:py-16 lg:py-20 z-10">
+        {/* Subtle pattern overlay */}
+        <div className="absolute inset-0 opacity-[0.03]" style={{
+          backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
+        }} />
+
+        <div className="container relative py-12 sm:py-16 lg:py-20">
           <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
             <div>
               {/* Gold accent line */}
@@ -147,27 +146,37 @@ export default function SiteHome({ basePath: basePathProp }: { basePath?: string
               <p className="text-lg sm:text-xl text-white/80 mb-8 leading-relaxed max-w-lg">
                 {t('home.description')}
               </p>
-              <div className="flex flex-col sm:flex-row gap-4">
+              <div className="flex flex-col sm:flex-row gap-3">
                 <Link href={`${basePath}/about`}>
-                  <Button size="lg" className="group w-full sm:w-auto bg-[#c9a227] text-white font-semibold hover:bg-[#c9a227]/90 transition-all duration-300 hover:shadow-lg hover:shadow-[#c9a227]/20 rounded-xl px-8">
+                  <Button size="lg" className="group w-full sm:w-auto bg-white text-[#1e3a5f] font-semibold hover:bg-white/90 transition-all duration-300 hover:shadow-lg hover:shadow-white/20 rounded-xl px-6">
                     {t('home.readMore')}
                     <ArrowRight className="h-5 w-5 ml-2 transition-transform duration-300 group-hover:translate-x-1" />
                   </Button>
                 </Link>
                 <Link href={`${basePath}/feedback`}>
-                  <Button variant="outline" size="lg" className="w-full sm:w-auto border-2 border-white/30 text-white hover:bg-white/10 hover:border-white/50 transition-all duration-300 rounded-xl px-8 backdrop-blur-sm">
+                  <Button variant="outline" size="lg" className="w-full sm:w-auto border-2 border-white/30 text-white hover:bg-white/10 hover:border-white/50 transition-all duration-300 rounded-xl px-6">
                     {t('feedback.question')}
                   </Button>
                 </Link>
+              </div>
+            </div>
+            <div className="hidden lg:flex justify-center">
+              <div className="relative">
+                <div className="absolute inset-0 bg-gradient-to-br from-[#c9a227]/20 to-transparent rounded-3xl blur-xl scale-110" />
+                <img
+                  src="/pmpk9-logo.png"
+                  alt="ПМПК №9"
+                  className="relative h-72 w-72 object-contain bg-white/10 backdrop-blur-sm rounded-3xl p-6 border border-white/10 shadow-2xl"
+                />
               </div>
             </div>
           </div>
         </div>
 
         {/* Bottom wave divider */}
-        <div className="absolute bottom-0 left-0 right-0 z-10">
+        <div className="absolute bottom-0 left-0 right-0">
           <svg viewBox="0 0 1440 60" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-auto">
-            <path d="M0 60L60 52C120 44 240 28 360 24C480 20 600 28 720 32C840 36 960 36 1080 32C1200 28 1320 20 1380 16L1440 12V60H1380C1320 60 1200 60 1080 60C960 60 840 60 720 60C600 60 480 60 360 60C240 60 120 60 60 60H0Z" fill="#ffffff" />
+            <path d="M0 60L60 52C120 44 240 28 360 24C480 20 600 28 720 32C840 36 960 36 1080 32C1200 28 1320 20 1380 16L1440 12V60H1380C1320 60 1200 60 1080 60C960 60 840 60 720 60C600 60 480 60 360 60C240 60 120 60 60 60H0Z" fill="#f9fafb" />
           </svg>
         </div>
       </section>
