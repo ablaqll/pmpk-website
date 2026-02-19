@@ -59,7 +59,7 @@ const SiteFeedback = () => {
   };
 
   return (
-    <SiteLayout>
+    <>
       {/* Hero Section */}
       <section className="bg-gov-primary text-white py-12">
         <div className="container">
@@ -205,7 +205,7 @@ const SiteFeedback = () => {
           </div>
         </motion.div>
       </div>
-    </SiteLayout>
+    </>
   );
 };
 

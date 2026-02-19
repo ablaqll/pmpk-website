@@ -32,7 +32,7 @@ const SiteVacancies = () => {
   };
 
   return (
-    <SiteLayout>
+    <>
       {/* Hero Section */}
       <section className="bg-gov-primary text-white py-12">
         <div className="container">
@@ -125,7 +125,7 @@ const SiteVacancies = () => {
           </Card>
         </motion.div>
       </div>
-    </SiteLayout>
+    </>
   );
 };
 
