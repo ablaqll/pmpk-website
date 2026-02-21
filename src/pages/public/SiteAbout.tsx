@@ -1,7 +1,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import {
-  Users2, Target, Award, BookOpen, ChevronRight,
+  Users2, Target, Award, BookOpen, ArrowRight, ChevronRight,
   FileText, Building2
 } from "lucide-react";
 import { Link, useParams } from "wouter";
@@ -148,9 +148,9 @@ export default function SiteAbout() {
                     </p>
                   )}
                   <Link href={`${basePath}/director-blog`}>
-                    <Button variant="outline" size="sm" className="w-full mt-4">
+                    <Button variant="outline" size="sm" className="group w-full mt-4">
                       {t('home.readMore')}
-                      <ChevronRight className="h-4 w-4 ml-1" />
+                      <ArrowRight className="h-4 w-4 ml-1 transition-transform duration-300 group-hover:rotate-90" />
                     </Button>
                   </Link>
                 </CardContent>

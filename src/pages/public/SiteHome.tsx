@@ -143,7 +143,7 @@ export default function SiteHome({ basePath: basePathProp }: { basePath?: string
                 <Link href={`${basePath}/about`}>
                   <Button size="lg" className="group w-full sm:w-auto bg-white text-[#1e3a5f] font-semibold hover:bg-white/90 transition-all duration-300 hover:shadow-lg hover:shadow-white/20 rounded-xl px-6">
                     {t('home.readMore')}
-                    <ArrowRight className="h-5 w-5 ml-2 transition-transform duration-300 group-hover:translate-x-1" />
+                    <ArrowRight className="h-5 w-5 ml-2 transition-transform duration-300 group-hover:rotate-90" />
                   </Button>
                 </Link>
                 <Link href={`${basePath}/feedback`}>
@@ -360,9 +360,9 @@ export default function SiteHome({ basePath: basePathProp }: { basePath?: string
                       </p>
                     )}
                     <Link href={`${basePath}/director-blog`}>
-                      <Button variant="outline" size="sm" className="w-full mt-4 rounded-lg border-gray-200 hover:border-[#1e3a5f]/30 hover:bg-[#1e3a5f]/[0.03] text-[#1e3a5f]">
+                      <Button variant="outline" size="sm" className="group w-full mt-4 rounded-lg border-gray-200 hover:border-[#1e3a5f]/30 hover:bg-[#1e3a5f]/[0.03] text-[#1e3a5f]">
                         {t('home.readMore')}
-                        <ChevronRight className="h-4 w-4 ml-1" />
+                        <ArrowRight className="h-4 w-4 ml-1 transition-transform duration-300 group-hover:rotate-90" />
                       </Button>
                     </Link>
                   </CardContent>
