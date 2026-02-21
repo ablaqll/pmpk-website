@@ -1,7 +1,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { 
-  ExternalLink, Shield, FileText, DollarSign, 
+import {
+  ExternalLink, Shield, FileText, DollarSign,
   Scale, Users, Building2, AlertTriangle
 } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
@@ -24,14 +24,7 @@ const MANAGEMENT_SECTIONS = [
       { nameKey: "state.procurement", url: "https://goszakup.gov.kz" },
     ]
   },
-  {
-    icon: Shield,
-    titleKey: "state.anticorruption",
-    descKey: "state.desc",
-    links: [
-      { nameKey: "state.anticorruption", url: "#" },
-    ]
-  },
+
   {
     icon: Scale,
     titleKey: "state.legal",
@@ -44,25 +37,25 @@ const MANAGEMENT_SECTIONS = [
 
 // External government portals
 const GOV_PORTALS = [
-  { 
-    nameKey: "docs.egov", 
-    url: "https://egov.kz", 
-    icon: Building2 
+  {
+    nameKey: "docs.egov",
+    url: "https://egov.kz",
+    icon: Building2
   },
-  { 
+  {
     nameKey: "state.title", // Open Gov
-    url: "https://open.gov.kz", 
-    icon: Users 
+    url: "https://open.gov.kz",
+    icon: Users
   },
-  { 
-    nameKey: "docs.laws", 
-    url: "https://adilet.zan.kz", 
-    icon: Scale 
+  {
+    nameKey: "docs.laws",
+    url: "https://adilet.zan.kz",
+    icon: Scale
   },
-  { 
-    nameKey: "state.procurement", 
-    url: "https://goszakup.gov.kz", 
-    icon: FileText 
+  {
+    nameKey: "state.procurement",
+    url: "https://goszakup.gov.kz",
+    icon: FileText
   },
 ];
 
@@ -117,27 +110,7 @@ export default function SiteManagement() {
           ))}
         </div>
 
-        {/* Anti-Corruption Notice */}
-        <Card className="border-0 shadow-md bg-amber-50 mb-8">
-          <CardContent className="py-6">
-            <div className="flex items-start gap-4">
-              <div className="h-12 w-12 rounded-full bg-amber-100 flex items-center justify-center shrink-0">
-                <AlertTriangle className="h-6 w-6 text-amber-600" />
-              </div>
-              <div>
-                <h3 className="font-semibold text-amber-800 mb-2">
-                  {t('state.anticorruption')}
-                </h3>
-                <p className="text-sm text-amber-700 mb-3">
-                  {t('state.desc')}
-                </p>
-                <Button variant="outline" className="border-amber-600 text-amber-700 hover:bg-amber-100">
-                  {t('feedback.sendRequest')}
-                </Button>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
+
 
         {/* Government Portals */}
         <div>

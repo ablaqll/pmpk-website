@@ -147,8 +147,9 @@ export default function SiteHome({ basePath: basePathProp }: { basePath?: string
                   </Button>
                 </Link>
                 <Link href={`${basePath}/feedback`}>
-                  <Button variant="outline" size="lg" className="w-full sm:w-auto border-2 border-white/30 text-white hover:bg-white/10 hover:border-white/50 transition-all duration-300 rounded-xl px-6">
+                  <Button variant="outline" size="lg" className="group w-full sm:w-auto border-2 border-white/30 text-white hover:bg-white/10 hover:border-white/50 transition-all duration-300 rounded-xl px-6">
                     {t('feedback.question')}
+                    <ArrowRight className="h-5 w-5 ml-2 transition-transform duration-300 group-hover:rotate-90" />
                   </Button>
                 </Link>
               </div>
