@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import {
-  Phone, Mail, MapPin, Clock, Volume2, Menu, X
+  Phone, Mail, MapPin, Clock, Volume2, Menu, X, Eye, EyeOff
 } from "lucide-react";
 import { Link, useParams, useLocation } from "wouter";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -24,7 +24,6 @@ function LanguageSwitcher() {
   const languages: { code: Language; label: string }[] = [
     { code: 'kz', label: 'ҚАЗ' },
     { code: 'ru', label: 'РУС' },
-    { code: 'en', label: 'ENG' },
   ];
 
   return (
@@ -54,8 +53,14 @@ export default function SiteLayout({ children, basePath: propBasePath }: SiteLay
   const [location] = useLocation();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [isVisuallyImpaired, setIsVisuallyImpaired] = useState(false);
   const { t, language } = useLanguage();
   const [client, setClient] = useState<any>(null);
+
+  const toggleVisuallyImpaired = () => {
+    setIsVisuallyImpaired(!isVisuallyImpaired);
+    document.documentElement.classList.toggle('visually-impaired');
+  };
 
   // Track scroll for header effects
   useEffect(() => {
@@ -134,6 +139,17 @@ export default function SiteLayout({ children, basePath: propBasePath }: SiteLay
               </div>
             </Link>
             <div className="flex items-center gap-2 sm:gap-4">
+              <button
+                onClick={toggleVisuallyImpaired}
+                className="flex items-center gap-1.5 text-white/80 hover:text-white transition-colors text-xs font-medium"
+                title={language === 'kz' ? 'Нашар көретіндерге арналған нұсқа' : 'Версия для слабовидящих'}
+              >
+                {isVisuallyImpaired ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                <span className="hidden lg:inline">
+                  {language === 'kz' ? 'Нашар көретіндерге арналған нұсқа' : 'Версия для слабовидящих'}
+                </span>
+              </button>
+
               <LanguageSwitcher />
 
               {client.phone && (
@@ -290,7 +306,7 @@ export default function SiteLayout({ children, basePath: propBasePath }: SiteLay
                   </p>
                   <p className="flex items-center gap-2.5 text-white/70">
                     <Clock className="h-4 w-4 shrink-0 text-[#c9a227]/70" />
-                    {language === 'kz' ? 'Дб-Жм 8:30-13:20' : language === 'ru' ? 'Пн-Пт 8:30-13:20' : 'Mon-Fri 8:30-13:20'}
+                    {language === 'kz' ? 'Дб-Жм 8.30 – 13.20' : language === 'ru' ? 'Пн-Пт 8.30 – 13.20' : 'Mon-Fri 8.30 – 13.20'}
                   </p>
                 </div>
               </div>

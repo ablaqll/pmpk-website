@@ -14,7 +14,7 @@ export default function SiteAbout() {
   const { t } = useLanguage();
 
   const STAFF = [
-    { name: 'Байболова Айнур Сайранбекқызы', position: t('about.director'), photo: "/director.jpg" },
+    { name: 'Искакова Макпал Сериковна', position: t('about.director'), photo: "/director.jpg" },
     { name: "Егимбаева Сандугаш Болтабековна", position: "педагог-психолог", photo: "/egimbaeva.jpeg" },
     { name: "Амарова Асемгуль Ташкенбаевна", position: "учитель-логопед", photo: "/amarova.jpeg" },
     { name: "Кушанова Лаура Сериковна", position: "социальный педагог", photo: "/kushanova.jpeg" },
@@ -30,8 +30,8 @@ export default function SiteAbout() {
     slug: 'pmpk9',
     name: 'ПМПК №9',
     description: 'Психолого-медико-педагогическая консультация',
-    directorName: 'Байболова Айнур Сайранбекқызы',
-    directorBio: 'Педагог-психолог высшей категории, стаж работы 20 лет.',
+    directorName: 'Искакова Макпал Сериковна',
+    directorBio: '',
     directorPhoto: '/director.jpg'
   };
   const client = mockClient;

@@ -33,6 +33,14 @@ const MANAGEMENT_SECTIONS = [
       { nameKey: "docs.title", url: "https://adilet.zan.kz" },
     ]
   },
+  {
+    icon: Shield,
+    titleKey: "state.anticorruption",
+    descKey: "state.desc",
+    links: [
+      { nameKey: "state.anticorruption", url: "#" },
+    ]
+  },
 ];
 
 // External government portals

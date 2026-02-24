@@ -348,3 +348,13 @@ html {
     transform: rotate(0deg);
   }
 }
+
+/* Visually impaired version */
+html.visually-impaired {
+  filter: contrast(125%) grayscale(100%);
+  font-size: 110%;
+}
+
+html.visually-impaired * {
+  font-weight: 600 !important;
+}

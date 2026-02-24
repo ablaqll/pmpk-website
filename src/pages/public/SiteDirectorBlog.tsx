@@ -9,10 +9,10 @@ export default function SiteDirectorBlog() {
     const { t } = useLanguage();
 
     const director = {
-        name: 'Байболова Айнур Сайранбекқызы',
+        name: 'Искакова Макпал Сериковна',
         role: t('about.director'),
         photo: '/director.jpg',
-        bio: 'Педагог-психолог высшей категории, стаж работы 20 лет.'
+        bio: ''
     };
 
     return (

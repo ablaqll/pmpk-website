@@ -13,6 +13,7 @@ const CATEGORY_ICONS: Record<string, string> = {
   budget: "💰",
   report: "📊",
   order: "📋",
+  laws: "⚖️",
   other: "📁",
 };
 
@@ -22,7 +23,50 @@ export default function SiteDocuments() {
 
   const mockClient = { id: '1', slug: 'pmpk9', name: 'ПМПК №9' };
   const client = mockClient;
-  const documents: any[] = [];
+  const documents: any[] = [
+    {
+      id: 'doc-1',
+      title: 'Конституция РК',
+      category: 'laws',
+      fileUrl: 'https://special-edu.kz/EDU_LFSI/LegislativeBasicsKZ/ru/%D0%9A%D0%BE%D0%BD%D1%81%D1%82%D0%B8%D1%82%D1%83%D1%86%D0%B8%D1%8F%20%D0%A0%D0%9A.pdf',
+      createdAt: new Date().toISOString()
+    },
+    {
+      id: 'doc-2',
+      title: 'Трудовой кодекс Республики Казахстан',
+      category: 'laws',
+      fileUrl: 'https://special-edu.kz/EDU_LFSI/LegislativeBasicsKZ/ru/%D0%A2%D1%80%D1%83%D0%B4%D0%BE%D0%B2%D0%BE%D0%B9%20%D0%BA%D0%BE%D0%B4%D0%B5%D0%BA%D1%81%20%D0%A0%D0%B5%D1%81%D0%BF%D1%83%D0%B1%D0%BB%D0%B8%D0%BA%D0%B8%20%D0%9A%D0%B0%D0%B7%D0%B0%D1%85%D1%81%D1%82%D0%B0%D0%BD.pdf',
+      createdAt: new Date().toISOString()
+    },
+    {
+      id: 'doc-3',
+      title: 'Бюджетный кодекс Республики Казахстан',
+      category: 'laws',
+      fileUrl: 'https://special-edu.kz/EDU_LFSI/LegislativeBasicsKZ/ru/%D0%91%D1%8E%D0%B4%D0%B6%D0%B5%D1%82%D0%BD%D1%8B%D0%B9%20%D0%BA%D0%BE%D0%B4%D0%B5%D0%BA%D1%81%20%D0%A0%D0%B5%D1%81%D0%BF%D1%83%D0%B1%D0%BB%D0%B8%D0%BA%D0%B8%20%D0%9A%D0%B0%D0%B7%D0%B0%D1%85%D1%81%D1%82%D0%B0%D0%BD.pdf',
+      createdAt: new Date().toISOString()
+    },
+    {
+      id: 'doc-4',
+      title: 'ГОСО всех уровней образования',
+      category: 'laws',
+      fileUrl: 'https://special-edu.kz/EDU_LFSI/LegislativeBasicsKZ/ru/%D0%93%D0%9E%D0%A1%D0%9E%20%D0%B2%D1%81%D0%B5%D1%85%20%D1%83%D1%80%D0%BE%D0%B2%D0%BD%D0%B5%D0%B9%20%D0%BE%D0%B1%D1%80%D0%B0%D0%B7%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D1%8F.pdf',
+      createdAt: new Date().toISOString()
+    },
+    {
+      id: 'doc-5',
+      title: 'Закон Об образовании РК',
+      category: 'laws',
+      fileUrl: 'https://special-edu.kz/EDU_LFSI/LegislativeBasicsKZ/ru/%D0%97%D0%B0%D0%BA%D0%BE%D0%BD%20%D0%A0%D0%9A%20%D0%9E%D0%B1%20%D0%BE%D0%B1%D1%80%D0%B0%D0%B7%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B8.pdf',
+      createdAt: new Date().toISOString()
+    },
+    {
+      id: 'doc-6',
+      title: 'Закон О статусе педагога',
+      category: 'laws',
+      fileUrl: 'https://special-edu.kz/EDU_LFSI/LegislativeBasicsKZ/ru/%D0%97%D0%B0%D0%BA%D0%BE%D0%BD%20%D0%9E%20%D1%81%D1%82%D0%B0%D1%82%D1%83%D1%81%D0%B5%20%D0%BF%D0%B5%D0%B4%D0%B0%D0%B3%D0%BE%D0%B3%D0%B0.pdf',
+      createdAt: new Date().toISOString()
+    }
+  ];
   const isLoading = false;
 
   // Group documents by category
