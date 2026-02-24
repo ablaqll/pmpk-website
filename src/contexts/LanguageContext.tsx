@@ -119,7 +119,7 @@ export const translations: Translations = {
   'about.val2Desc': { kz: 'Дербес деректерді қорғау', ru: 'Защита персональных данных', en: 'Personal data protection' },
   'about.val3': { kz: 'Жеке тәсіл', ru: 'Индивидуальный подход', en: 'Individual approach' },
   'about.val3Desc': { kz: 'Әр балаға назар аудару', ru: 'Внимание к каждому ребенку', en: 'Attention to every child' },
-  'about.val4': { kz: 'Қолдау', ru: 'Қолдау', en: 'Support' },
+  'about.val4': { kz: 'Қолдау', ru: 'Поддержка', en: 'Support' },
   'about.val4Desc': { kz: 'Отбасына психологиялық көмек', ru: 'Психологическая помощь семье', en: 'Psychological help for the family' },
 
   // News page
@@ -132,6 +132,7 @@ export const translations: Translations = {
   'docs.title': { kz: 'ҚР НҚА', ru: 'НПА РК', en: 'Legal Acts of RK' },
   'docs.egov': { kz: 'Электрондық үкімет', ru: 'Электронное правительство', en: 'E-Government' },
   'docs.laws': { kz: 'Заңдар мен кодекстер', ru: 'Законы и кодексы', en: 'Laws and Codes' },
+  'doc.laws': { kz: 'ҚАЗАҚСТАН РЕСПУБЛИКАСЫНЫҢ ЗАҢНАМАЛЫҚ БАЗАСЫ:', ru: 'ЗАКОНОДАТЕЛЬНАЯ БАЗА РЕСПУБЛИКИ КАЗАХСТАН:', en: 'LEGISLATIVE BASE OF THE REPUBLIC OF KAZAKHSTAN:' },
   'docs.orders': { kz: 'Бұйрықтар мен қаулылар', ru: 'Приказы и постановления', en: 'Orders and Resolutions' },
 
   // State management

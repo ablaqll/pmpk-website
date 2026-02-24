@@ -33,12 +33,12 @@ export default function SiteContacts() {
     addressKz: "Е-321, 18, Астана қаласы",
     phone: "8 777 608 00 65",
     email: "pmpk9_ast@mail.ru",
-    schedule: language === 'kz' ? 'Дб-Жм 8:30-13:20' : language === 'ru' ? 'Пн-Пт 8:30-13:20' : 'Mon-Fri 8:30-13:20',
+    schedule: language === 'kz' ? 'Дб-Жм 8.30 - 13.20' : language === 'ru' ? 'Пн-Пт 8.30 - 13.20' : 'Mon-Fri 8.30 - 13.20',
     instagram: "pmpk_9ast"
   };
 
   // 2GIS map coordinates for E-321, 18 Astana
-  const mapUrl = "https://2gis.kz/astana/geo/9570784936839925";
+  const mapUrl = "https://2gis.kz/astana/geo/70000001095176483";
 
   if (isLoading) {
     return (
@@ -205,7 +205,7 @@ export default function SiteContacts() {
                 {/* 2GIS Widget */}
                 <div className="relative h-80 bg-muted">
                   <iframe
-                    src="https://widgets.2gis.com/widget?type=firmsonmap&options=%7B%22pos%22%3A%7B%22lat%22%3A51.128422%2C%22lon%22%3A71.430411%2C%22zoom%22%3A16%7D%2C%22opt%22%3A%7B%22city%22%3A%22astana%22%7D%2C%22org%22%3A%229570784936839925%22%7D"
+                    src="https://widgets.2gis.com/widget?type=firmsonmap&options=%7B%22pos%22%3A%7B%22lat%22%3A51.128422%2C%22lon%22%3A71.430411%2C%22zoom%22%3A16%7D%2C%22opt%22%3A%7B%22city%22%3A%22astana%22%7D%2C%22org%22%3A%2270000001095176483%22%7D"
                     width="100%"
                     height="100%"
                     style={{ border: 0 }}

@@ -306,7 +306,7 @@ export default function SiteLayout({ children, basePath: propBasePath }: SiteLay
                   </p>
                   <p className="flex items-center gap-2.5 text-white/70">
                     <Clock className="h-4 w-4 shrink-0 text-[#c9a227]/70" />
-                    {language === 'kz' ? 'Дб-Жм 8.30 – 13.20' : language === 'ru' ? 'Пн-Пт 8.30 – 13.20' : 'Mon-Fri 8.30 – 13.20'}
+                    {language === 'kz' ? 'Дб-Жм 8.30 - 13.20' : language === 'ru' ? 'Пн-Пт 8.30 - 13.20' : 'Mon-Fri 8.30 - 13.20'}
                   </p>
                 </div>
               </div>

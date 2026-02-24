@@ -249,7 +249,7 @@ export default function SiteHome({ basePath: basePathProp }: { basePath?: string
                     return (
                       <div key={day} className={`flex justify-between ${idx < 4 ? 'pb-3 border-b border-gray-100' : 'pt-1'}`}>
                         <span className="text-gray-900">{localDay}</span>
-                        <span className="font-semibold text-[#1e3a5f]">08.00-12.50</span>
+                        <span className="font-semibold text-[#1e3a5f]">08.30-13.20</span>
                       </div>
                     );
                   })}
@@ -433,7 +433,7 @@ export default function SiteHome({ basePath: basePathProp }: { basePath?: string
                     <div>
                       <p className="font-medium text-sm text-gray-900">{t('contacts.schedule')}</p>
                       <p className="text-sm text-gray-500">
-                        {language === 'kz' ? 'Дб-Жм 8:30-13:20' : language === 'ru' ? 'Пн-Пт 8:30-13:20' : 'Mon-Fri 8:30-13:20'}
+                        {language === 'kz' ? 'Дб-Жм 8.30 - 13.20' : language === 'ru' ? 'Пн-Пт 8.30 - 13.20' : 'Mon-Fri 8.30 - 13.20'}
                       </p>
                     </div>
                   </div>
@@ -473,18 +473,18 @@ export default function SiteHome({ basePath: basePathProp }: { basePath?: string
                 </div>
                 <CardContent className="p-0">
                   <iframe
-                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2503.8!2d71.4!3d51.1!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNTHCsDA2JzAwLjAiTiA3McKwMjQnMDAuMCJF!5e0!3m2!1sru!2skz!4v1"
+                    src="https://widgets.2gis.com/widget?type=firmsonmap&options=%7B%22pos%22%3A%7B%22lat%22%3A51.128422%2C%22lon%22%3A71.430411%2C%22zoom%22%3A16%7D%2C%22opt%22%3A%7B%22city%22%3A%22astana%22%7D%2C%22org%22%3A%2270000001095176483%22%7D"
                     width="100%"
                     height="200"
                     style={{ border: 0 }}
                     allowFullScreen
                     loading="lazy"
                     referrerPolicy="no-referrer-when-downgrade"
-                    title="Карта ПМПК №9"
+                    title="2GIS Map"
                   />
                   <div className="p-4">
                     <a
-                      href="https://maps.google.com/?q=51.1,71.4"
+                      href="https://2gis.kz/astana/geo/70000001095176483"
                       target="_blank"
                       rel="noopener noreferrer"
                       className="flex items-center gap-2 text-sm text-[#1e3a5f] hover:underline font-medium"
