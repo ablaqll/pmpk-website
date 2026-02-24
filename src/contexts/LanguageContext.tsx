@@ -41,7 +41,11 @@ export const translations: Translations = {
   'home.stateSymbols': { kz: 'Мемлекеттік рәміздер', ru: 'Государственные символы', en: 'State Symbols' },
   'home.anthem': { kz: 'Әнұран', ru: 'Гимн', en: 'Anthem' },
   'home.listenAnthem': { kz: 'Әнұранды тыңдау', ru: 'Слушать гимн', en: 'Listen to Anthem' },
-  'home.openMap': { kz: 'Картаны ашу', ru: 'Открыть карту', en: 'Open Map' },
+  'home.openMap': {
+    kz: '№9 психологиялық-медициналық-педагогикалық консультациясы',
+    ru: 'Психолого-медико-педагогическая консультация №9',
+    en: 'Psychological-Medical-Pedagogical Consultation №9'
+  },
   'home.openFullMap': { kz: 'Толық картаны ашу', ru: 'Открыть полную карту', en: 'Open Full Map' },
 
   // About page
@@ -130,6 +134,7 @@ export const translations: Translations = {
 
   // Documents page
   'docs.title': { kz: 'ҚР НҚА', ru: 'НПА РК', en: 'Legal Acts of RK' },
+  'docs.open': { kz: 'Ашу', ru: 'Открыть', en: 'Open' },
   'docs.egov': { kz: 'Электрондық үкімет', ru: 'Электронное правительство', en: 'E-Government' },
   'docs.laws': { kz: 'Заңдар мен кодекстер', ru: 'Законы и кодексы', en: 'Laws and Codes' },
   'doc.laws': { kz: 'ҚАЗАҚСТАН РЕСПУБЛИКАСЫНЫҢ ЗАҢНАМАЛЫҚ БАЗАСЫ:', ru: 'ЗАКОНОДАТЕЛЬНАЯ БАЗА РЕСПУБЛИКИ КАЗАХСТАН:', en: 'LEGISLATIVE BASE OF THE REPUBLIC OF KAZAKHSTAN:' },
