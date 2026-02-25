@@ -15,14 +15,14 @@ export default function SiteAbout() {
 
   const STAFF = [
     { name: 'Искакова Макпал Сериковна', position: t('about.director'), photo: "/director.jpg" },
-    { name: "Егимбаева Сандугаш Болтабековна", position: "педагог-психолог", photo: "/egimbaeva.jpeg" },
-    { name: "Амарова Асемгуль Ташкенбаевна", position: "учитель-логопед", photo: "/amarova.jpeg" },
-    { name: "Кушанова Лаура Сериковна", position: "социальный педагог", photo: "/kushanova.jpeg" },
-    { name: "Байтулекова Асыл Батыровна", position: "врач-психиатр", photo: "/baitulekova.jpeg" },
-    { name: "Бекимова Наргуль Кактаевна", position: "учитель-дефектолог", photo: "/bekimova.jpeg" },
-    { name: "Әсетова Мөлдір Романқызы", position: "врач-невропатолог", photo: "/asetova.jpeg" },
-    { name: "Абилова Шолпан Кайратовна", position: "методист", photo: "/abilova.jpeg" },
-    { name: "Арыстанов Марат Максимович", position: "врач-офтальмолог", photo: "/arystanov.jpeg" },
+    { name: "Егимбаева Сандугаш Болтабековна", position: t('staff.psychologist'), photo: "/egimbaeva.jpeg" },
+    { name: "Амарова Асемгуль Ташкенбаевна", position: t('staff.logopedist'), photo: "/amarova.jpeg" },
+    { name: "Кушанова Лаура Сериковна", position: t('staff.socialPedagogue'), photo: "/kushanova.jpeg" },
+    { name: "Байтулекова Асыл Батыровна", position: t('staff.psychiatrist'), photo: "/baitulekova.jpeg" },
+    { name: "Бекимова Наргуль Кактаевна", position: t('staff.defectologist'), photo: "/bekimova.jpeg" },
+    { name: "Әсетова Мөлдір Романқызы", position: t('staff.neuropathologist'), photo: "/asetova.jpeg" },
+    { name: "Абилова Шолпан Кайратовна", position: t('staff.methodist'), photo: "/abilova.jpeg" },
+    { name: "Арыстанов Марат Максимович", position: t('staff.ophthalmologist'), photo: "/arystanov.jpeg" },
   ];
 
   const mockClient = {

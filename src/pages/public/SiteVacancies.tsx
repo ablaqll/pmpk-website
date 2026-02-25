@@ -40,7 +40,7 @@ const SiteVacancies = () => {
               </h2>
 
               <a
-                href="https://enbek.kz/ru/cabinet/vacint/myvac"
+                href="https://www.enbek.kz/ru/search/vacancy?except%5Bsubsidized%5D=subsidized&pou=1195345"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="group w-full sm:w-auto"

@@ -207,7 +207,15 @@ export const translations: Translations = {
   'newsDetail.notFoundDesc': { kz: 'Сіз іздеген жаңалық жойылған немесе ешқашан болмаған.', ru: 'Новость, которую вы ищете, была удалена или никогда не существовала.', en: 'The news you are looking for has been deleted or never existed.' },
 
 
-  'state.desc': { kz: 'Мемлекеттік басқару және қызметтер туралы ақпарат', ru: 'Информация о государственном управлении и услугах', en: 'Information about state management and services' },
+  'state.desc': { kz: 'Мемлекеттік басқару және қызметтер туралы ақпарат', ru: 'Информация о государствен управлении и услугах', en: 'Information about state management and services' },
+  'staff.psychologist': { kz: 'педагог-психолог', ru: 'педагог-психолог', en: 'educational psychologist' },
+  'staff.logopedist': { kz: 'мұғалім - логопед', ru: 'учитель-логопед', en: 'speech therapist' },
+  'staff.socialPedagogue': { kz: 'Әлеуметтік педагог', ru: 'социальный педагог', en: 'social pedagogue' },
+  'staff.psychiatrist': { kz: 'дәрігер - психиатр', ru: 'врач-психиатр', en: 'psychiatrist' },
+  'staff.defectologist': { kz: 'мұғалім - дефектолог', ru: 'учитель-дефектолог', en: 'special education teacher' },
+  'staff.neuropathologist': { kz: 'дәрігер - невропатолог', ru: 'врач-невропатолог', en: 'neurologist' },
+  'staff.methodist': { kz: 'Әдіскер', ru: 'методист', en: 'methodist' },
+  'staff.ophthalmologist': { kz: 'дәрігер - офтальмолог', ru: 'врач-офтальмолог', en: 'ophthalmologist' },
 };
 
 type LanguageContextType = {
