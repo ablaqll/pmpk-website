@@ -19,143 +19,143 @@ const CATEGORY_ICONS: Record<string, string> = {
 
 export default function SiteDocuments() {
   const clientSlug = "pmpk9";
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
 
   const mockClient = { id: '1', slug: 'pmpk9', name: 'ПМПК №9' };
   const client = mockClient;
   const documents: any[] = [
     {
       id: 'doc-1',
-      title: 'Конституция РК',
+      title: language === 'kz' ? 'ҚР Конституциясы' : 'Конституция РК',
       category: 'laws',
       fileUrl: 'https://special-edu.kz/EDU_LFSI/LegislativeBasicsKZ/ru/%D0%9A%D0%BE%D0%BD%D1%81%D1%82%D0%B8%D1%82%D1%83%D1%86%D0%B8%D1%8F%20%D0%A0%D0%9A.pdf'
     },
     {
       id: 'doc-2',
-      title: 'Трудовой кодекс Республики Казахстан',
+      title: language === 'kz' ? 'Қазақстан Республикасының Еңбек кодексі' : 'Трудовой кодекс Республики Казахстан',
       category: 'laws',
       fileUrl: 'https://special-edu.kz/EDU_LFSI/LegislativeBasicsKZ/ru/%D0%A2%D1%80%D1%83%D0%B4%D0%BE%D0%B2%D0%BE%D0%B9%20%D0%BA%D0%BE%D0%B4%D0%B5%D0%BA%D1%81%20%D0%A0%D0%B5%D1%81%D0%BF%D1%83%D0%B1%D0%BB%D0%B8%D0%BA%D0%B8%20%D0%9A%D0%B0%D0%B7%D0%B0%D1%85%D1%81%D1%82%D0%B0%D0%BD.pdf'
     },
     {
       id: 'doc-3',
-      title: 'Бюджетный кодекс Республики Казахстан',
+      title: language === 'kz' ? 'Қазақстан Республикасының Бюджет кодексі' : 'Бюджетный кодекс Республики Казахстан',
       category: 'laws',
       fileUrl: 'https://special-edu.kz/EDU_LFSI/LegislativeBasicsKZ/ru/%D0%91%D1%8E%D0%B4%D0%B6%D0%B5%D1%82%D0%BD%D1%8B%D0%B9%20%D0%BA%D0%BE%D0%B4%D0%B5%D0%BA%D1%81%20%D0%A0%D0%B5%D1%81%D0%BF%D1%83%D0%B1%D0%BB%D0%B8%D0%BA%D0%B8%20%D0%9A%D0%B0%D0%B7%D0%B0%D1%85%D1%81%D1%82%D0%B0%D0%BD.pdf'
     },
     {
       id: 'doc-4',
-      title: 'ГОСО всех уровней образования',
+      title: language === 'kz' ? 'Білім берудің барлық деңгейлерінің МЖМБС' : 'ГОСО всех уровней образования',
       category: 'laws',
       fileUrl: 'https://special-edu.kz/EDU_LFSI/LegislativeBasicsKZ/ru/%D0%93%D0%9E%D0%A1%D0%9E%20%D0%B2%D1%81%D0%B5%D1%85%20%D1%83%D1%80%D0%BE%D0%B2%D0%BD%D0%B5%D0%B9%20%D0%BE%D0%B1%D1%80%D0%B0%D0%B7%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D1%8F.pdf'
     },
     {
       id: 'doc-5',
-      title: 'Дорожная карта по совершенствованию оказания комплексной помощи ДОВ в РК на 2021-2023 годы',
+      title: language === 'kz' ? 'ҚР-да балаларға кешенді көмек көрсетуді жетілдіру жөніндегі 2021-2023 жылдарға арналған жол картасы' : 'Дорожная карта по совершенствованию оказания комплексной помощи ДОВ в РК на 2021-2023 годы',
       category: 'laws',
       fileUrl: 'https://special-edu.kz/EDU_LFSI/LegislativeBasicsKZ/ru/%D0%94%D0%BE%D1%80%D0%BE%D0%B6%D0%BD%D0%B0%D1%8F%20%D0%BA%D0%B0%D1%80%D1%82%D0%B0%20%D0%BF%D0%BE%20%D1%81%D0%BE%D0%B2%D0%B5%D1%80%D1%88%D0%B5%D0%BD%D1%81%D1%82%D0%B2%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D1%8E%20%D0%BE%D0%BA%D0%B0%D0%B7%D0%B0%D0%BD%D0%B8%D1%8F%20%D0%BA%D0%BE%D0%BC%D0%BF%D0%BB%D0%B5%D0%BA%D1%81%D0%BD%D0%BE%D0%B9%20%D0%BF%D0%BE%D0%BC%D0%BE%D1%89%D0%B8%20%D0%94%D0%9E%D0%92%20%D0%B2%20%D0%A0%D0%9A%20%D0%BD%D0%B0%202021-2023%20%D0%B3%D0%BE%D0%B4%D1%8B.pdf'
     },
     {
       id: 'doc-6',
-      title: 'Закон О внесении изменений и дополнений в некоторые законодательные акты Республики Казахстан по вопросам улучшения качества жизни лиц с инвалидностью',
+      title: language === 'kz' ? 'Мүгедектігі бар адамдардың өмір сүру сапасын жақсарту мәселелері бойынша ҚР кейбір заңнамалық актілеріне өзгерістер мен толықтырулар енгізу туралы Заң' : 'Закон О внесении изменений и дополнений в некоторые законодательные акты Республики Казахстан по вопросам улучшения качества жизни лиц с инвалидностью',
       category: 'laws',
       fileUrl: 'https://special-edu.kz/EDU_LFSI/LegislativeBasicsKZ/ru/%D0%97%D0%B0%D0%BA%D0%BE%D0%BD%20%D0%9E%20%D0%B2%D0%BD%D0%B5%D1%81%D0%B5%D0%BD%D0%B8%D0%B8%20%D0%B8%D0%B7%D0%BC%D0%B5%D0%BD%D0%B5%D0%BD%D0%B8%D0%B9%20%D0%B8%20%D0%B4%D0%BE%D0%BF%D0%BE%D0%BB%D0%BD%D0%B5%D0%BD%D0%B8%D0%B9%20%D0%B2%20%D0%BD%D0%B5%D0%BA%D0%BE%D1%82%D0%BE%D1%80%D1%8B%D0%B5%20%D0%B7%D0%B0%D0%BA%D0%BE%D0%BD%D0%BE%D0%B4%D0%B0%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D1%8B%D0%B5%20%D0%B0%D0%BA%D1%82%D1%8B%20%D0%A0%D0%9A%20%D0%BF%D0%BE%20%D0%B2%D0%BE%D0%BF%D1%80%D0%BE%D1%81%D0%B0%D0%BC%20%D1%83%D0%BB%D1%83%D1%87%D1%88%D0%B5%D0%BD%D0%B8%D1%8F%20%D0%BA%D0%B0%D1%87%D0%B5%D1%81%D1%82%D0%B2%D0%B0%20%D0%B6%D0%B8%D0%B7%D0%BD%D0%B8%20%D0%BB%D0%B8%D1%86%20%D1%81%20%D0%B8%D0%BD.pdf'
     },
     {
       id: 'doc-7',
-      title: 'Закон О правах ребенка в Республике Казахстан',
+      title: language === 'kz' ? 'Қазақстан Республикасындағы баланың құқықтары туралы Заң' : 'Закон О правах ребенка в Республике Казахстан',
       category: 'laws',
       fileUrl: 'https://special-edu.kz/EDU_LFSI/LegislativeBasicsKZ/ru/%D0%97%D0%B0%D0%BA%D0%BE%D0%BD%20%D0%9E%20%D0%BF%D1%80%D0%B0%D0%B2%D0%B0%D1%85%20%D1%80%D0%B5%D0%B1%D0%B5%D0%BD%D0%BA%D0%B0%20%D0%B2%20%D0%A0%D0%B5%D1%81%D0%BF%D1%83%D0%B1%D0%BB%D0%B8%D0%BA%D0%B5%20%D0%9A%D0%B0%D0%B7%D0%B0%D1%85%D1%81%D1%82%D0%B0%D0%BD.pdf'
     },
     {
       id: 'doc-8',
-      title: 'Закон О противодействии коррупции',
+      title: language === 'kz' ? 'Сыбайлас жемқорлыққа қарсы іс-қимыл туралы Заң' : 'Закон О противодействии коррупции',
       category: 'laws',
       fileUrl: 'https://special-edu.kz/EDU_LFSI/LegislativeBasicsKZ/ru/%D0%97%D0%B0%D0%BA%D0%BE%D0%BD%20%D0%9E%20%D0%BF%D1%80%D0%BE%D1%82%D0%B8%D0%B2%D0%BE%D0%B4%D0%B5%D0%B9%D1%81%D1%82%D0%B2%D0%B8%D0%B8%20%D0%BA%D0%BE%D1%80%D1%80%D1%83%D0%BF%D1%86%D0%B8%D0%B8.pdf'
     },
     {
       id: 'doc-9',
-      title: 'Закон О статусе педагога',
+      title: language === 'kz' ? 'Педагог мәртебесі туралы Заң' : 'Закон О статусе педагога',
       category: 'laws',
       fileUrl: 'https://special-edu.kz/EDU_LFSI/LegislativeBasicsKZ/ru/%D0%97%D0%B0%D0%BA%D0%BE%D0%BD%20%D0%9E%20%D1%81%D1%82%D0%B0%D1%82%D1%83%D1%81%D0%B5%20%D0%BF%D0%B5%D0%B4%D0%B0%D0%B3%D0%BE%D0%B3%D0%B0.pdf'
     },
     {
       id: 'doc-10',
-      title: 'Закон О языках в Республике Казахстан',
+      title: language === 'kz' ? 'Қазақстан Республикасындағы тілдер туралы Заң' : 'Закон О языках в Республике Казахстан',
       category: 'laws',
       fileUrl: 'https://special-edu.kz/EDU_LFSI/LegislativeBasicsKZ/ru/%D0%97%D0%B0%D0%BA%D0%BE%D0%BD%20%D0%9E%20%D1%8F%D0%B7%D1%8B%D0%BA%D0%B0%D1%85%20%D0%B2%20%D0%A0%D0%B5%D1%81%D0%BF%D1%83%D0%B1%D0%BB%D0%B8%D0%BA%D0%B5%20%D0%9A%D0%B0%D0%B7%D0%B0%D1%85%D1%81%D1%82%D0%B0%D0%BD.pdf'
     },
     {
       id: 'doc-11',
-      title: 'Закон РК О внесении изменений и дополнений в некоторые законодательные акты РК по вопросам инклюзивного образования',
+      title: language === 'kz' ? 'Инклюзивті білім беру мәселелері бойынша ҚР кейбір заңнамалық актілеріне өзгерістер мен толықтырулар енгізу туралы ҚР Заңы' : 'Закон РК О внесении изменений и дополнений в некоторые законодательные акты РК по вопросам инклюзивного образования',
       category: 'laws',
       fileUrl: 'https://special-edu.kz/EDU_LFSI/LegislativeBasicsKZ/ru/%D0%97%D0%B0%D0%BA%D0%BE%D0%BD%20%D0%A0%D0%9A%20%D0%9E%20%D0%B2%D0%BD%D0%B5%D1%81%D0%B5%D0%BD%D0%B8%D0%B8%20%D0%B8%D0%B7%D0%BC%D0%B5%D0%BD%D0%B5%D0%BD%D0%B8%D0%B9%20%D0%B8%20%D0%B4%D0%BE%D0%BF%D0%BE%D0%BB%D0%BD%D0%B5%D0%BD%D0%B8%D0%B9%20%D0%B2%20%D0%BD%D0%B5%D0%BA%D0%BE%D1%82%D0%BE%D1%80%D1%8B%D0%B5%20%D0%B7%D0%B0%D0%BA%D0%BE%D0%BD%D0%BE%D0%B4%D0%B0%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D1%8B%D0%B5%20%D0%B0%D0%BA%D1%82%D1%8B%20%D0%A0%D0%9A%20%D0%BF%D0%BE%20%D0%B2%D0%BE%D0%BF%D1%80%D0%BE%D1%81%D0%B0%D0%BC%20%D0%B8%D0%BD%D0%BA%D0%BB%D1%8E%D0%B7%D0%B8%D0%B2%D0%BD%D0%BE%D0%B3%D0%BE%20%D0%BE%D0%B1%D1%80%D0%B0%D0%B7%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D1%8F.pdf'
     },
     {
       id: 'doc-12',
-      title: 'Закон РК О внесении изменений и дополнений в some законодательные акты Республики Казахстан по вопросам образования',
+      title: language === 'kz' ? 'Білім беру мәселелері бойынша Қазақстан Республикасының кейбір заңнамалық актілеріне өзгерістер мен толықтырулар енгізу туралы ҚР Заңы' : 'Закон РК О внесении изменений и дополнений в some законодательные акты Республики Казахстан по вопросам образования',
       category: 'laws',
       fileUrl: 'https://special-edu.kz/EDU_LFSI/LegislativeBasicsKZ/ru/%D0%97%D0%B0%D0%BA%D0%BE%D0%BD%20%D0%A0%D0%9A%20%D0%9E%20%D0%B2%D0%BD%D0%B5%D1%81%D0%B5%D0%BD%D0%B8%D0%B8%20%D0%B8%D0%B7%D0%BC%D0%B5%D0%BD%D0%B5%D0%BD%D0%B8%D0%B9%20%D0%B8%20%D0%B4%D0%BE%D0%BF%D0%BE%D0%BB%D0%BD%D0%B5%D0%BD%D0%B8%D0%B9%20%D0%B2%20%D0%BD%D0%B5%D0%BA%D0%BE%D1%82%D0%BE%D1%80%D1%8B%D0%B5%20%D0%B7%D0%B0%D0%BA%D0%BE%D0%BD%D0%BE%D0%B4%D0%B0%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D1%8B%D0%B5%20%D0%B0%D0%BA%D1%82%D1%8B%20%D0%A0%D0%B5%D1%81%D0%BF%D1%83%D0%B1%D0%BB%D0%B8%D0%BA%D0%B8%20%D0%9A%D0%B0%D0%B7%D0%B0%D1%85%D1%81%D1%82%D0%B0%D0%BD%20%D0%BF%D0%BE%20%D0%B2%D0%BE%D0%BF%D1%80%D0%BE%D1%81%D0%B0%D0%BC%20%D0%BE%D0%B1%D1%80%D0%B0%D0%B7%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D1%8F.pdf'
     },
     {
       id: 'doc-13',
-      title: 'Закон РК Об образовании',
+      title: language === 'kz' ? '«Білім туралы» ҚР Заңы' : 'Закон РК Об образовании',
       category: 'laws',
       fileUrl: 'https://special-edu.kz/EDU_LFSI/LegislativeBasicsKZ/ru/%D0%97%D0%B0%D0%BA%D0%BE%D0%BD%20%D0%A0%D0%9A%20%D0%9E%20%D0%B1%D0%BE%D0%B1%D1%80%D0%B0%D0%B7%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B8.pdf'
     },
     {
       id: 'doc-14',
-      title: 'Закон о социальной и медико-педагогической коррекционной поддержке ДОВ',
+      title: language === 'kz' ? 'Мүмкіндігі шектеулі балаларды әлеуметтік және медициналық-педагогикалық түзеу арқылы қолдау туралы Заң' : 'Закон о социальной и медико-педагогической коррекционной поддержке ДОВ',
       category: 'laws',
       fileUrl: 'https://special-edu.kz/EDU_LFSI/LegislativeBasicsKZ/ru/%D0%97%D0%B0%D0%BA%D0%BE%D0%BD%20%D0%BE%20%D1%81%D0%BE%D1%86%D0%B8%D0%B0%D0%BB%D1%8C%D0%BD%D0%BE%D0%B9%20%D0%B8%20%D0%BC%D0%B5%D0%B4%D0%B8%D0%BA%D0%BE-%D0%BF%D0%B5%D0%B4%D0%B0%D0%B3%D0%BE%D0%B3%D0%B8%D1%87%D0%B5%D1%81%D0%BA%D0%BE%D0%B9%20%D0%BA%D0%BE%D1%80%D1%80%D0%B5%D0%BA%D1%86%D0%B8%D0%BE%D0%BD%D0%BD%D0%BE%D0%B9%20%D0%BF%D0%BE%D0%B4%D0%B4%D0%B5%D1%80%D0%B6%D0%BA%D0%B5%20%D0%94%D0%9E%D0%92.pdf'
     },
     {
       id: 'doc-15',
-      title: 'Кодекс РК О браке (супружестве) и семье',
+      title: language === 'kz' ? '«Неке (ерлі-зайыптылық) және отбасы туралы» ҚР Кодексі' : 'Кодекс РК О браке (супружестве) и семье',
       category: 'laws',
       fileUrl: 'https://special-edu.kz/EDU_LFSI/LegislativeBasicsKZ/ru/%D0%9A%D0%BE%D0%B4%D0%B5%D0%BA%D1%81%20%D0%A0%D0%9A%20%D0%9E%20%D0%B1%D1%80%D0%B0%D0%BA%D0%B5%20%28%D1%81%D1%83%D0%BF%D1%80%D1%83%D0%B6%D0%B5%D1%81%D1%82%D0%B2%D0%B5%29%20%D0%B8%20%D1%81%D0%B5%D0%BC%D1%8C%D0%B5.pdf'
     },
     {
       id: 'doc-16',
-      title: 'Модель развития дошкольного воспитания и обучения',
+      title: language === 'kz' ? 'Мектепке дейінгі тәрбие мен оқытуды дамыту моделі' : 'Модель развития дошкольного воспитания и обучения',
       category: 'laws',
       fileUrl: 'https://special-edu.kz/EDU_LFSI/LegislativeBasicsKZ/ru/%D0%9C%D0%BE%D0%B4%D0%B5%D0%BB%D1%8C%20%D1%80%D0%B0%D0%B7%D0%B2%D0%B8%D1%82%D0%B8%D1%8F%20%D0%B4%D0%BE%D1%88%D0%BA%D0%BE%D0%BB%D1%8C%D0%BD%D0%BE%D0%B3%D0%BE%20%D0%B2%D0%BE%D1%81%D0%BF%D0%B8%D1%82%D0%B0%D0%BD%D0%B8%D1%8F%20%D0%B8%20%D0%BE%D0%B1%D1%83%D1%87%D0%B5%D0%BD%D0%B8%D1%8F.pdf'
     },
     {
       id: 'doc-17',
-      title: 'О внесении изменений в приказ Министра образования и науки Республики Казахстан от 20 декабря 2012 года № 557',
+      title: language === 'kz' ? '«Қазақстан Республикасы Білім және ғылым Министрінің 2012 жылғы 20 желтоқсандағы № 557 бұйрығына өзгерістер енгізу туралы» бұйрығы' : 'О внесении изменений в приказ Министра образования и науки Республики Казахстан от 20 декабря 2012 года № 557',
       category: 'laws',
       fileUrl: 'https://special-edu.kz/EDU_LFSI/LegislativeBasicsKZ/ru/%D0%9E%20%D0%B2%D0%BD%D0%B5%D1%81%D0%B5%D0%BD%D0%B8%D0%B8%20%D0%B8%D0%B7%D0%BC%D0%B5%D0%BD%D0%B5%D0%BD%D0%B8%D0%B9%20%D0%B2%20%D0%BF%D1%80%D0%B8%D0%BA%D0%B0%D0%B7%20%D0%9C%D0%B8%D0%BD%D0%B8%D1%81%D1%82%D1%80%D0%B0%20%D0%BE%D0%B1%D1%80%D0%B0%D0%B7%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D1%8F%20%D0%B8%20%D0%BD%D0%B0%D1%83%D0%BA%D0%B8%20%D0%A0%D0%B5%D1%81%D0%BF%D1%83%D0%B1%D0%BB%D0%B8%D0%BA%D0%B8%20%D0%9A%D0%B0%D0%B7%D0%B0%D1%85%D1%81%D1%82%D0%B0%D0%BD%20%D0%BE%D1%82%2020%20%D0%B4%D0%B5%D0%BA%D0%B0%D0%B1%D1%80%D1%8F%202012%20%D0%B3%D0%BE%D0%B4%D0%B0%20%E2%84%96%20557.pdf'
     },
     {
       id: 'doc-18',
-      title: 'О внесении изменений и дополнений в некоторые законодательные акты Республики Казахстан по вопросам инклюзивного образования (вторая ссылка)',
+      title: language === 'kz' ? 'Инклюзивті білім беру мәселелері бойынша ҚР кейбір заңнамалық актілеріне өзгерістер мен толықтырулар енгізу туралы Заң (екінші сілтеме)' : 'О внесении изменений и дополнений в некоторые законодательные акты Республики Казахстан по вопросам инклюзивного образования (вторая ссылка)',
       category: 'laws',
       fileUrl: 'https://special-edu.kz/EDU_LFSI/LegislativeBasicsKZ/ru/%D0%9E%20%D0%B2%D0%BD%D0%B5%D1%81%D0%B5%D0%BD%D0%B8%D0%B8%20%D0%B8%D0%B7%D0%BC%D0%B5%D0%BD%D0%B5%D0%BD%D0%B8%D0%B9%20%D0%B8%20%D0%B4%D0%BE%D0%BF%D0%BE%D0%BB%D0%BD%D0%B5%D0%BD%D0%B8%D0%B9%20%D0%B2%20%D0%BD%D0%B5%D0%BA%D0%BE%D1%82%D0%BE%D1%80%D1%8B%D0%B5%20%D0%B7%D0%B0%D0%BA%D0%BE%D0%BD%D0%BE%D0%B4%D0%B0%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D1%8B%D0%B5%20%D0%B0%D0%BA%D1%82%D1%8B%20%D0%A0%D0%B5%D1%81%D0%BF%D1%83%D0%B1%D0%BB%D0%B8%D0%BA%D0%B8%20%D0%9A%D0%B0%D0%B7%D0%B0%D1%85%D1%81%D1%82%D0%B0%D0%BD%20%D0%BF%D0%BE%20%D0%B2%D0%BE%D0%BF%D1%80%D0%BE%D1%81%D0%B0%D0%BC%20%D0%B8%D0%BD%D0%BA%D0%BB%D1%8E%D0%B7%D0%B8%D0%B2%D0%BD%D0%BE%D0%B3%D0%BE%20%D0%BE%D0%B1%D1%80%D0%B0%D0%B7%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D1%8F.pdf'
     },
     {
       id: 'doc-19',
-      title: 'О мерах по реализации законов Республики Казахстан от 27 декабря 2019 года О статусе педагога',
+      title: language === 'kz' ? '«Педагог мәртебесі туралы» 2019 жылғы 27 желтоқсандағы Қазақстан Республикасының Заңдарын іске асыру жөніндегі шаралар туралы' : 'О мерах по реализации законов Республики Казахстан от 27 декабря 2019 года О статусе педагога',
       category: 'laws',
       fileUrl: 'https://special-edu.kz/EDU_LFSI/LegislativeBasicsKZ/ru/%D0%9E%20%D0%BC%D0%B5%D1%80%D0%B0%D1%85%20%D0%BF%D0%BE%20%D1%80%D0%B5%D0%B0%D0%BB%D0%B8%D0%B7%D0%B0%D1%86%D0%B8%D0%B8%20%D0%B7%D0%B0%D0%BA%D0%BE%D0%BD%D0%BE%D0%B2%20%D0%A0%D0%B5%D1%81%D0%BF%D1%83%D0%B1%D0%BB%D0%B8%D0%BA%D0%B8%20%D0%9A%D0%B0%D0%B7%D0%B0%D1%85%D1%81%D1%82%D0%B0%D0%BD%20%D0%BE%D1%82%2027%20%D0%B4%D0%B5%D0%BA%D0%B0%D0%B1%D1%80%D1%8F%202019%20%D0%B3%D0%BE%D0%B4%D0%B0%20%D0%9E%20%D1%81%D1%82%D0%B0%D1%82%D1%83%D1%81%D0%B5%20%D0%BF%D0%B5%D0%B4%D0%B0%D0%B3%D0%BE%D0%B3%D0%B0.pdf'
     },
     {
       id: 'doc-20',
-      title: 'Об утверждении Национального плана по обеспечению прав и улучшению качества жизни лиц с инвалидностью в Республике Казахстан до 2025 года',
+      title: language === 'kz' ? 'Қазақстан Республикасында мүгедектігі бар адамдардың құқықтарын қамтамасыз ету және өмір сүру сапасын жақсарту жөніндегі 2025 жылға дейінгі ұлттық жоспарды бекіту туралы' : 'Об утверждении Национального плана по обеспечению прав и улучшению качества жизни лиц с инвалидностью в Республике Казахстан до 2025 года',
       category: 'laws',
       fileUrl: 'https://special-edu.kz/EDU_LFSI/LegislativeBasicsKZ/ru/%D0%9E%D0%B1%20%D1%83%D1%82%D0%B2%D0%B5%D1%80%D0%B6%D0%B4%D0%B5%D0%BD%D0%B8%D0%B8%20%D0%9D%D0%B0%D1%86%D0%B8%D0%BE%D0%BD%D0%B0%D0%BB%D1%8C%D0%BD%D0%BE%D0%B3%D0%BE%20%D0%BF%D0%BB%D0%B0%D0%BD%D0%B0%20%D0%BF%D0%BE%20%D0%BE%D0%B1%D0%B5%D1%81%D0%BF%D0%B5%D1%87%D0%B5%D0%BD%D0%B8%D1%8E%20%D0%BF%D1%80%D0%B0%D0%B2%20%D0%B8%20%D1%83%D0%BB%D1%83%D1%87%D1%88%D0%B5%D0%BD%D0%B8%D1%8E%20%D0%BA%D0%B0%D1%87%D0%B5%D1%81%D1%82%D0%B2%D0%B0%20%D0%B6%D0%B8%D0%B7%D0%BD%D0%B8%20%D0%BB%D0%B8%D1%86%20%D1%81%20%D0%B8%D0%BD%D0%B2%D0%B0%D0%BB%D0%B8%D0%B4%D0%BD%D0%BE%D1%81%D1%82%D1%8C%D1%8E%20%D0%B2%20%D0%A0%D0%B5%D1%81%D0%BF%D1%83%D0%B1%D0%BB%D0%B8%D0%BA%D0%B5%20%D0%9A%D0%B0%D0%B7%D0%B0%D1%85%D1%81%D1%82%D0%B0%D0%BD%20%D0%B4%D0%BE%202025%20%D0%B3%D0%BE%D0%B4%D0%B0.pdf'
     },
     {
       id: 'doc-21',
-      title: 'Об утверждении Типовых квалификационных характеристик должностей педагогов',
+      title: language === 'kz' ? 'Педагогтер лауазымдарының үлгілік біліктілік сипаттамаларын бекіту туралы' : 'Об утверждении Типовых квалификационных характеристик должностей педагогов',
       category: 'laws',
       fileUrl: 'https://special-edu.kz/EDU_LFSI/LegislativeBasicsKZ/ru/%D0%9E%D0%B1%20%D1%83%D1%82%D0%B2%D0%B5%D1%80%D0%B6%D0%B4%D0%B5%D0%BD%D0%B8%D0%B8%20%D0%A2%D0%B8%D0%BF%D0%BE%D0%B2%D1%8B%D1%85%20%D0%BA%D0%B2%D0%B0%D0%BB%D0%B8%D1%84%D0%B8%D0%BA%D0%B0%D1%86%D0%B8%D0%BE%D0%BD%D0%BD%D1%8B%D1%85%20%D1%85%D0%B0%D1%80%D0%B0%D0%BA%D1%82%D0%B5%D1%80%D0%B8%D1%81%D1%82%D0%B8%D0%BA%20%D0%B4%D0%BE%D0%BB%D0%B6%D0%BD%D0%BE%D1%81%D1%82%D0%B5%D0%B9%20%D0%BF%D0%B5%D0%B4%D0%B0%D0%B3%D0%BE%D0%B3%D0%BE%D0%B2.pdf'
     },
     {
       id: 'doc-22',
-      title: 'Постановление Правительства Республики Казахстан от 28 марта 2023 года № 249.Об утверждении Концепции развития дошкольного, среднего, технического и профессионального образования Республики Казахстан на 2023 – 2029 годы',
+      title: language === 'kz' ? 'Қазақстан Республикасы Үкіметінің 2023 жылғы 28 наурыздағы № 249 қаулысы.Қазақстан Республикасында мектепке дейінгі, орта, техникалық және кәсіптік білім беруді дамытудың 2023 – 2029 жылдарға арналған тұжырымдамасын бекіту туралы' : 'Постановление Правительства Республики Казахстан от 28 марта 2023 года № 249.Об утверждении Концепции развития дошкольного, среднего, технического и профессионального образования Республики Казахстан на 2023 – 2029 годы',
       category: 'laws',
       fileUrl: 'https://special-edu.kz/EDU_LFSI/ByLaws/ru/%D0%9A%D0%BE%D0%BD%D1%86%D0%B5%D0%BF%D1%86%D0%B8%D1%8F%20%D1%80%D0%B0%D0%B7%D0%B2%D0%B8%D1%82%D0%B8%D1%8F%20%D0%B4%D0%BE%D1%88%D0%BA%D0%BE%D0%BB%D1%8C%D0%BD%D0%BE%D0%B3%D0%BE,%20%D1%81%D1%80%D0%B5%D0%B4%D0%BD%D0%B5%D0%B3%D0%BE,%20%D1%82%D0%B5%D1%85%D0%BD%D0%B8%D1%87%D0%B5%D1%81%D0%BA%D0%BE%D0%B3%D0%BE%20%D0%B8%20%D0%BF%D1%80%D0%BE%D1%84%D0%B5%D1%81%D1%81%D0%B8%D0%BE%D0%BD%D0%B0%D0%BB%D1%8C%D0%BD%D0%BE%D0%B3%D0%BE%20%D0%BE%D0%B1%D1%80%D0%B0%D0%B7%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D1%8F%20%D0%A0%D0%B5%D1%81%D0%BF%D1%83%D0%B1%D0%BB%D0%B8%D0%BA%D0%B8%20%D0%9A%D0%B0%D0%B7%D0%B0%D1%85%D1%81%D1%82%D0%B0%D0%BD%20%D0%BD%D0%B0%202023%20%E2%80%93%202029%20%D0%B3%D0%BE%D0%B4%D1%8B.docx'
-    }
+    },
   ];
   const isLoading = false;
 
@@ -273,7 +273,7 @@ export default function SiteDocuments() {
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <ExternalLink className="h-5 w-5" />
-              Полезные ссылки
+              {language === 'kz' ? 'Пайдалы сілтемелер' : 'Полезные ссылки'}
             </CardTitle>
           </CardHeader>
           <CardContent>

@@ -29,7 +29,7 @@ export default function SiteAbout() {
     id: '1',
     slug: 'pmpk9',
     name: 'ПМПК №9',
-    description: 'Психолого-медико-педагогическая консультация',
+    description: t('home.description'),
     directorName: 'Искакова Макпал Сериковна',
     directorBio: '',
     directorPhoto: '/director.jpg'

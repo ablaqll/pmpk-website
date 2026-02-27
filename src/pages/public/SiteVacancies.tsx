@@ -36,7 +36,7 @@ const SiteVacancies = () => {
               </div>
 
               <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-8 leading-tight">
-                Опубликованные вакансии можете посмотреть здесь
+                {t('vacancies.viewHere')}
               </h2>
 
               <a
@@ -49,7 +49,7 @@ const SiteVacancies = () => {
                   size="lg"
                   className="w-full sm:w-auto bg-[#c9a227] hover:bg-[#b08d22] text-white rounded-xl px-8 h-14 text-lg font-semibold shadow-md hover:shadow-lg transition-all"
                 >
-                  Перейти на enbek.kz
+                  {t('vacancies.goToEnbek')}
                   <ArrowRight className="h-5 w-5 ml-2 transition-transform duration-300 group-hover:translate-x-1" />
                 </Button>
               </a>
